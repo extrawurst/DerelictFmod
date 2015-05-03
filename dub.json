@@ -1,0 +1,16 @@
+{
+    "name": "derelict-fmod",
+    "description": "A dynamic binding to the FMOD library.",
+    "homepage": "https://github.com/Extrawurst/DerelictFmod",
+    "license": "MIT",
+    "authors": [
+        "Stephan Dilly"
+    ],
+
+    "targetName": "DerelictFmod",
+    "targetPath": "lib",
+
+    "dependencies": {
+        "derelict-util": ">=1.9.1"
+    }
+}
