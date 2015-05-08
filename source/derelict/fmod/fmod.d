@@ -55,7 +55,7 @@ private
     import derelict.util.system;
 
     static if(Derelict_OS_Windows)
-        enum libNames = "libfmod.dll";    
+        enum libNames = "fmod.dll";    
     else static if (Derelict_OS_Mac)
         enum libNames = "libfmod.dylib";
     else static if (Derelict_OS_Linux)
