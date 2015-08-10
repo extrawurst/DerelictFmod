@@ -163,12 +163,13 @@ enum FMOD_DSP_ITECHO
 
 enum FMOD_DSP_COMPRESSOR
 {
-    FMOD_DSP_COMPRESSOR_THRESHOLD,   /* (Type:float) - Threshold level (dB) in the range from -80 through 0. The default value is 0. */ 
-    FMOD_DSP_COMPRESSOR_RATIO,       /* (Type:float) - Compression Ratio (dB/dB) in the range from 1 to 50. The default value is 2.5. */ 
-    FMOD_DSP_COMPRESSOR_ATTACK,      /* (Type:float) - Attack time (milliseconds), in the range from 0.1 through 1000. The default value is 20. */
-    FMOD_DSP_COMPRESSOR_RELEASE,     /* (Type:float) - Release time (milliseconds), in the range from 10 through 5000. The default value is 100 */
-    FMOD_DSP_COMPRESSOR_GAINMAKEUP,  /* (Type:float) - Make-up gain (dB) applied after limiting, in the range from 0 through 30. The default value is 0. */
-    FMOD_DSP_COMPRESSOR_USESIDECHAIN /* (Type:bool)  - Whether to analyse the sidechain signal instead of the input signal. The default value is false */
+    FMOD_DSP_COMPRESSOR_THRESHOLD,		/* (Type:float) - Threshold level (dB) in the range from -80 through 0. The default value is 0. */ 
+    FMOD_DSP_COMPRESSOR_RATIO,			/* (Type:float) - Compression Ratio (dB/dB) in the range from 1 to 50. The default value is 2.5. */ 
+    FMOD_DSP_COMPRESSOR_ATTACK,			/* (Type:float) - Attack time (milliseconds), in the range from 0.1 through 1000. The default value is 20. */
+    FMOD_DSP_COMPRESSOR_RELEASE,		/* (Type:float) - Release time (milliseconds), in the range from 10 through 5000. The default value is 100 */
+    FMOD_DSP_COMPRESSOR_GAINMAKEUP,		/* (Type:float) - Make-up gain (dB) applied after limiting, in the range from 0 through 30. The default value is 0. */
+    FMOD_DSP_COMPRESSOR_USESIDECHAIN,	/* (Type:bool)  - Whether to analyse the sidechain signal instead of the input signal. The default value is false */
+	FMOD_DSP_COMPRESSOR_LINKED			/* (Type:bool)  - FALSE = Independent (compressor per channel), TRUE = Linked.  The default value is TRUE. */
 }
 
 enum FMOD_DSP_SFXREVERB

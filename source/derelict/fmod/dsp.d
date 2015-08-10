@@ -80,6 +80,11 @@ alias FMOD_DSP_GETPARAM_FLOAT_CALLBACK = FMOD_RESULT       function(FMOD_DSP_STA
 alias FMOD_DSP_GETPARAM_INT_CALLBACK = FMOD_RESULT         function(FMOD_DSP_STATE *dsp_state, int index, int *value, char *valuestr);
 alias FMOD_DSP_GETPARAM_BOOL_CALLBACK = FMOD_RESULT        function(FMOD_DSP_STATE *dsp_state, int index, FMOD_BOOL *value, char *valuestr);
 alias FMOD_DSP_GETPARAM_DATA_CALLBACK = FMOD_RESULT        function(FMOD_DSP_STATE *dsp_state, int index, void **data, uint *length, char *valuestr);
+
+alias FMOD_DSP_SYSTEM_REGISTER_CALLBACK = FMOD_RESULT		function (FMOD_DSP_STATE *dsp_state);
+alias FMOD_DSP_SYSTEM_DEREGISTER_CALLBACK = FMOD_RESULT		function (FMOD_DSP_STATE *dsp_state);
+alias FMOD_DSP_SYSTEM_MIX_CALLBACK = FMOD_RESULT			function (FMOD_DSP_STATE *dsp_state, int stage);
+
 alias FMOD_DSP_SYSTEM_GETSAMPLERATE = FMOD_RESULT          function(FMOD_DSP_STATE *dsp_state, int *rate);
 alias FMOD_DSP_SYSTEM_GETBLOCKSIZE = FMOD_RESULT           function(FMOD_DSP_STATE *dsp_state, uint *blocksize);
 alias FMOD_DSP_DFT_FFTREAL = FMOD_RESULT                   function(FMOD_DSP_STATE* thisdsp, int size, const float *signal, FMOD_COMPLEX* dft, const float *window, int signalhop);
@@ -237,6 +242,10 @@ struct FMOD_DSP_DESCRIPTION
     FMOD_DSP_GETPARAM_DATA_CALLBACK  getparameterdata;   /* [w] This is called when the user calls DSP::getParameterData.  Can be null. */
     FMOD_DSP_SHOULDIPROCESS_CALLBACK shouldiprocess;     /* [w] This is called before processing.  You can detect if inputs are idle and return FMOD_OK to process, or any other error code to avoid processing the effect.  Use a count down timer to allow effect tails to process before idling! */
     void                            *userdata;           /* [w] Optional. Specify 0 to ignore. This is user data to be attached to the DSP unit during creation.  Access via DSP::getUserData. */
+
+	FMOD_DSP_SYSTEM_REGISTER_CALLBACK   sys_register;       /* [w] Register callback.  This is called when DSP unit is loaded/registered.  Useful for 'global'/per system object init for plugin.  Can be null. */
+    FMOD_DSP_SYSTEM_DEREGISTER_CALLBACK sys_deregister;     /* [w] Deregister callback.  This is called when DSP unit is unloaded/deregistered.  Useful as 'global'/per system object shutdown for plugin.  Can be null. */
+    FMOD_DSP_SYSTEM_MIX_CALLBACK        sys_mix;            /* [w] System mix stage callback.  This is called when the mixer starts to execute or is just finishing executing.  Useful for 'global'/per system object once a mix update calls for a plugin.  Can be null. */
 }
 
 struct FMOD_DSP_STATE_DFTCALLBACKS
