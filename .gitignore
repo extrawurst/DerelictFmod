@@ -1,2 +1,7 @@
 .dub
 lib
+derelict-fmod.sln
+derelict-fmod.v12.suo
+derelict-fmod.visualdproj
+derelict-util.visualdproj
+dub.selections.json
