@@ -2,7 +2,7 @@ DerelictFmod
 ============
 
 Note:
-Supports fmod version 1.06.09
+Supports fmod version 1.06.10
 
 A dynamic binding to [Fmod](http://www.fmod.org/) low level api and fmodstudio api (c-api) for the D Programming Language.
 
