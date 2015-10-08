@@ -1,4 +1,4 @@
-DerelictFmod
+DerelictFmod [![Build Status](https://travis-ci.org/Extrawurst/DerelictFmod.svg)](https://travis-ci.org/Extrawurst/DerelictFmod)
 ============
 
 Note:
