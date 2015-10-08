@@ -242,7 +242,6 @@ extern(C) @nogc nothrow
     alias da_FMOD_Sound_Get3DConeSettings = FMOD_RESULT function(FMOD_SOUND *sound, float *insideconeangle, float *outsideconeangle, float *outsidevolume);
     alias da_FMOD_Sound_Set3DCustomRolloff = FMOD_RESULT function(FMOD_SOUND *sound, FMOD_VECTOR *points, int numpoints);
     alias da_FMOD_Sound_Get3DCustomRolloff = FMOD_RESULT function(FMOD_SOUND *sound, FMOD_VECTOR **points, int *numpoints);
-    alias da_FMOD_Sound_SetSubSound = FMOD_RESULT function(FMOD_SOUND *sound, int index, FMOD_SOUND *subsound);
     alias da_FMOD_Sound_GetSubSound = FMOD_RESULT function(FMOD_SOUND *sound, int index, FMOD_SOUND **subsound);
     alias da_FMOD_Sound_GetSubSoundParent = FMOD_RESULT function(FMOD_SOUND *sound, FMOD_SOUND **parentsound);
     alias da_FMOD_Sound_GetName = FMOD_RESULT function(FMOD_SOUND *sound, char *name, int namelen);
@@ -838,7 +837,6 @@ __gshared
     da_FMOD_Sound_Get3DConeSettings FMOD_Sound_Get3DConeSettings;
     da_FMOD_Sound_Set3DCustomRolloff FMOD_Sound_Set3DCustomRolloff;
     da_FMOD_Sound_Get3DCustomRolloff FMOD_Sound_Get3DCustomRolloff;
-    da_FMOD_Sound_SetSubSound FMOD_Sound_SetSubSound;
     da_FMOD_Sound_GetSubSound FMOD_Sound_GetSubSound;
     da_FMOD_Sound_GetSubSoundParent FMOD_Sound_GetSubSoundParent;
     da_FMOD_Sound_GetName FMOD_Sound_GetName;

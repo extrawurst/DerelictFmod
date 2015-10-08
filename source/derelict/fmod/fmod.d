@@ -178,7 +178,6 @@ class DerelictFmodLoader : SharedLibLoader
             bindFunc(cast(void**)&FMOD_Sound_Get3DConeSettings, "FMOD_Sound_Get3DConeSettings");
             bindFunc(cast(void**)&FMOD_Sound_Set3DCustomRolloff, "FMOD_Sound_Set3DCustomRolloff");
             bindFunc(cast(void**)&FMOD_Sound_Get3DCustomRolloff, "FMOD_Sound_Get3DCustomRolloff");
-            bindFunc(cast(void**)&FMOD_Sound_SetSubSound, "FMOD_Sound_SetSubSound");
             bindFunc(cast(void**)&FMOD_Sound_GetSubSound, "FMOD_Sound_GetSubSound");
             bindFunc(cast(void**)&FMOD_Sound_GetSubSoundParent, "FMOD_Sound_GetSubSoundParent");
             bindFunc(cast(void**)&FMOD_Sound_GetName, "FMOD_Sound_GetName");

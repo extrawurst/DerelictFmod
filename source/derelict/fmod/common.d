@@ -36,7 +36,7 @@ import derelict.util.system;
 import derelict.fmod.codec;
 import derelict.fmod.dsp;
 
-static immutable FMOD_VERSION    = 0x00010610;
+static immutable FMOD_VERSION    = 0x00010700;
 
 alias int                        FMOD_BOOL;
 struct FMOD_SYSTEM         {};
@@ -146,6 +146,8 @@ enum FMOD_RESULT
     FMOD_ERR_INVALID_STRING,        /* An invalid string was passed to this function. */
     FMOD_ERR_ALREADY_LOCKED,        /* The specified resource is already locked. */
     FMOD_ERR_NOT_LOCKED,            /* The specified resource is not locked, so it can't be unlocked. */
+    FMOD_ERR_RECORD_DISCONNECTED,   /* The specified recording driver has been disconnected. */
+    FMOD_ERR_TOOMANYSAMPLES,        /* The length provided exceed the allowable limit. */
     
     FMOD_RESULT_FORCEINT = 65536    /* Makes sure this enum is signed 32bit. */
 }
@@ -282,7 +284,7 @@ enum FMOD_SPEAKERMODE
 
 static immutable FMOD_MAX_CHANNEL_WIDTH = 32;
 
-static immutable FMOD_MAX_LISTENERS = 5;
+static immutable FMOD_MAX_LISTENERS = 8;
 
 enum FMOD_SPEAKER
 {
@@ -360,13 +362,11 @@ enum FMOD_SOUND_TYPE
     FMOD_SOUND_TYPE_UNKNOWN,         /* 3rd party / unknown plugin format. */
     FMOD_SOUND_TYPE_AIFF,            /* AIFF. */
     FMOD_SOUND_TYPE_ASF,             /* Microsoft Advanced Systems Format (ie WMA/ASF/WMV). */
-    FMOD_SOUND_TYPE_AT3,             /* Sony ATRAC 3 format */
     FMOD_SOUND_TYPE_DLS,             /* Sound font / downloadable sound bank. */
     FMOD_SOUND_TYPE_FLAC,            /* FLAC lossless codec. */
     FMOD_SOUND_TYPE_FSB,             /* FMOD Sample Bank. */
-    FMOD_SOUND_TYPE_GCADPCM,         /* Nintendo GameCube/Wii ADPCM */
     FMOD_SOUND_TYPE_IT,              /* Impulse Tracker. */
-    FMOD_SOUND_TYPE_MIDI,            /* MIDI. extracodecdata is a pointer to an FMOD_MIDI_EXTRACODECDATA structure. */
+    FMOD_SOUND_TYPE_MIDI,            /* MIDI. */
     FMOD_SOUND_TYPE_MOD,             /* Protracker / Fasttracker MOD. */
     FMOD_SOUND_TYPE_MPEG,            /* MP2/MP3 MPEG. */
     FMOD_SOUND_TYPE_OGGVORBIS,       /* Ogg vorbis. */
@@ -377,10 +377,7 @@ enum FMOD_SOUND_TYPE
     FMOD_SOUND_TYPE_WAV,             /* Microsoft WAV. */
     FMOD_SOUND_TYPE_XM,              /* FastTracker 2 XM. */
     FMOD_SOUND_TYPE_XMA,             /* Xbox360 XMA */
-    FMOD_SOUND_TYPE_VAG,             /* PlayStation Portable ADPCM VAG format. */
-    FMOD_SOUND_TYPE_AUDIOQUEUE,      /* iPhone hardware decoder, supports AAC, ALAC and MP3. extracodecdata is a pointer to an FMOD_AUDIOQUEUE_EXTRACODECDATA structure. */
-    FMOD_SOUND_TYPE_XWMA,            /* Xbox360 XWMA */
-    FMOD_SOUND_TYPE_BCWAV,           /* 3DS BCWAV container format for DSP ADPCM and PCM */
+    FMOD_SOUND_TYPE_AUDIOQUEUE,      /* iPhone hardware decoder, supports AAC, ALAC and MP3. */
     FMOD_SOUND_TYPE_AT9,             /* PS4 / PSVita ATRAC 9 format */
     FMOD_SOUND_TYPE_VORBIS,          /* Vorbis */
     FMOD_SOUND_TYPE_MEDIA_FOUNDATION,/* Windows Store Application built in system codecs */
@@ -399,17 +396,7 @@ enum FMOD_SOUND_FORMAT
     FMOD_SOUND_FORMAT_PCM24,            /* 24bit integer PCM data. */
     FMOD_SOUND_FORMAT_PCM32,            /* 32bit integer PCM data. */
     FMOD_SOUND_FORMAT_PCMFLOAT,         /* 32bit floating point PCM data. */
-    FMOD_SOUND_FORMAT_GCADPCM,          /* Compressed Nintendo 3DS/Wii DSP data. */
-    FMOD_SOUND_FORMAT_IMAADPCM,         /* Compressed IMA ADPCM data. */
-    FMOD_SOUND_FORMAT_VAG,              /* Compressed PlayStation Portable ADPCM data. */
-    FMOD_SOUND_FORMAT_HEVAG,            /* Compressed PSVita ADPCM data. */
-    FMOD_SOUND_FORMAT_XMA,              /* Compressed Xbox360 XMA data. */
-    FMOD_SOUND_FORMAT_MPEG,             /* Compressed MPEG layer 2 or 3 data. */
-    FMOD_SOUND_FORMAT_CELT,             /* Not supported. */
-    FMOD_SOUND_FORMAT_AT9,              /* Compressed PSVita ATRAC9 data. */
-    FMOD_SOUND_FORMAT_XWMA,             /* Compressed Xbox360 xWMA data. */
-    FMOD_SOUND_FORMAT_VORBIS,           /* Compressed Vorbis data. */
-    FMOD_SOUND_FORMAT_FADPCM,           /* Compressed FADPCM data. */
+    FMOD_SOUND_FORMAT_BITSTREAM,        /* Sound data is in its native compressed format. */
     
     FMOD_SOUND_FORMAT_MAX,              /* Maximum number of sound formats supported. */   
     FMOD_SOUND_FORMAT_FORCEINT = 65536  /* Makes sure this enum is signed 32bit. */
@@ -539,6 +526,8 @@ static immutable FMOD_SYSTEM_CALLBACK_MIDMIX                 = 0x00000100;  /* C
 static immutable FMOD_SYSTEM_CALLBACK_THREADDESTROYED        = 0x00000200;  /* Called directly when a thread is destroyed. */
 static immutable FMOD_SYSTEM_CALLBACK_PREUPDATE              = 0x00000400;  /* Called at start of System::update function. */
 static immutable FMOD_SYSTEM_CALLBACK_POSTUPDATE             = 0x00000800;  /* Called at end of System::update function. */
+static immutable FMOD_SYSTEM_CALLBACK_RECORDLISTCHANGED      = 0x00001000;  /* Called from System::update when the enumerated list of recording devices has changed. */
+static immutable FMOD_SYSTEM_CALLBACK_ALL                    = 0xFFFFFFFF;  /* Pass this mask to System::setCallback to receive all callback types. */
 
 alias FMOD_DEBUG_CALLBACK = FMOD_RESULT function(FMOD_DEBUG_FLAGS flags, const char *file, int line, const char *func, const char *message);
 alias FMOD_SYSTEM_CALLBACK = FMOD_RESULT function(FMOD_SYSTEM *system, FMOD_SYSTEM_CALLBACK_TYPE type, void *commanddata1, void *commanddata2, void *userdata);
@@ -718,13 +707,13 @@ static immutable FMOD_REVERB_PROPERTIES FMOD_PRESET_UNDERWATER       = {  1500, 
 struct FMOD_ADVANCEDSETTINGS
 {                       
     int                 cbSize;                     /* [w]   Size of this structure.  Use sizeof(FMOD_ADVANCEDSETTINGS)  NOTE: This must be set before calling System::getAdvancedSettings or System::setAdvancedSettings! */
-    int                 maxMPEGCodecs;              /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  MPEG   codecs consume 30,528 bytes per instance and this number will determine how many MPEG   channels can be played simultaneously. Default = 32. */
-    int                 maxADPCMCodecs;             /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  ADPCM  codecs consume  3,128 bytes per instance and this number will determine how many ADPCM  channels can be played simultaneously. Default = 32. */
-    int                 maxXMACodecs;               /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  XMA    codecs consume 14,836 bytes per instance and this number will determine how many XMA    channels can be played simultaneously. Default = 32. */
-    int                 maxVorbisCodecs;            /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  Vorbis codecs consume 23,256 bytes per instance and this number will determine how many Vorbis channels can be played simultaneously. Default = 32. */    
-    int                 maxAT9Codecs;               /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  AT9    codecs consume  8,720 bytes per instance and this number will determine how many AT9    channels can be played simultaneously. Default = 32. */    
-    int                 maxFADPCMCodecs;            /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  This number will determine how many FADPCM channels can be played simultaneously. Default = 32. */
-    int                 maxPCMCodecs;               /* [r/w] Optional. Specify 0 to ignore. For use with PS3 only.                          PCM    codecs consume 12,672 bytes per instance and this number will determine how many streams and PCM voices can be played simultaneously. Default = 16. */
+    int                 maxMPEGCodecs;              /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  MPEG   codecs consume 22,216 bytes per instance and this number will determine how many MPEG   channels can be played simultaneously. Default = 32. */
+    int                 maxADPCMCodecs;             /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  ADPCM  codecs consume  2,480 bytes per instance and this number will determine how many ADPCM  channels can be played simultaneously. Default = 32. */
+    int                 maxXMACodecs;               /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  XMA    codecs consume  6,263 bytes per instance and this number will determine how many XMA    channels can be played simultaneously. Default = 32. */
+    int                 maxVorbisCodecs;            /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  Vorbis codecs consume 16,512 bytes per instance and this number will determine how many Vorbis channels can be played simultaneously. Default = 32. */    
+    int                 maxAT9Codecs;               /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  AT9    codecs consume 20,664 bytes per instance and this number will determine how many AT9    channels can be played simultaneously. Default = 32. */    
+    int                 maxFADPCMCodecs;            /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  FADPCM codecs consume  2,232 bytes per instance and this number will determine how many FADPCM channels can be played simultaneously. Default = 32. */
+    int                 maxPCMCodecs;               /* [r/w] Optional. Specify 0 to ignore. For use with PS3 only.                          PCM    codecs consume  2,536 bytes per instance and this number will determine how many streams and PCM voices can be played simultaneously. Default = 32. */
     int                 ASIONumChannels;            /* [r/w] Optional. Specify 0 to ignore. Number of channels available on the ASIO device. */
     char              **ASIOChannelList;            /* [r/w] Optional. Specify 0 to ignore. Pointer to an array of strings (number of entries defined by ASIONumChannels) with ASIO channel names. */
     FMOD_SPEAKER       *ASIOSpeakerList;            /* [r/w] Optional. Specify 0 to ignore. Pointer to a list of speakers that the ASIO channels map to.  This can be called after System::init to remap ASIO output. */
@@ -732,18 +721,18 @@ struct FMOD_ADVANCEDSETTINGS
     float               HRTFMaxAngle;               /* [r/w] Optional.                      For use with FMOD_INIT_HRTF_LOWPASS.  The angle range (0-360) of a 3D sound in relation to the listener, at which the HRTF function has maximum effect. 0 = front of the listener. 180 = from 90 degrees to the left of the listener to 90 degrees to the right. 360 = behind the listener. Default = 360.0. */
     float               HRTFFreq;                   /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_INIT_HRTF_LOWPASS.  The cutoff frequency of the HRTF's lowpass filter function when at maximum effect. (i.e. at HRTFMaxAngle).  Default = 4000.0. */
     float               vol0virtualvol;             /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_INIT_VOL0_BECOMES_VIRTUAL.  If this flag is used, and the volume is below this, then the sound will become virtual.  Use this value to raise the threshold to a different point where a sound goes virtual. */
-    uint        defaultDecodeBufferSize;    /* [r/w] Optional. Specify 0 to ignore. For streams. This determines the default size of the double buffer (in milliseconds) that a stream uses.  Default = 400ms */
-    ushort      profilePort;                /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_INIT_PROFILE_ENABLE.  Specify the port to listen on for connections by the profiler application. */
-    uint        geometryMaxFadeTime;        /* [r/w] Optional. Specify 0 to ignore. The maximum time in miliseconds it takes for a channel to fade to the new level when its occlusion changes. */
+    uint                defaultDecodeBufferSize;    /* [r/w] Optional. Specify 0 to ignore. For streams. This determines the default size of the double buffer (in milliseconds) that a stream uses.  Default = 400ms */
+    ushort              profilePort;                /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_INIT_PROFILE_ENABLE.  Specify the port to listen on for connections by the profiler application. */
+    uint                geometryMaxFadeTime;        /* [r/w] Optional. Specify 0 to ignore. The maximum time in miliseconds it takes for a channel to fade to the new level when its occlusion changes. */
     float               distanceFilterCenterFreq;   /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_INIT_DISTANCE_FILTERING.  The default center frequency in Hz for the distance filtering effect. Default = 1500.0. */
     int                 reverb3Dinstance;           /* [r/w] Optional. Specify 0 to ignore. Out of 0 to 3, 3d reverb spheres will create a phyical reverb unit on this instance slot.  See FMOD_REVERB_PROPERTIES. */
     int                 DSPBufferPoolSize;          /* [r/w] Optional. Specify 0 to ignore. Number of buffers in DSP buffer pool.  Each buffer will be DSPBlockSize * sizeof(float) * SpeakerModeChannelCount.  ie 7.1 @ 1024 DSP block size = 8 * 1024 * 4 = 32kb.  Default = 8. */
-    uint        stackSizeStream;            /* [r/w] Optional. Specify 0 to ignore. Specify the stack size for the FMOD Stream thread in bytes.  Useful for custom codecs that use excess stack.  Default 49,152 (48kb) */
-    uint        stackSizeNonBlocking;       /* [r/w] Optional. Specify 0 to ignore. Specify the stack size for the FMOD_NONBLOCKING loading thread.  Useful for custom codecs that use excess stack.  Default 65,536 (64kb) */
-    uint        stackSizeMixer;             /* [r/w] Optional. Specify 0 to ignore. Specify the stack size for the FMOD mixer thread.  Useful for custom dsps that use excess stack.  Default 49,152 (48kb) */
+    uint                stackSizeStream;            /* [r/w] Optional. Specify 0 to ignore. Specify the stack size for the FMOD Stream thread in bytes.  Useful for custom codecs that use excess stack.  Default 49,152 (48kb) */
+    uint                stackSizeNonBlocking;       /* [r/w] Optional. Specify 0 to ignore. Specify the stack size for the FMOD_NONBLOCKING loading thread.  Useful for custom codecs that use excess stack.  Default 65,536 (64kb) */
+    uint                stackSizeMixer;             /* [r/w] Optional. Specify 0 to ignore. Specify the stack size for the FMOD mixer thread.  Useful for custom dsps that use excess stack.  Default 49,152 (48kb) */
     FMOD_DSP_RESAMPLER  resamplerMethod;            /* [r/w] Optional. Specify 0 to ignore. Resampling method used with fmod's software mixer.  See FMOD_DSP_RESAMPLER for details on methods. */
-    uint        commandQueueSize;           /* [r/w] Optional. Specify 0 to ignore. Specify the command queue size for thread safe processing.  Default 2048 (2kb) */
-    uint        randomSeed;                 /* [r/w] Optional. Specify 0 to ignore. Seed value that FMOD will use to initialize its internal random number generators. */
+    uint                commandQueueSize;           /* [r/w] Optional. Specify 0 to ignore. Specify the command queue size for thread safe processing.  Default 2048 (2kb) */
+    uint                randomSeed;                 /* [r/w] Optional. Specify 0 to ignore. Seed value that FMOD will use to initialize its internal random number generators. */
 }
 
 static immutable FMOD_DRIVER_STATE_CONNECTED = 0x00000001;  /* Device is currently plugged in. */
