@@ -8,7 +8,9 @@ A dynamic binding to [Fmod](http://www.fmod.org/) low level api and fmodstudio a
 
 For information on how to build DerelictFmod and link it with your programs, please see the post [Using Derelict](https://derelictorg.github.io/using.html) at the The One With D.
 
-Initialization example:
+See more detailed example app [here](src/app.d).
+
+Just initializing of the bindings:
 
 ```D
 import derelict.fmod.fmod;
