@@ -16,6 +16,8 @@ void printDrivers()
     int drivercnt;
     FMOD_System_GetNumDrivers(fmod, &drivercnt);
     
+	writefln("fmod drivers: %s",drivercnt);
+
     foreach(i; 0..drivercnt)
     {
         char[64] name;
@@ -23,9 +25,10 @@ void printDrivers()
         int sampleRate;
         FMOD_SPEAKERMODE speakermode;
         int speakermodeChannels;
-        FMOD_System_GetDriverInfo(fmod,i,name.ptr,64,&guid,&sampleRate,&speakermode,&speakermodeChannels);
-        
-        writefln("fmod driver [%s]: (%s,%s,%s,%s)",i,to!string(name),sampleRate,speakermode,speakermodeChannels);
+        auto res = FMOD_System_GetDriverInfo(fmod,i,name.ptr,name.length,&guid,&sampleRate,&speakermode,&speakermodeChannels);
+		assert(res == FMOD_RESULT.FMOD_OK);
+
+        writefln("fmod driver [%s]: (%s,%s,%s,'%s')",i,sampleRate,speakermode,speakermodeChannels,to!string(name.ptr));
     }
 }
 
@@ -33,56 +36,50 @@ void playSound()
 {
     FMOD_SOUND* snd;
     FMOD_CHANNEL* channel;
-
-    FMOD_CREATESOUNDEXINFO info;
+    
+	FMOD_CREATESOUNDEXINFO info;
     info.cbsize = FMOD_CREATESOUNDEXINFO.sizeof;
     info.length = cast(uint)sound.length;
-    
+
     auto res = FMOD_System_CreateSound(fmod, cast(char*)sound.ptr, FMOD_OPENMEMORY, &info, &snd);
-    
-    assert(res == FMOD_RESULT.FMOD_OK, format("FMOD_System_CreateSound: %s",res));
-
-    res = FMOD_System_PlaySound(fmod, snd, null, false, &channel);
-
     assert(res == FMOD_RESULT.FMOD_OK);
 
-    for(;;)
-    {
-        FMOD_System_Update(fmod);
+    res = FMOD_System_PlaySound(fmod, snd, null, false, &channel);
+    assert(res == FMOD_RESULT.FMOD_OK);
+	assert(channel);
 
-        int isplaying;
-
-        FMOD_Channel_IsPlaying(channel,&isplaying);
-
-        if(!isplaying)
-            break;
-    }
+	import core.thread:Thread;
+	import std.datetime:dur;
+	Thread.sleep( dur!("seconds")( 1 ) );
 }
 
 void printVersion()
 {
     uint fmodversion;
-    FMOD_System_GetVersion(fmod,&fmodversion);
+    auto res = FMOD_System_GetVersion(fmod,&fmodversion);
+	assert(res == FMOD_RESULT.FMOD_OK);
     
-    writefln("fmod v: %s (bindings: %s)",fmodversion, FMOD_VERSION);
+    writefln("fmod version: %s (bindings: %s)",fmodversion, FMOD_VERSION);
 }
  
 void main()
 {
     DerelictFmod.load();
 
+	FMOD_Debug_Initialize(FMOD_DEBUG_LEVEL_LOG | FMOD_DEBUG_DISPLAY_TIMESTAMPS | FMOD_DEBUG_TYPE_TRACE, 
+						  FMOD_DEBUG_MODE.FMOD_DEBUG_MODE_FILE, null, "dbg.log");
+
     // create fmod system
-    auto resCreate = FMOD_System_Create(&fmod);
-    assert(resCreate == FMOD_RESULT.FMOD_OK);
+    auto res = FMOD_System_Create(&fmod);
+    assert(res == FMOD_RESULT.FMOD_OK);
 
     printVersion();
 
     printDrivers();
 
     // init fmod system
-    void* extradriverData;
-    auto resInit = FMOD_System_Init(fmod, 32, FMOD_INIT_NORMAL, extradriverData);
-    assert(resInit == FMOD_RESULT.FMOD_OK);
+    res = FMOD_System_Init(fmod, 32, FMOD_INIT_NORMAL, null);
+    assert(res == FMOD_RESULT.FMOD_OK);
 
     playSound();
 

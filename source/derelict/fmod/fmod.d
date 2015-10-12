@@ -37,16 +37,7 @@ public
     import derelict.fmod.codec;
     import derelict.fmod.common;
     import derelict.fmod.funcs;
-}
-
-private
-{
-    import derelict.util.loader;
-
-    version(darwin)
-        version = MacOSX;
-    version(OSX)
-        version = MacOSX;
+	import derelict.fmod.error;
 }
 
 private
@@ -55,11 +46,11 @@ private
     import derelict.util.system;
 
     static if(Derelict_OS_Windows)
-        enum libNames = "fmod.dll";    
+        enum libNames = "fmod.dll, fmodL.dll";    
     else static if (Derelict_OS_Mac)
-        enum libNames = "libfmod.dylib";
+        enum libNames = "libfmod.dylib, libfmodL.dylib";
     else static if (Derelict_OS_Linux)
-        enum libNames = "libfmod.so";
+        enum libNames = "libfmod.so, libfmodL.so";
     else
         static assert(0, "Need to implement FMOD libNames for this operating system.");
 }
