@@ -133,6 +133,7 @@ class DerelictFmodStudioLoader : SharedLibLoader
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_GetLength, "FMOD_Studio_EventDescription_GetLength");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_GetMinimumDistance, "FMOD_Studio_EventDescription_GetMinimumDistance");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_GetMaximumDistance, "FMOD_Studio_EventDescription_GetMaximumDistance");
+            bindFunc(cast(void**)&FMOD_Studio_EventDescription_GetSoundSize, "FMOD_Studio_EventDescription_GetSoundSize");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_IsOneshot, "FMOD_Studio_EventDescription_IsOneshot");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_IsStream, "FMOD_Studio_EventDescription_IsStream");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_Is3D, "FMOD_Studio_EventDescription_Is3D");

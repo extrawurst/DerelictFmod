@@ -108,6 +108,7 @@ extern(C) @nogc nothrow
     alias da_FMOD_Studio_EventDescription_GetLength = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, int *length);
     alias da_FMOD_Studio_EventDescription_GetMinimumDistance = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, float *distance);
     alias da_FMOD_Studio_EventDescription_GetMaximumDistance = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, float *distance);
+    alias da_FMOD_Studio_EventDescription_GetSoundSize = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, float *size);
     alias da_FMOD_Studio_EventDescription_IsOneshot = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, FMOD_BOOL *oneshot);
     alias da_FMOD_Studio_EventDescription_IsStream = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, FMOD_BOOL *isStream);
     alias da_FMOD_Studio_EventDescription_Is3D = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, FMOD_BOOL *is3D);        
@@ -312,6 +313,7 @@ __gshared
     da_FMOD_Studio_EventDescription_GetLength FMOD_Studio_EventDescription_GetLength;
     da_FMOD_Studio_EventDescription_GetMinimumDistance FMOD_Studio_EventDescription_GetMinimumDistance;
     da_FMOD_Studio_EventDescription_GetMaximumDistance FMOD_Studio_EventDescription_GetMaximumDistance;
+    da_FMOD_Studio_EventDescription_GetSoundSize FMOD_Studio_EventDescription_GetSoundSize;
     da_FMOD_Studio_EventDescription_IsOneshot FMOD_Studio_EventDescription_IsOneshot;
     da_FMOD_Studio_EventDescription_IsStream FMOD_Studio_EventDescription_IsStream;
     da_FMOD_Studio_EventDescription_Is3D FMOD_Studio_EventDescription_Is3D;

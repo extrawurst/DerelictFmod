@@ -87,6 +87,8 @@ alias FMOD_DSP_SYSTEM_MIX_CALLBACK = FMOD_RESULT			function (FMOD_DSP_STATE *dsp
 
 alias FMOD_DSP_SYSTEM_GETSAMPLERATE = FMOD_RESULT          function(FMOD_DSP_STATE *dsp_state, int *rate);
 alias FMOD_DSP_SYSTEM_GETBLOCKSIZE = FMOD_RESULT           function(FMOD_DSP_STATE *dsp_state, uint *blocksize);
+alias FMOD_DSP_SYSTEM_GETSPEAKERMODE = FMOD_RESULT         function(FMOD_DSP_STATE *dsp_state, FMOD_SPEAKERMODE* speakermode_mixer, FMOD_SPEAKERMODE* speakermode_output);
+
 alias FMOD_DSP_DFT_FFTREAL = FMOD_RESULT                   function(FMOD_DSP_STATE* thisdsp, int size, const float *signal, FMOD_COMPLEX* dft, const float *window, int signalhop);
 alias FMOD_DSP_DFT_IFFTREAL = FMOD_RESULT                  function(FMOD_DSP_STATE* thisdsp, int size, const FMOD_COMPLEX *dft, float* signal, const float *window, int signalhop);
 alias FMOD_DSP_PAN_SUM_MONO_MATRIX = FMOD_RESULT               function(FMOD_DSP_STATE *dsp_state, int sourceSpeakerMode, float lowFrequencyGain, float overallGain, float *matrix);
@@ -215,6 +217,8 @@ struct FMOD_DSP_PARAMETER_FFT
     int     numchannels;                               /* [r] Number of channels in spectrum. */
     float[32]  *spectrum;                              /* [r] Per channel spectrum arrays.  See remarks for more. */
 }
+
+static immutable FMOD_PLUGIN_SDK_VERSION = 107;
 
 struct FMOD_DSP_DESCRIPTION
 {
