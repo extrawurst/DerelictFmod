@@ -277,6 +277,7 @@ struct FMOD_DSP_STATE_SYSTEMCALLBACKS
     FMOD_DSP_SYSTEM_GETBLOCKSIZE            getblocksize;   /* [r] Callback for getting the system's block size.  DSPs will be requested to process blocks of varying length up to this size.*/
     FMOD_DSP_STATE_DFTCALLBACKS            *dft;            /* [r] Struct containing callbacks for performing FFTs and inverse FFTs. */
     FMOD_DSP_STATE_PAN_CALLBACKS           *pancallbacks;   /* [r] Pointer to a structure of callbacks for calculating pan, up-mix and down-mix matrices. */
+    FMOD_DSP_SYSTEM_GETSPEAKERMODE          getspeakermode; /* [r] Callback for getting the system's speaker modes.  One is the mixer's default speaker mode, the other is the output mode the system is downmixing or upmixing to.*/
 }
 
 struct FMOD_DSP_STATE
