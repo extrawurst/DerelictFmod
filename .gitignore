@@ -5,3 +5,5 @@ derelict-fmod.v12.suo
 derelict-fmod.visualdproj
 derelict-util.visualdproj
 dub.selections.json
+libfmod.dylib
+dub.userprefs
