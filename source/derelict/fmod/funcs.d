@@ -142,6 +142,7 @@ extern(C) @nogc nothrow
     alias da_FMOD_System_GetVersion = FMOD_RESULT function(FMOD_SYSTEM *system,  uint  *version_);
     alias da_FMOD_System_GetOutputHandle = FMOD_RESULT function(FMOD_SYSTEM *system, void **handle);
     alias da_FMOD_System_GetChannelsPlaying = FMOD_RESULT function(FMOD_SYSTEM *system, int *channels);
+    alias da_FMOD_System_GetChannelsReal = FMOD_RESULT function(FMOD_SYSTEM *system, int *realchannels);
     alias da_FMOD_System_GetCPUUsage = FMOD_RESULT function(FMOD_SYSTEM *system, float *dsp, float *stream, float *geometry, float *update, float *total);
     alias da_FMOD_System_GetSoundRAM = FMOD_RESULT function(FMOD_SYSTEM *system, int *currentalloced, int *maxalloced, int *total);
     
@@ -788,6 +789,7 @@ __gshared
     da_FMOD_System_GetVersion FMOD_System_GetVersion;
     da_FMOD_System_GetOutputHandle FMOD_System_GetOutputHandle;
     da_FMOD_System_GetChannelsPlaying FMOD_System_GetChannelsPlaying;
+    da_FMOD_System_GetChannelsReal FMOD_System_GetChannelsReal;
     da_FMOD_System_GetCPUUsage FMOD_System_GetCPUUsage;
     da_FMOD_System_GetSoundRAM FMOD_System_GetSoundRAM;
     da_FMOD_System_CreateSound FMOD_System_CreateSound;

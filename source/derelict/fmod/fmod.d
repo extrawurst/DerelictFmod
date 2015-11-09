@@ -120,6 +120,7 @@ class DerelictFmodLoader : SharedLibLoader
             bindFunc(cast(void**)&FMOD_System_GetVersion, "FMOD_System_GetVersion");
             bindFunc(cast(void**)&FMOD_System_GetOutputHandle, "FMOD_System_GetOutputHandle");
             bindFunc(cast(void**)&FMOD_System_GetChannelsPlaying, "FMOD_System_GetChannelsPlaying");
+            bindFunc(cast(void**)&FMOD_System_GetChannelsReal, "FMOD_System_GetChannelsReal");
             bindFunc(cast(void**)&FMOD_System_GetCPUUsage, "FMOD_System_GetCPUUsage");
             bindFunc(cast(void**)&FMOD_System_GetSoundRAM, "FMOD_System_GetSoundRAM");
             bindFunc(cast(void**)&FMOD_System_CreateSound, "FMOD_System_CreateSound");
