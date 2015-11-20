@@ -67,6 +67,7 @@ enum FMOD_DSP_TYPE
     FMOD_DSP_TYPE_ENVELOPEFOLLOWER,   /* This unit tracks the envelope of the input/sidechain signal. Format to be publicly disclosed soon. */
     FMOD_DSP_TYPE_CONVOLUTIONREVERB,  /* This unit implements convolution reverb. */
     FMOD_DSP_TYPE_CHANNELMIX,         /* This unit provides per signal channel gain, and output channel mapping to allow 1 multichannel signal made up of many groups of signals to map to a single output signal. */
+    FMOD_DSP_TYPE_TRANSCEIVER,        /* This unit 'sends' and 'receives' from a selection of up to 32 different slots.  It is like a send/return but it uses global slots rather than returns as the destination.  It also has other features.  Multiple transceivers can receive from a single channel, or multiple transceivers can send to a single channel, or a combination of both. */
     
     FMOD_DSP_TYPE_MAX,                /* Maximum number of pre-defined DSP types. */
     FMOD_DSP_TYPE_FORCEINT = 65536    /* Makes sure this enum is signed 32bit. */
@@ -351,13 +352,13 @@ enum FMOD_DSP_CONVOLUTION_REVERB
 
 enum FMOD_DSP_CHANNELMIX_OUTPUT
 {
-    FMOD_DSP_CHANNELGAIN_OUTPUT_DEFAULT,      /*  Output channel count = input channel count.  Mapping: See FMOD_SPEAKER enumeration. */
-    FMOD_DSP_CHANNELGAIN_OUTPUT_ALLMONO,      /*  Output channel count = 1.  Mapping: Mono, Mono, Mono, Mono, Mono, Mono, ... (each channel all the way up to FMOD_MAX_CHANNEL_WIDTH channels are treated as if they were mono) */
-    FMOD_DSP_CHANNELGAIN_OUTPUT_ALLSTEREO,    /*  Output channel count = 2.  Mapping: Left, Right, Left, Right, Left, Right, ... (each pair of channels is treated as stereo all the way up to FMOD_MAX_CHANNEL_WIDTH channels) */
-    FMOD_DSP_CHANNELGAIN_OUTPUT_ALLQUAD,      /*  Output channel count = 4.  Mapping: Repeating pattern of Front Left, Front Right, Surround Left, Surround Right. */
-    FMOD_DSP_CHANNELGAIN_OUTPUT_ALL5POINT1,   /*  Output channel count = 6.  Mapping: Repeating pattern of Front Left, Front Right, Center, LFE, Surround Left, Surround Right. */
-    FMOD_DSP_CHANNELGAIN_OUTPUT_ALL7POINT1,   /*  Output channel count = 8.  Mapping: Repeating pattern of Front Left, Front Right, Center, LFE, Surround Left, Surround Right, Back Left, Back Right.  */
-    FMOD_DSP_CHANNELGAIN_OUTPUT_ALLLFE        /*  Output channel count = 6.  Mapping: Repeating pattern of LFE in a 5.1 output signal.  */
+    FMOD_DSP_CHANNELMIX_OUTPUT_DEFAULT,      /*  Output channel count = input channel count.  Mapping: See FMOD_SPEAKER enumeration. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_ALLMONO,      /*  Output channel count = 1.  Mapping: Mono, Mono, Mono, Mono, Mono, Mono, ... (each channel all the way up to FMOD_MAX_CHANNEL_WIDTH channels are treated as if they were mono) */
+    FMOD_DSP_CHANNELMIX_OUTPUT_ALLSTEREO,    /*  Output channel count = 2.  Mapping: Left, Right, Left, Right, Left, Right, ... (each pair of channels is treated as stereo all the way up to FMOD_MAX_CHANNEL_WIDTH channels) */
+    FMOD_DSP_CHANNELMIX_OUTPUT_ALLQUAD,      /*  Output channel count = 4.  Mapping: Repeating pattern of Front Left, Front Right, Surround Left, Surround Right. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_ALL5POINT1,   /*  Output channel count = 6.  Mapping: Repeating pattern of Front Left, Front Right, Center, LFE, Surround Left, Surround Right. */
+    FMOD_DSP_CHANNELMIX_OUTPUT_ALL7POINT1,   /*  Output channel count = 8.  Mapping: Repeating pattern of Front Left, Front Right, Center, LFE, Surround Left, Surround Right, Back Left, Back Right.  */
+    FMOD_DSP_CHANNELMIX_OUTPUT_ALLLFE        /*  Output channel count = 6.  Mapping: Repeating pattern of LFE in a 5.1 output signal.  */
 }
 
 enum FMOD_DSP_CHANNELMIX
@@ -395,4 +396,20 @@ enum FMOD_DSP_CHANNELMIX
     FMOD_DSP_CHANNELMIX_GAIN_CH29,          /* (Type:float) - Channel #29 gain in dB.  -80.0 to 10.0.  Default = 0. */
     FMOD_DSP_CHANNELMIX_GAIN_CH30,          /* (Type:float) - Channel #30 gain in dB.  -80.0 to 10.0.  Default = 0. */
     FMOD_DSP_CHANNELMIX_GAIN_CH31           /* (Type:float) - Channel #31 gain in dB.  -80.0 to 10.0.  Default = 0. */
+}
+
+enum FMOD_DSP_TRANSCEIVER_SPEAKERMODE
+{
+    FMOD_DSP_TRANSCEIVER_SPEAKERMODE_AUTO = -1,     /* A transmitter will use whatever signal channel count coming in to the transmitter, to determine which speaker mode is allocated for the transceiver channel. */
+    FMOD_DSP_TRANSCEIVER_SPEAKERMODE_MONO = 0,      /* A transmitter will always downmix to a mono channel buffer. */
+    FMOD_DSP_TRANSCEIVER_SPEAKERMODE_STEREO,        /* A transmitter will always upmix or downmix to a stereo channel buffer. */
+    FMOD_DSP_TRANSCEIVER_SPEAKERMODE_SURROUND,      /* A transmitter will always upmix or downmix to a surround channel buffer.   Surround is the speaker mode of the system above stereo, so could be quad/surround/5.1/7.1. */
+}
+
+enum FMOD_DSP_TRANSCEIVER
+{
+    FMOD_DSP_TRANSCEIVER_TRANSMIT,            /* (Type:bool)  - [r/w] - FALSE = Transceiver is a 'receiver' (like a return) and accepts data from a channel.  TRUE = Transceiver is a 'transmitter' (like a send).  Default = FALSE. */
+    FMOD_DSP_TRANSCEIVER_GAIN,                /* (Type:float) - [r/w] - Gain to receive or transmit at in dB.  -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_TRANSCEIVER_CHANNEL,             /* (Type:int)   - [r/w] - Integer to select current global slot, shared by all Transceivers, that can be transmitted to or received from.  0 to 31.  Default = 0.*/
+    FMOD_DSP_TRANSCEIVER_TRANSMITSPEAKERMODE  /* (Type:int)   - [r/w] - Speaker mode (transmitter mode only).  Specifies either 0 (Auto) Default = 0.*/
 }
