@@ -36,6 +36,8 @@ import derelict.util.system;
 import derelict.fmod.common;
 import derelict.fmod.dsp_effects;
 
+align(1):
+
 struct FMOD_DSP_BUFFER_ARRAY
 {
     int                numbuffers;              /* [r/w] number of buffers */
@@ -45,7 +47,8 @@ struct FMOD_DSP_BUFFER_ARRAY
     FMOD_SPEAKERMODE   speakermode;             /* [r/w] speaker mode for all buffers in the array */
 }
 
-enum FMOD_DSP_PROCESS_OPERATION
+alias FMOD_DSP_PROCESS_OPERATION = int;
+enum
 {
     FMOD_DSP_PROCESS_PERFORM,                   /* Process the incoming audio in 'inbufferarray' and output to 'outbufferarray'. */
     FMOD_DSP_PROCESS_QUERY                      /* The DSP is being queried for the expected output format and whether it needs to process audio or should be bypassed.  The function should return FMOD_OK, or FMOD_ERR_DSP_DONTPROCESS or FMOD_ERR_DSP_SILENCE if audio can pass through unprocessed. See remarks for more.  If audio is to be processed, 'outbufferarray' must be filled with the expected output format, channel count and mask. */
@@ -57,7 +60,8 @@ struct FMOD_COMPLEX
     float imag; /* Imaginary component */
 }
 
-enum FMOD_DSP_PAN_SURROUND_FLAGS
+alias FMOD_DSP_PAN_SURROUND_FLAGS = int;
+enum
 {
     FMOD_DSP_PAN_SURROUND_DEFAULT = 0,
     FMOD_DSP_PAN_SURROUND_ROTATION_NOT_BIASED = 1,
@@ -100,7 +104,8 @@ alias FMOD_DSP_PAN_3D_GET_ROLLOFF_GAIN = FMOD_RESULT           function(FMOD_DSP
 
 static immutable FMOD_DSP_GETPARAM_VALUESTR_LENGTH = 32;
 
-enum FMOD_DSP_PARAMETER_TYPE
+alias FMOD_DSP_PARAMETER_TYPE = int;
+enum
 {
     FMOD_DSP_PARAMETER_TYPE_FLOAT,
     FMOD_DSP_PARAMETER_TYPE_INT,
@@ -111,7 +116,8 @@ enum FMOD_DSP_PARAMETER_TYPE
     FMOD_DSP_PARAMETER_TYPE_FORCEINT = 65536    /* Makes sure this enum is signed 32bit. */
 }
 
-enum FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE
+alias FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE = int;
+enum
 {
     FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_LINEAR,               /* Values mapped linearly across range. */
     FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_AUTO,                 /* A mapping is automatically chosen based on range and units.  See remarks. */
@@ -177,7 +183,8 @@ struct FMOD_DSP_PARAMETER_DESC
     }
 }
 
-enum FMOD_DSP_PARAMETER_DATA_TYPE
+alias FMOD_DSP_PARAMETER_DATA_TYPE = int;
+enum
 {
     FMOD_DSP_PARAMETER_DATA_TYPE_USER = 0,                  /* The default data type.  All user data types should be 0 or above. */
     FMOD_DSP_PARAMETER_DATA_TYPE_OVERALLGAIN = -1,          /* The data type for FMOD_DSP_PARAMETER_OVERALLGAIN parameters.  There should a maximum of one per DSP. */

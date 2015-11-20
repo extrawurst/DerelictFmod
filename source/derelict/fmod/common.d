@@ -36,6 +36,8 @@ import derelict.util.system;
 import derelict.fmod.codec;
 import derelict.fmod.dsp;
 
+align(1):
+
 static immutable FMOD_VERSION    = 0x00010703;
 
 alias int                        FMOD_BOOL;
@@ -62,8 +64,8 @@ alias uint          FMOD_DRIVER_STATE;
 alias uint          FMOD_PORT_TYPE;
 alias ulong         FMOD_PORT_INDEX;
 
-///
-enum FMOD_RESULT
+alias FMOD_RESULT = int;
+enum
 {
     FMOD_OK,                        /* No errors. */
     FMOD_ERR_BADCOMMAND,            /* Tried to call a function on a data type that does not allow this type of functionality (ie calling Sound::lock on a streaming sound). */
@@ -152,8 +154,8 @@ enum FMOD_RESULT
     FMOD_RESULT_FORCEINT = 65536    /* Makes sure this enum is signed 32bit. */
 }
 
-///
-enum FMOD_CHANNELCONTROL_TYPE
+alias FMOD_CHANNELCONTROL_TYPE = int;
+enum
 {
     FMOD_CHANNELCONTROL_CHANNEL,
     FMOD_CHANNELCONTROL_CHANNELGROUP,
@@ -205,8 +207,8 @@ struct FMOD_ASYNCREADINFO
     FMOD_FILE_ASYNCDONE   done;      /* [r] FMOD file system wake up function.  Call this when user file read is finished.  Pass result of file read as a parameter. */
 }
 
-///
-enum FMOD_OUTPUTTYPE
+alias FMOD_OUTPUTTYPE = int;
+enum
 {
     FMOD_OUTPUTTYPE_AUTODETECT,      /* Picks the best output mode for the platform. This is the default. */
     
@@ -234,8 +236,8 @@ enum FMOD_OUTPUTTYPE
     FMOD_OUTPUTTYPE_FORCEINT = 65536 /* Makes sure this enum is signed 32bit. */
 }
 
-///
-enum FMOD_DEBUG_MODE
+alias FMOD_DEBUG_MODE = int;
+enum
 {
     FMOD_DEBUG_MODE_TTY,             /* Default log location per platform, i.e. Visual Studio output window, stderr, LogCat, etc */
     FMOD_DEBUG_MODE_FILE,            /* Write log to specified file path */
@@ -267,7 +269,8 @@ static immutable FMOD_MEMORY_PERSISTENT         = 0x00200000;       /* Persisten
 static immutable FMOD_MEMORY_SECONDARY          = 0x00400000;       /* Secondary memory. Allocation should be in secondary memory. For example RSX on the PS3. */
 static immutable FMOD_MEMORY_ALL                = 0xFFFFFFFF;
 
-enum FMOD_SPEAKERMODE
+alias FMOD_SPEAKERMODE = int;
+enum
 {
     FMOD_SPEAKERMODE_DEFAULT,          /* Default speaker mode based on operating system/output mode.  Windows = control panel setting, Xbox = 5.1, PS3 = 7.1 etc. */
     FMOD_SPEAKERMODE_RAW,              /* There is no specific speakermode.  Sound channels are mapped in order of input to output.  Use System::setSoftwareFormat to specify speaker count. See remarks for more information. */
@@ -286,7 +289,8 @@ static immutable FMOD_MAX_CHANNEL_WIDTH = 32;
 
 static immutable FMOD_MAX_LISTENERS = 8;
 
-enum FMOD_SPEAKER
+alias FMOD_SPEAKER = int;
+enum
 {
     FMOD_SPEAKER_FRONT_LEFT,
     FMOD_SPEAKER_FRONT_RIGHT,
@@ -321,7 +325,8 @@ static immutable FMOD_CHANNELMASK_5POINT1_REARS           = (FMOD_CHANNELMASK_FR
 static immutable FMOD_CHANNELMASK_7POINT0                 = (FMOD_CHANNELMASK_FRONT_LEFT | FMOD_CHANNELMASK_FRONT_RIGHT | FMOD_CHANNELMASK_FRONT_CENTER | FMOD_CHANNELMASK_SURROUND_LEFT | FMOD_CHANNELMASK_SURROUND_RIGHT | FMOD_CHANNELMASK_BACK_LEFT | FMOD_CHANNELMASK_BACK_RIGHT);
 static immutable FMOD_CHANNELMASK_7POINT1                 = (FMOD_CHANNELMASK_FRONT_LEFT | FMOD_CHANNELMASK_FRONT_RIGHT | FMOD_CHANNELMASK_FRONT_CENTER | FMOD_CHANNELMASK_LOW_FREQUENCY | FMOD_CHANNELMASK_SURROUND_LEFT | FMOD_CHANNELMASK_SURROUND_RIGHT | FMOD_CHANNELMASK_BACK_LEFT | FMOD_CHANNELMASK_BACK_RIGHT);
 
-enum FMOD_CHANNELORDER
+alias FMOD_CHANNELORDER = int;
+enum
 {
     FMOD_CHANNELORDER_DEFAULT,              /* Left, Right, Center, LFE, Surround Left, Surround Right, Back Left, Back Right (see FMOD_SPEAKER enumeration)   */
     FMOD_CHANNELORDER_WAVEFORMAT,           /* Left, Right, Center, LFE, Back Left, Back Right, Surround Left, Surround Right (as per Microsoft .wav WAVEFORMAT structure master order) */
@@ -334,7 +339,8 @@ enum FMOD_CHANNELORDER
     FMOD_CHANNELORDER_FORCEINT = 65536      /* Makes sure this enum is signed 32bit. */
 }
 
-enum FMOD_PLUGINTYPE
+alias FMOD_PLUGINTYPE = int;
+enum
 {
     FMOD_PLUGINTYPE_OUTPUT,          /* The plugin type is an output module.  FMOD mixed audio will play through one of these devices */
     FMOD_PLUGINTYPE_CODEC,           /* The plugin type is a file format codec.  FMOD will use these codecs to load file formats for playback. */
@@ -357,7 +363,8 @@ static immutable FMOD_INIT_PREFER_DOLBY_DOWNMIX       = 0x00080000; /* When usin
 static immutable FMOD_INIT_THREAD_UNSAFE              = 0x00100000; /* Disables thread safety for API calls. Only use this if FMOD low level is being called from a single thread, and if Studio API is not being used! */
 static immutable FMOD_INIT_PROFILE_METER_ALL          = 0x00200000; /* Slower, but adds level metering for every single DSP unit in the graph.  Use DSP::setMeteringEnabled to turn meters off individually. */
 
-enum FMOD_SOUND_TYPE
+alias FMOD_SOUND_TYPE = int;
+enum
 {
     FMOD_SOUND_TYPE_UNKNOWN,         /* 3rd party / unknown plugin format. */
     FMOD_SOUND_TYPE_AIFF,            /* AIFF. */
@@ -388,7 +395,8 @@ enum FMOD_SOUND_TYPE
     FMOD_SOUND_TYPE_FORCEINT = 65536 /* Makes sure this enum is signed 32bit. */
 }
 
-enum FMOD_SOUND_FORMAT
+alias FMOD_SOUND_FORMAT = int;
+enum
 {
     FMOD_SOUND_FORMAT_NONE,             /* Unitialized / unknown. */
     FMOD_SOUND_FORMAT_PCM8,             /* 8bit integer PCM data. */
@@ -433,7 +441,8 @@ static immutable FMOD_LOWMEM                    = 0x08000000;  /* Removes some f
 static immutable FMOD_LOADSECONDARYRAM          = 0x20000000;  /* Load sound into the secondary RAM of supported platform. On PS3, sounds will be loaded into RSX/VRAM. */
 static immutable FMOD_VIRTUAL_PLAYFROMSTART     = 0x80000000;  /* For sounds that start virtual (due to being quiet or low importance), instead of swapping back to audible, and playing at the correct offset according to time, this flag makes the sound play from the start. */
 
-enum FMOD_OPENSTATE
+alias FMOD_OPENSTATE = int;
+enum
 {
     FMOD_OPENSTATE_READY = 0,       /* Opened and ready to play. */
     FMOD_OPENSTATE_LOADING,         /* Initial load in progress. */
@@ -448,7 +457,8 @@ enum FMOD_OPENSTATE
     FMOD_OPENSTATE_FORCEINT = 65536 /* Makes sure this enum is signed 32bit. */
 }
 
-enum FMOD_SOUNDGROUP_BEHAVIOR
+alias FMOD_SOUNDGROUP_BEHAVIOR = int;
+enum
 {
     FMOD_SOUNDGROUP_BEHAVIOR_FAIL,              /* Any sound played that puts the sound count over the SoundGroup::setMaxAudible setting, will simply fail during System::playSound. */
     FMOD_SOUNDGROUP_BEHAVIOR_MUTE,              /* Any sound played that puts the sound count over the SoundGroup::setMaxAudible setting, will be silent, then if another sound in the group stops the sound that was silent before becomes audible again. */
@@ -458,7 +468,8 @@ enum FMOD_SOUNDGROUP_BEHAVIOR
     FMOD_SOUNDGROUP_BEHAVIOR_FORCEINT = 65536   /* Makes sure this enum is signed 32bit. */
 }
 
-enum FMOD_CHANNELCONTROL_CALLBACK_TYPE
+alias FMOD_CHANNELCONTROL_CALLBACK_TYPE = int;
+enum
 {
     FMOD_CHANNELCONTROL_CALLBACK_END,                  /* Called when a sound ends. */
     FMOD_CHANNELCONTROL_CALLBACK_VIRTUALVOICE,         /* Called when a voice is swapped out or swapped in. */
@@ -469,7 +480,8 @@ enum FMOD_CHANNELCONTROL_CALLBACK_TYPE
     FMOD_CHANNELCONTROL_CALLBACK_FORCEINT = 65536      /* Makes sure this enum is signed 32bit. */
 }
 
-enum FMOD_CHANNELCONTROL_DSP_INDEX
+alias FMOD_CHANNELCONTROL_DSP_INDEX = int;
+enum
 {
     FMOD_CHANNELCONTROL_DSP_HEAD = -1,          /* Head of the DSP chain.   Equivalent of index 0. */
     FMOD_CHANNELCONTROL_DSP_FADER = -2,         /* Built in fader DSP. */
@@ -479,7 +491,8 @@ enum FMOD_CHANNELCONTROL_DSP_INDEX
     FMOD_CHANNELCONTROL_DSP_FORCEINT = 65536    /* Makes sure this enum is signed 32bit. */
 }
 
-enum FMOD_ERRORCALLBACK_INSTANCETYPE
+alias FMOD_ERRORCALLBACK_INSTANCETYPE = int;
+enum
 {
     FMOD_ERRORCALLBACK_INSTANCETYPE_NONE,
     FMOD_ERRORCALLBACK_INSTANCETYPE_SYSTEM,
@@ -546,7 +559,8 @@ alias FMOD_MEMORY_REALLOC_CALLBACK = void* function(void *ptr, uint size, FMOD_M
 alias FMOD_MEMORY_FREE_CALLBACK = void function(void *ptr, FMOD_MEMORY_TYPE type, const char *sourcestr);
 alias FMOD_3D_ROLLOFF_CALLBACK = float function(FMOD_CHANNELCONTROL *channelcontrol, float distance);
 
-enum FMOD_DSP_RESAMPLER
+alias FMOD_DSP_RESAMPLER = int;
+enum
 {
     FMOD_DSP_RESAMPLER_DEFAULT,         /* Default interpolation method.  Currently equal to FMOD_DSP_RESAMPLER_LINEAR. */
     FMOD_DSP_RESAMPLER_NOINTERP,        /* No interpolation.  High frequency aliasing hiss will be audible depending on the sample rate of the sound. */
@@ -558,7 +572,8 @@ enum FMOD_DSP_RESAMPLER
     FMOD_DSP_RESAMPLER_FORCEINT = 65536 /* Makes sure this enum is signed 32bit. */
 }
 
-enum FMOD_DSPCONNECTION_TYPE
+alias FMOD_DSPCONNECTION_TYPE = int;
+enum
 {
     FMOD_DSPCONNECTION_TYPE_STANDARD,          /* Default connection type.         Audio is mixed from the input to the output DSP's audible buffer.  */
     FMOD_DSPCONNECTION_TYPE_SIDECHAIN,         /* Sidechain connection type.       Audio is mixed from the input to the output DSP's sidechain buffer.  */
@@ -569,7 +584,8 @@ enum FMOD_DSPCONNECTION_TYPE
     FMOD_DSPCONNECTION_TYPE_FORCEINT = 65536   /* Makes sure this enum is signed 32bit. */
 }
 
-enum FMOD_TAGTYPE
+alias FMOD_TAGTYPE = int;
+enum
 {
     FMOD_TAGTYPE_UNKNOWN = 0,
     FMOD_TAGTYPE_ID3V1,
@@ -587,7 +603,8 @@ enum FMOD_TAGTYPE
     FMOD_TAGTYPE_FORCEINT = 65536   /* Makes sure this enum is signed 32bit. */
 }
 
-enum FMOD_TAGDATATYPE
+alias FMOD_TAGDATATYPE = int;
+enum
 {
     FMOD_TAGDATATYPE_BINARY = 0,
     FMOD_TAGDATATYPE_INT,

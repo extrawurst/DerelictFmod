@@ -4,7 +4,7 @@ import derelict.fmod.common;
 
 string FMOD_ErrorString(FMOD_RESULT errcode)
 {
-    with(FMOD_RESULT) switch (errcode)
+    switch (errcode)
     {
         /*$ preserve end $*/
         case FMOD_OK:                            return "No errors.";

@@ -31,7 +31,8 @@
  */
 module derelict.fmod.dsp_effects;
 
-enum FMOD_DSP_TYPE
+alias FMOD_DSP_TYPE = int;
+enum
 {
     FMOD_DSP_TYPE_UNKNOWN,            /* This unit was created via a non FMOD plugin so has an unknown purpose. */
     FMOD_DSP_TYPE_MIXER,              /* This unit does nothing but take inputs and mix them together then feed the result to the soundcard unit. */
@@ -73,31 +74,36 @@ enum FMOD_DSP_TYPE
     FMOD_DSP_TYPE_FORCEINT = 65536    /* Makes sure this enum is signed 32bit. */
 }
 
-enum FMOD_DSP_OSCILLATOR
+alias FMOD_DSP_OSCILLATOR = int;
+enum
 {
     FMOD_DSP_OSCILLATOR_TYPE,   /* (Type:int) - Waveform type.  0 = sine.  1 = square. 2 = sawup. 3 = sawdown. 4 = triangle. 5 = noise.  */
     FMOD_DSP_OSCILLATOR_RATE    /* (Type:float) - Frequency of the sinewave in hz.  1.0 to 22000.0.  Default = 220.0. */
 }
 
-enum FMOD_DSP_LOWPASS
+alias FMOD_DSP_LOWPASS = int;
+enum
 {
     FMOD_DSP_LOWPASS_CUTOFF,    /* (Type:float) - Lowpass cutoff frequency in hz.   10.0 to 22000.0.  Default = 5000.0. */
     FMOD_DSP_LOWPASS_RESONANCE  /* (Type:float) - Lowpass resonance Q value. 1.0 to 10.0.  Default = 1.0. */
 }
 
-enum FMOD_DSP_ITLOWPASS
+alias FMOD_DSP_ITLOWPASS = int;
+enum
 {
     FMOD_DSP_ITLOWPASS_CUTOFF,    /* (Type:float) - Lowpass cutoff frequency in hz.  1.0 to 22000.0.  Default = 5000.0/ */
     FMOD_DSP_ITLOWPASS_RESONANCE  /* (Type:float) - Lowpass resonance Q value.  0.0 to 127.0.  Default = 1.0. */
 }
 
-enum FMOD_DSP_HIGHPASS
+alias FMOD_DSP_HIGHPASS = int;
+enum
 {
     FMOD_DSP_HIGHPASS_CUTOFF,    /* (Type:float) - Highpass cutoff frequency in hz.  1.0 to output 22000.0.  Default = 5000.0. */
     FMOD_DSP_HIGHPASS_RESONANCE  /* (Type:float) - Highpass resonance Q value.  1.0 to 10.0.  Default = 1.0. */
 }
 
-enum FMOD_DSP_ECHO
+alias FMOD_DSP_ECHO = int;
+enum
 {
     FMOD_DSP_ECHO_DELAY,       /* (Type:float) - Echo delay in ms.  10  to 5000.  Default = 500. */
     FMOD_DSP_ECHO_FEEDBACK,    /* (Type:float) - Echo decay per delay.  0 to 100.  100.0 = No decay, 0.0 = total decay (ie simple 1 line delay).  Default = 50.0. */
@@ -105,26 +111,30 @@ enum FMOD_DSP_ECHO
     FMOD_DSP_ECHO_WETLEVEL     /* (Type:float) - Volume of echo signal to pass to output in dB.  -80.0 to 10.0.  Default = 0. */
 }
 
-enum FMOD_DSP_FLANGE
+alias FMOD_DSP_FLANGE = int;
+enum
 {
     FMOD_DSP_FLANGE_MIX,         /* (Type:float) - Percentage of wet signal in mix.  0 to 100. Default = 50. */
     FMOD_DSP_FLANGE_DEPTH,       /* (Type:float) - Flange depth (percentage of 40ms delay).  0.01 to 1.0.  Default = 1.0. */
     FMOD_DSP_FLANGE_RATE         /* (Type:float) - Flange speed in hz.  0.0 to 20.0.  Default = 0.1. */
 }
 
-enum FMOD_DSP_DISTORTION
+alias FMOD_DSP_DISTORTION = int;
+enum
 {
     FMOD_DSP_DISTORTION_LEVEL    /* (Type:float) - Distortion value.  0.0 to 1.0.  Default = 0.5. */
 }
 
-enum FMOD_DSP_NORMALIZE
+alias FMOD_DSP_NORMALIZE = int;
+enum
 {
     FMOD_DSP_NORMALIZE_FADETIME,    /* (Type:float) - Time to ramp the silence to full in ms.  0.0 to 20000.0. Default = 5000.0. */
     FMOD_DSP_NORMALIZE_THRESHHOLD,  /* (Type:float) - Lower volume range threshold to ignore.  0.0 to 1.0.  Default = 0.1.  Raise higher to stop amplification of very quiet signals. */
     FMOD_DSP_NORMALIZE_MAXAMP       /* (Type:float) - Maximum amplification allowed.  1.0 to 100000.0.  Default = 20.0.  1.0 = no amplifaction, higher values allow more boost. */
 }
 
-enum FMOD_DSP_LIMITER
+alias FMOD_DSP_LIMITER = int;
+enum
 {
     FMOD_DSP_LIMITER_RELEASETIME,   /* (Type:float) - Time to ramp the silence to full in ms.  1.0 to 1000.0. Default = 10.0. */
     FMOD_DSP_LIMITER_CEILING,       /* (Type:float) - Maximum level of the output signal in dB.  -12.0 to 0.0.  Default = 0.0. */
@@ -132,14 +142,16 @@ enum FMOD_DSP_LIMITER
     FMOD_DSP_LIMITER_MODE,          /* (Type:float) - Channel processing mode. 0 or 1. Default = 0. 0 = Independent (limiter per channel), 1 = Linked*/
 }
 
-enum FMOD_DSP_PARAMEQ
+alias FMOD_DSP_PARAMEQ = int;
+enum
 {
     FMOD_DSP_PARAMEQ_CENTER,     /* (Type:float) - Frequency center.  20.0 to 22000.0.  Default = 8000.0. */
     FMOD_DSP_PARAMEQ_BANDWIDTH,  /* (Type:float) - Octave range around the center frequency to filter.  0.2 to 5.0.  Default = 1.0. */
     FMOD_DSP_PARAMEQ_GAIN        /* (Type:float) - Frequency Gain in dB.  -30 to 30.  Default = 0.  */
 }
 
-enum FMOD_DSP_PITCHSHIFT
+alias FMOD_DSP_PITCHSHIFT = int;
+enum
 {
     FMOD_DSP_PITCHSHIFT_PITCH,       /* (Type:float) - Pitch value.  0.5 to 2.0.  Default = 1.0. 0.5 = one octave down, 2.0 = one octave up.  1.0 does not change the pitch. */
     FMOD_DSP_PITCHSHIFT_FFTSIZE,     /* (Type:float) - FFT window size.  256, 512, 1024, 2048, 4096.  Default = 1024.  Increase this to reduce 'smearing'.  This effect is a warbling sound similar to when an mp3 is encoded at very low bitrates. */
@@ -147,14 +159,16 @@ enum FMOD_DSP_PITCHSHIFT
     FMOD_DSP_PITCHSHIFT_MAXCHANNELS  /* (Type:float) - Maximum channels supported.  0 to 16.  0 = same as fmod's default output polyphony, 1 = mono, 2 = stereo etc.  See remarks for more.  Default = 0.  It is suggested to leave at 0! */
 }
 
-enum FMOD_DSP_CHORUS
+alias FMOD_DSP_CHORUS = int;
+enum
 {
     FMOD_DSP_CHORUS_MIX,      /* (Type:float) - Volume of original signal to pass to output.  0.0 to 100.0. Default = 50.0. */
     FMOD_DSP_CHORUS_RATE,     /* (Type:float) - Chorus modulation rate in Hz.  0.0 to 20.0.  Default = 0.8 Hz. */
     FMOD_DSP_CHORUS_DEPTH,    /* (Type:float) - Chorus modulation depth.  0.0 to 100.0.  Default = 3.0. */
 }
 
-enum FMOD_DSP_ITECHO
+alias FMOD_DSP_ITECHO = int;
+enum
 {
     FMOD_DSP_ITECHO_WETDRYMIX,      /* (Type:float) - Ratio of wet (processed) signal to dry (unprocessed) signal. Must be in the range from 0.0 through 100.0 (all wet). The default value is 50. */
     FMOD_DSP_ITECHO_FEEDBACK,       /* (Type:float) - Percentage of output fed back into input, in the range from 0.0 through 100.0. The default value is 50. */
@@ -163,7 +177,8 @@ enum FMOD_DSP_ITECHO
     FMOD_DSP_ITECHO_PANDELAY        /* (Type:float) - Value that specifies whether to swap left and right delays with each successive echo. The default value is zero, meaning no swap. Possible values are defined as 0.0 (equivalent to FALSE) and 1.0 (equivalent to TRUE).  CURRENTLY NOT SUPPORTED. */
 }
 
-enum FMOD_DSP_COMPRESSOR
+alias FMOD_DSP_COMPRESSOR = int;
+enum
 {
     FMOD_DSP_COMPRESSOR_THRESHOLD,		/* (Type:float) - Threshold level (dB) in the range from -80 through 0. The default value is 0. */ 
     FMOD_DSP_COMPRESSOR_RATIO,			/* (Type:float) - Compression Ratio (dB/dB) in the range from 1 to 50. The default value is 2.5. */ 
@@ -174,7 +189,8 @@ enum FMOD_DSP_COMPRESSOR
 	FMOD_DSP_COMPRESSOR_LINKED			/* (Type:bool)  - FALSE = Independent (compressor per channel), TRUE = Linked.  The default value is TRUE. */
 }
 
-enum FMOD_DSP_SFXREVERB
+alias FMOD_DSP_SFXREVERB = int;
+enum
 {
     FMOD_DSP_SFXREVERB_DECAYTIME,           /* (Type:float) - Decay Time       : Reverberation decay time at low-frequencies in milliseconds.  Ranges from 100.0 to 20000.0. Default is 1500. */
     FMOD_DSP_SFXREVERB_EARLYDELAY,          /* (Type:float) - Early Delay      : Delay time of first reflection in milliseconds.  Ranges from 0.0 to 300.0.  Default is 20. */
@@ -191,12 +207,14 @@ enum FMOD_DSP_SFXREVERB
     FMOD_DSP_SFXREVERB_DRYLEVEL             /* (Type:float) - Dry Level        : Dry signal level in dB.  Ranges from -80.0 to 20.0.  Default is 0. */
 }
 
-enum FMOD_DSP_LOWPASS_SIMPLE
+alias FMOD_DSP_LOWPASS_SIMPLE = int;
+enum
 {
     FMOD_DSP_LOWPASS_SIMPLE_CUTOFF     /* (Type:float) - Lowpass cutoff frequency in hz.  10.0 to 22000.0.  Default = 5000.0 */
 }
 
-enum FMOD_DSP_DELAY
+alias FMOD_DSP_DELAY = int;
+enum
 {
     FMOD_DSP_DELAY_CH0,      /* (Type:float) - Channel  #0 Delay in ms.  0  to 10000.  Default = 0. */
     FMOD_DSP_DELAY_CH1,      /* (Type:float) - Channel  #1 Delay in ms.  0  to 10000.  Default = 0. */
@@ -217,7 +235,8 @@ enum FMOD_DSP_DELAY
     FMOD_DSP_DELAY_MAXDELAY  /* (Type:float) - Maximum delay in ms.      0  to 10000.  Default = 10. */
 }
 
-enum FMOD_DSP_TREMOLO
+alias FMOD_DSP_TREMOLO = int;
+enum
 {
     FMOD_DSP_TREMOLO_FREQUENCY,     /* (Type:float) - LFO frequency in Hz.  0.1 to 20.  Default = 5. */
     FMOD_DSP_TREMOLO_DEPTH,         /* (Type:float) - Tremolo depth.  0 to 1.  Default = 1. */
@@ -229,37 +248,43 @@ enum FMOD_DSP_TREMOLO
     FMOD_DSP_TREMOLO_SPREAD         /* (Type:float) - Rotation / auto-pan effect.  -1 to 1.  Default = 0. */
 }
 
-enum FMOD_DSP_SEND
+alias FMOD_DSP_SEND = int;
+enum
 {
     FMOD_DSP_SEND_RETURNID,     /* (Type:int) - ID of the Return DSP this send is connected to (integer values only). -1 indicates no connected Return DSP. Default = -1. */
     FMOD_DSP_SEND_LEVEL,        /* (Type:float) - Send level. 0.0 to 1.0. Default = 1.0 */
 }
 
-enum FMOD_DSP_RETURN
+alias FMOD_DSP_RETURN = int;
+enum
 {
     FMOD_DSP_RETURN_ID,                /* (Type:int) - [r]   ID of this Return DSP. Read-only.  Default = -1*/
     FMOD_DSP_RETURN_INPUT_SPEAKER_MODE /* (Type:int) - [r/w] Input speaker mode of this return.  Default = FMOD_SPEAKERMODE_DEFAULT.*/
 }
 
-enum FMOD_DSP_HIGHPASS_SIMPLE
+alias FMOD_DSP_HIGHPASS_SIMPLE = int;
+enum
 {
     FMOD_DSP_HIGHPASS_SIMPLE_CUTOFF     /* (Type:float) - Highpass cutoff frequency in hz.  10.0 to 22000.0.  Default = 1000.0 */
 }
 
-enum FMOD_DSP_PAN_SURROUND_FROM_STEREO_MODE_TYPE
+alias FMOD_DSP_PAN_SURROUND_FROM_STEREO_MODE_TYPE = int;
+enum
 {
     FMOD_DSP_PAN_SURROUND_FROM_STEREO_MODE_DISTRIBUTED,
     FMOD_DSP_PAN_SURROUND_FROM_STEREO_MODE_DISCRETE
 }
 
-enum FMOD_DSP_PAN_MODE_TYPE
+alias FMOD_DSP_PAN_MODE_TYPE = int;
+enum
 {
     FMOD_DSP_PAN_MODE_MONO,
     FMOD_DSP_PAN_MODE_STEREO,
     FMOD_DSP_PAN_MODE_SURROUND
 }
 
-enum FMOD_DSP_PAN_3D_ROLLOFF_TYPE
+alias FMOD_DSP_PAN_3D_ROLLOFF_TYPE = int;
+enum
 {
     FMOD_DSP_PAN_3D_ROLLOFF_LINEARSQUARED,
     FMOD_DSP_PAN_3D_ROLLOFF_LINEAR,
@@ -268,14 +293,16 @@ enum FMOD_DSP_PAN_3D_ROLLOFF_TYPE
     FMOD_DSP_PAN_3D_ROLLOFF_CUSTOM
 }
 
-enum FMOD_DSP_PAN_3D_EXTENT_MODE_TYPE
+alias FMOD_DSP_PAN_3D_EXTENT_MODE_TYPE = int;
+enum
 {
     FMOD_DSP_PAN_3D_EXTENT_MODE_AUTO,
     FMOD_DSP_PAN_3D_EXTENT_MODE_USER,
     FMOD_DSP_PAN_3D_EXTENT_MODE_OFF
 }
 
-enum FMOD_DSP_PAN
+alias FMOD_DSP_PAN = int;
+enum
 {
     FMOD_DSP_PAN_MODE,                          /* (Type:int)   - Panner mode.               FMOD_DSP_PAN_MODE_MONO for mono down-mix, FMOD_DSP_PAN_MODE_STEREO for stereo panning or FMOD_DSP_PAN_MODE_SURROUND for surround panning.  Default = FMOD_DSP_PAN_MODE_SURROUND */
     FMOD_DSP_PAN_STEREO_POSITION,               /* (Type:float) - Stereo pan position.       -100.0 to 100.0.  Default = 0.0. */
@@ -300,14 +327,16 @@ enum FMOD_DSP_PAN
     FMOD_DSP_PAN_SURROUND_SPEAKER_MODE          /* (Type:int)   - Surround speaker mode.     Target speaker mode for surround panning. */
 }
 
-enum FMOD_DSP_THREE_EQ_CROSSOVERSLOPE_TYPE
+alias FMOD_DSP_THREE_EQ_CROSSOVERSLOPE_TYPE = int;
+enum
 {
     FMOD_DSP_THREE_EQ_CROSSOVERSLOPE_12DB,
     FMOD_DSP_THREE_EQ_CROSSOVERSLOPE_24DB,
     FMOD_DSP_THREE_EQ_CROSSOVERSLOPE_48DB
 }
 
-enum FMOD_DSP_THREE_EQ
+alias FMOD_DSP_THREE_EQ = int;
+enum
 {
     FMOD_DSP_THREE_EQ_LOWGAIN,       /* (Type:float) - Low frequency gain in dB.  -80.0 to 10.0.  Default = 0. */
     FMOD_DSP_THREE_EQ_MIDGAIN,       /* (Type:float) - Mid frequency gain in dB.  -80.0 to 10.0.  Default = 0. */
@@ -317,7 +346,8 @@ enum FMOD_DSP_THREE_EQ
     FMOD_DSP_THREE_EQ_CROSSOVERSLOPE /* (Type:int)   - Crossover Slope.  0 = 12dB/Octave, 1 = 24dB/Octave, 2 = 48dB/Octave.  Default = 1 (24dB/Octave). */
 }
 
-enum FMOD_DSP_FFT_WINDOW
+alias FMOD_DSP_FFT_WINDOW = int;
+enum
 {
     FMOD_DSP_FFT_WINDOW_RECT,            /* w[n] = 1.0                                                                                            */
     FMOD_DSP_FFT_WINDOW_TRIANGLE,        /* w[n] = TRI(2n/N)                                                                                      */
@@ -327,7 +357,8 @@ enum FMOD_DSP_FFT_WINDOW
     FMOD_DSP_FFT_WINDOW_BLACKMANHARRIS   /* w[n] = 0.35875 - (0.48829 * COS(1.0 * n/N)) + (0.14128 * COS(2.0 * n/N)) - (0.01168 * COS(3.0 * n/N)) */
 }
 
-enum FMOD_DSP_FFT
+alias FMOD_DSP_FFT = int;
+enum
 {
     FMOD_DSP_FFT_WINDOWSIZE,            /*  (Type:int)   - [r/w] Must be a power of 2 between 128 and 16384.  128, 256, 512, 1024, 2048, 4096, 8192, 16384 are accepted.  Default = 2048. */
     FMOD_DSP_FFT_WINDOWTYPE,            /*  (Type:int)   - [r/w] Refer to FMOD_DSP_FFT_WINDOW enumeration.  Default = FMOD_DSP_FFT_WINDOW_HAMMING. */
@@ -335,7 +366,8 @@ enum FMOD_DSP_FFT
     FMOD_DSP_FFT_DOMINANT_FREQ          /*  (Type:float) - [r]   Returns the dominant frequencies for each channel. */
 }
 
-enum FMOD_DSP_ENVELOPEFOLLOWER
+alias FMOD_DSP_ENVELOPEFOLLOWER = int;
+enum
 {
     FMOD_DSP_ENVELOPEFOLLOWER_ATTACK,      /* (Type:float) [r/w] - Attack time (milliseconds), in the range from 0.1 through 1000. The default value is 20. */
     FMOD_DSP_ENVELOPEFOLLOWER_RELEASE,     /* (Type:float) [r/w] - Release time (milliseconds), in the range from 10 through 5000. The default value is 100 */
@@ -343,14 +375,16 @@ enum FMOD_DSP_ENVELOPEFOLLOWER
     FMOD_DSP_ENVELOPEFOLLOWER_USESIDECHAIN /* (Type:bool)  [r/w] - Whether to analyse the sidechain signal instead of the input signal. The default value is false */
 }
 
-enum FMOD_DSP_CONVOLUTION_REVERB
+alias FMOD_DSP_CONVOLUTION_REVERB = int;
+enum
 {
     FMOD_DSP_CONVOLUTION_REVERB_PARAM_IR,       /* (Type:data)  - [w]   16-bit reverb IR (short*) with an extra sample prepended to the start which specifies the number of channels. */
     FMOD_DSP_CONVOLUTION_REVERB_PARAM_WET,      /* (Type:float) - [r/w] Volume of echo signal to pass to output in dB.  -80.0 to 10.0.  Default = 0. */
     FMOD_DSP_CONVOLUTION_REVERB_PARAM_DRY       /* (Type:float) - [r/w] Original sound volume in dB.  -80.0 to 10.0.  Default = 0. */
 }
 
-enum FMOD_DSP_CHANNELMIX_OUTPUT
+alias FMOD_DSP_CHANNELMIX_OUTPUT = int;
+enum
 {
     FMOD_DSP_CHANNELMIX_OUTPUT_DEFAULT,      /*  Output channel count = input channel count.  Mapping: See FMOD_SPEAKER enumeration. */
     FMOD_DSP_CHANNELMIX_OUTPUT_ALLMONO,      /*  Output channel count = 1.  Mapping: Mono, Mono, Mono, Mono, Mono, Mono, ... (each channel all the way up to FMOD_MAX_CHANNEL_WIDTH channels are treated as if they were mono) */
@@ -361,7 +395,8 @@ enum FMOD_DSP_CHANNELMIX_OUTPUT
     FMOD_DSP_CHANNELMIX_OUTPUT_ALLLFE        /*  Output channel count = 6.  Mapping: Repeating pattern of LFE in a 5.1 output signal.  */
 }
 
-enum FMOD_DSP_CHANNELMIX
+alias FMOD_DSP_CHANNELMIX = int;
+enum
 {
     FMOD_DSP_CHANNELMIX_OUTPUTGROUPING,     /* (Type:int)   - Refer to FMOD_DSP_CHANNELMIX_OUTPUT enumeration.  Default = FMOD_DSP_CHANNELGAIN_OUTPUT_DEFAULT.  See remarks. */
     FMOD_DSP_CHANNELMIX_GAIN_CH0,           /* (Type:float) - Channel  #0 gain in dB.  -80.0 to 10.0.  Default = 0. */
@@ -398,7 +433,8 @@ enum FMOD_DSP_CHANNELMIX
     FMOD_DSP_CHANNELMIX_GAIN_CH31           /* (Type:float) - Channel #31 gain in dB.  -80.0 to 10.0.  Default = 0. */
 }
 
-enum FMOD_DSP_TRANSCEIVER_SPEAKERMODE
+alias FMOD_DSP_TRANSCEIVER_SPEAKERMODE = int;
+enum
 {
     FMOD_DSP_TRANSCEIVER_SPEAKERMODE_AUTO = -1,     /* A transmitter will use whatever signal channel count coming in to the transmitter, to determine which speaker mode is allocated for the transceiver channel. */
     FMOD_DSP_TRANSCEIVER_SPEAKERMODE_MONO = 0,      /* A transmitter will always downmix to a mono channel buffer. */
@@ -406,7 +442,8 @@ enum FMOD_DSP_TRANSCEIVER_SPEAKERMODE
     FMOD_DSP_TRANSCEIVER_SPEAKERMODE_SURROUND,      /* A transmitter will always upmix or downmix to a surround channel buffer.   Surround is the speaker mode of the system above stereo, so could be quad/surround/5.1/7.1. */
 }
 
-enum FMOD_DSP_TRANSCEIVER
+alias FMOD_DSP_TRANSCEIVER = int;
+enum
 {
     FMOD_DSP_TRANSCEIVER_TRANSMIT,            /* (Type:bool)  - [r/w] - FALSE = Transceiver is a 'receiver' (like a return) and accepts data from a channel.  TRUE = Transceiver is a 'transmitter' (like a send).  Default = FALSE. */
     FMOD_DSP_TRANSCEIVER_GAIN,                /* (Type:float) - [r/w] - Gain to receive or transmit at in dB.  -80.0 to 10.0.  Default = 0. */

@@ -26,7 +26,7 @@ void printDrivers()
         FMOD_SPEAKERMODE speakermode;
         int speakermodeChannels;
         auto res = FMOD_System_GetDriverInfo(fmod,i,name.ptr,name.length,&guid,&sampleRate,&speakermode,&speakermodeChannels);
-		assert(res == FMOD_RESULT.FMOD_OK);
+		assert(res == FMOD_OK);
 
         writefln("fmod driver [%s]: (%s,%s,%s,'%s')",i,sampleRate,speakermode,speakermodeChannels,to!string(name.ptr));
     }
@@ -42,10 +42,10 @@ void playSound()
     info.length = cast(uint)sound.length;
 
     auto res = FMOD_System_CreateSound(fmod, cast(char*)sound.ptr, FMOD_OPENMEMORY, &info, &snd);
-    assert(res == FMOD_RESULT.FMOD_OK);
+    assert(res == FMOD_OK);
 
     res = FMOD_System_PlaySound(fmod, snd, null, false, &channel);
-    assert(res == FMOD_RESULT.FMOD_OK);
+    assert(res == FMOD_OK);
 	assert(channel);
 
 	import core.thread:Thread;
@@ -57,7 +57,7 @@ void printVersion()
 {
     uint fmodversion;
     auto res = FMOD_System_GetVersion(fmod,&fmodversion);
-	assert(res == FMOD_RESULT.FMOD_OK);
+	assert(res == FMOD_OK);
     
     writefln("fmod version: %s (bindings: %s)",fmodversion, FMOD_VERSION);
 }
@@ -67,11 +67,11 @@ void main()
     DerelictFmod.load();
 
 	FMOD_Debug_Initialize(FMOD_DEBUG_LEVEL_LOG | FMOD_DEBUG_DISPLAY_TIMESTAMPS | FMOD_DEBUG_TYPE_TRACE, 
-						  FMOD_DEBUG_MODE.FMOD_DEBUG_MODE_FILE, null, "dbg.log");
+						  FMOD_DEBUG_MODE_FILE, null, "dbg.log");
 
     // create fmod system
     auto res = FMOD_System_Create(&fmod);
-    assert(res == FMOD_RESULT.FMOD_OK);
+    assert(res == FMOD_OK);
 
     printVersion();
 
@@ -79,7 +79,7 @@ void main()
 
     // init fmod system
     res = FMOD_System_Init(fmod, 32, FMOD_INIT_NORMAL, null);
-    assert(res == FMOD_RESULT.FMOD_OK);
+    assert(res == FMOD_OK);
 
     playSound();
 

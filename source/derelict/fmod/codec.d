@@ -35,6 +35,8 @@ import derelict.util.system;
 
 import derelict.fmod.common;
 
+align(1):
+
 alias FMOD_CODEC_OPEN_CALLBACK = FMOD_RESULT function(FMOD_CODEC_STATE *codec_state, FMOD_MODE usermode, FMOD_CREATESOUNDEXINFO *userexinfo);
 alias FMOD_CODEC_CLOSE_CALLBACK = FMOD_RESULT function(FMOD_CODEC_STATE *codec_state);
 alias FMOD_CODEC_READ_CALLBACK = FMOD_RESULT function(FMOD_CODEC_STATE *codec_state, void *buffer, uint samples_in, uint *samples_out);

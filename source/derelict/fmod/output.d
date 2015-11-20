@@ -33,6 +33,8 @@ module derelict.fmod.output;
 
 import derelict.fmod.common;
 
+align(1):
+
 alias FMOD_OUTPUT_GETNUMDRIVERS_CALLBACK = FMOD_RESULT  function(FMOD_OUTPUT_STATE *output_state, int *numdrivers);
 alias FMOD_OUTPUT_GETDRIVERINFO_CALLBACK = FMOD_RESULT  function(FMOD_OUTPUT_STATE *output, int id, char *name, int namelen, FMOD_GUID *guid, int *systemrate, FMOD_SPEAKERMODE *speakermode, int *speakermodechannels);
 alias FMOD_OUTPUT_INIT_CALLBACK = FMOD_RESULT           function(FMOD_OUTPUT_STATE *output_state, int selecteddriver, FMOD_INITFLAGS flags, int *outputrate, FMOD_SPEAKERMODE *speakermode, int *speakermodechannels, FMOD_SOUND_FORMAT *outputformat, int dspbufferlength, int dspnumbuffers, void *extradriverdata);
