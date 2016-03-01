@@ -38,7 +38,7 @@ import derelict.fmod.dsp;
 
 align(1):
 
-static immutable FMOD_VERSION    = 0x00010706;
+static immutable FMOD_VERSION    = 0x00010707;
 
 alias int                        FMOD_BOOL;
 struct FMOD_SYSTEM         {};
