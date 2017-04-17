@@ -38,7 +38,7 @@ import derelict.fmod.dsp;
 
 align(1):
 
-static immutable FMOD_VERSION    = 0x00010901;
+static immutable FMOD_VERSION    = 0x00010904;
 
 alias int                        FMOD_BOOL;
 struct FMOD_SYSTEM         {};
@@ -372,6 +372,7 @@ static immutable FMOD_INIT_GEOMETRY_USECLOSEST        = 0x00040000; /* With the 
 static immutable FMOD_INIT_PREFER_DOLBY_DOWNMIX       = 0x00080000; /* When using FMOD_SPEAKERMODE_5POINT1 with a stereo output device, use the Dolby Pro Logic II downmix algorithm instead of the SRS Circle Surround algorithm. */
 static immutable FMOD_INIT_THREAD_UNSAFE              = 0x00100000; /* Disables thread safety for API calls. Only use this if FMOD low level is being called from a single thread, and if Studio API is not being used! */
 static immutable FMOD_INIT_PROFILE_METER_ALL          = 0x00200000; /* Slower, but adds level metering for every single DSP unit in the graph.  Use DSP::setMeteringEnabled to turn meters off individually. */
+static immutable FMOD_INIT_DISABLE_SRS_HIGHPASSFILTER = 0x00400000; /* Using FMOD_SPEAKERMODE_5POINT1 with a stereo output device will enable the SRS Circle Surround downmixer. By default the SRS downmixer applies a high pass filter with a cutoff frequency of 80Hz. Use this flag to diable the high pass fitler, or use FMOD_INIT_PREFER_DOLBY_DOWNMIX to use the Dolby Pro Logic II downmix algorithm instead. */
 
 alias FMOD_SOUND_TYPE = int;
 enum
