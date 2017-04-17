@@ -192,6 +192,8 @@ static immutable FMOD_STUDIO_EVENT_CALLBACK_PLUGIN_CREATED           = 0x0000020
 static immutable FMOD_STUDIO_EVENT_CALLBACK_PLUGIN_DESTROYED         = 0x00000400;  /* Called when a DSP plugin instance is about to be destroyed. Parameters = FMOD_STUDIO_PLUGIN_INSTANCE_PROPERTIES. */
 static immutable FMOD_STUDIO_EVENT_CALLBACK_TIMELINE_MARKER          = 0x00000800;  /* Called when the timeline passes a named marker.  Parameters = FMOD_STUDIO_TIMELINE_MARKER_PROPERTIES. */
 static immutable FMOD_STUDIO_EVENT_CALLBACK_TIMELINE_BEAT            = 0x00001000;  /* Called when the timeline hits a beat in a tempo section.  Parameters = FMOD_STUDIO_TIMELINE_BEAT_PROPERTIES. */
+static immutable FMOD_STUDIO_EVENT_CALLBACK_SOUND_PLAYED             = 0x00002000;  /* Called when the event plays a sound.  Parameters = FMOD::Sound. */
+static immutable FMOD_STUDIO_EVENT_CALLBACK_SOUND_STOPPED            = 0x00004000;  /* Called when the event finishes playing a sound.  Parameters = FMOD::Sound. */
 static immutable FMOD_STUDIO_EVENT_CALLBACK_ALL                      = 0xFFFFFFFF;  /* Pass this mask to Studio::EventDescription::setCallback or Studio::EventInstance::setCallback to receive all callback types. */
 
 alias FMOD_STUDIO_EVENT_CALLBACK_TYPE = uint;
