@@ -136,6 +136,7 @@ class DerelictFmodStudioLoader : SharedLibLoader
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_GetMinimumDistance, "FMOD_Studio_EventDescription_GetMinimumDistance");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_GetMaximumDistance, "FMOD_Studio_EventDescription_GetMaximumDistance");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_GetSoundSize, "FMOD_Studio_EventDescription_GetSoundSize");
+            bindFunc(cast(void**)&FMOD_Studio_EventDescription_IsSnapshot, "FMOD_Studio_EventDescription_IsSnapshot");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_IsOneshot, "FMOD_Studio_EventDescription_IsOneshot");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_IsStream, "FMOD_Studio_EventDescription_IsStream");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_Is3D, "FMOD_Studio_EventDescription_Is3D");
@@ -162,6 +163,8 @@ class DerelictFmodStudioLoader : SharedLibLoader
             bindFunc(cast(void**)&FMOD_Studio_EventInstance_SetPitch, "FMOD_Studio_EventInstance_SetPitch");
             bindFunc(cast(void**)&FMOD_Studio_EventInstance_Get3DAttributes, "FMOD_Studio_EventInstance_Get3DAttributes");
             bindFunc(cast(void**)&FMOD_Studio_EventInstance_Set3DAttributes, "FMOD_Studio_EventInstance_Set3DAttributes");
+            bindFunc(cast(void**)&FMOD_Studio_EventInstance_GetListenerMask, "FMOD_Studio_EventInstance_GetListenerMask");
+            bindFunc(cast(void**)&FMOD_Studio_EventInstance_SetListenerMask, "FMOD_Studio_EventInstance_SetListenerMask");
             bindFunc(cast(void**)&FMOD_Studio_EventInstance_GetProperty, "FMOD_Studio_EventInstance_GetProperty");
             bindFunc(cast(void**)&FMOD_Studio_EventInstance_SetProperty, "FMOD_Studio_EventInstance_SetProperty");
             bindFunc(cast(void**)&FMOD_Studio_EventInstance_GetPaused, "FMOD_Studio_EventInstance_GetPaused");

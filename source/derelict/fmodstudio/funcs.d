@@ -110,6 +110,7 @@ extern(C) @nogc nothrow
     alias da_FMOD_Studio_EventDescription_GetMinimumDistance = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, float *distance);
     alias da_FMOD_Studio_EventDescription_GetMaximumDistance = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, float *distance);
     alias da_FMOD_Studio_EventDescription_GetSoundSize = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, float *size);
+    alias da_FMOD_Studio_EventDescription_IsSnapshot = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, FMOD_BOOL *snapshot);
     alias da_FMOD_Studio_EventDescription_IsOneshot = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, FMOD_BOOL *oneshot);
     alias da_FMOD_Studio_EventDescription_IsStream = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, FMOD_BOOL *isStream);
     alias da_FMOD_Studio_EventDescription_Is3D = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, FMOD_BOOL *is3D);
@@ -136,6 +137,8 @@ extern(C) @nogc nothrow
     alias da_FMOD_Studio_EventInstance_SetPitch = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, float pitch);
     alias da_FMOD_Studio_EventInstance_Get3DAttributes = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, FMOD_3D_ATTRIBUTES *attributes);
     alias da_FMOD_Studio_EventInstance_Set3DAttributes = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, FMOD_3D_ATTRIBUTES *attributes);
+    alias da_FMOD_Studio_EventInstance_GetListenerMask = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, uint *mask);
+    alias da_FMOD_Studio_EventInstance_SetListenerMask = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, uint mask);
     alias da_FMOD_Studio_EventInstance_GetProperty = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, FMOD_STUDIO_EVENT_PROPERTY index, float *value);
     alias da_FMOD_Studio_EventInstance_SetProperty = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, FMOD_STUDIO_EVENT_PROPERTY index, float value);
     alias da_FMOD_Studio_EventInstance_GetPaused = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, FMOD_BOOL *paused);
@@ -312,6 +315,7 @@ __gshared
     da_FMOD_Studio_EventDescription_GetMinimumDistance FMOD_Studio_EventDescription_GetMinimumDistance;
     da_FMOD_Studio_EventDescription_GetMaximumDistance FMOD_Studio_EventDescription_GetMaximumDistance;
     da_FMOD_Studio_EventDescription_GetSoundSize FMOD_Studio_EventDescription_GetSoundSize;
+    da_FMOD_Studio_EventDescription_IsSnapshot FMOD_Studio_EventDescription_IsSnapshot;
     da_FMOD_Studio_EventDescription_IsOneshot FMOD_Studio_EventDescription_IsOneshot;
     da_FMOD_Studio_EventDescription_IsStream FMOD_Studio_EventDescription_IsStream;
     da_FMOD_Studio_EventDescription_Is3D FMOD_Studio_EventDescription_Is3D;
@@ -338,6 +342,8 @@ __gshared
     da_FMOD_Studio_EventInstance_SetPitch FMOD_Studio_EventInstance_SetPitch;
     da_FMOD_Studio_EventInstance_Get3DAttributes FMOD_Studio_EventInstance_Get3DAttributes;
     da_FMOD_Studio_EventInstance_Set3DAttributes FMOD_Studio_EventInstance_Set3DAttributes;
+    da_FMOD_Studio_EventInstance_GetListenerMask FMOD_Studio_EventInstance_GetListenerMask;
+    da_FMOD_Studio_EventInstance_SetListenerMask FMOD_Studio_EventInstance_SetListenerMask;
     da_FMOD_Studio_EventInstance_GetProperty FMOD_Studio_EventInstance_GetProperty;
     da_FMOD_Studio_EventInstance_SetProperty FMOD_Studio_EventInstance_SetProperty;
     da_FMOD_Studio_EventInstance_GetPaused FMOD_Studio_EventInstance_GetPaused;

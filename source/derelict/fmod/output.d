@@ -35,7 +35,7 @@ import derelict.fmod.common;
 
 align(1):
 
-static immutable FMOD_OUTPUT_PLUGIN_VERSION = 1;
+static immutable FMOD_OUTPUT_PLUGIN_VERSION = 2;
 
 alias FMOD_OUTPUT_GETNUMDRIVERS_CALLBACK = FMOD_RESULT  function(FMOD_OUTPUT_STATE *output_state, int *numdrivers);
 alias FMOD_OUTPUT_GETDRIVERINFO_CALLBACK = FMOD_RESULT  function(FMOD_OUTPUT_STATE *output, int id, char *name, int namelen, FMOD_GUID *guid, int *systemrate, FMOD_SPEAKERMODE *speakermode, int *speakermodechannels);
@@ -55,7 +55,11 @@ alias FMOD_OUTPUT_OBJECT3DALLOC_CALLBACK = FMOD_RESULT      function(FMOD_OUTPUT
 alias FMOD_OUTPUT_OBJECT3DFREE_CALLBACK = FMOD_RESULT       function(FMOD_OUTPUT_STATE *output_state, void *object3d);
 alias FMOD_OUTPUT_OBJECT3DUPDATE_CALLBACK = FMOD_RESULT     function(FMOD_OUTPUT_STATE *output_state, void *object3d, const FMOD_OUTPUT_OBJECT3DINFO *info);
 
+alias FMOD_OUTPUT_OPENPORT_CALLBACK = FMOD_RESULT         function(FMOD_OUTPUT_STATE *output, FMOD_PORT_TYPE portType, FMOD_PORT_INDEX portIndex, int *portId, int *portRate, int *portChannels, FMOD_SOUND_FORMAT *portFormat);
+alias FMOD_OUTPUT_CLOSEPORT_CALLBACK = FMOD_RESULT        function(FMOD_OUTPUT_STATE *output, int portId);
+
 alias FMOD_OUTPUT_READFROMMIXER = FMOD_RESULT           function(FMOD_OUTPUT_STATE *output_state, void *buffer, uint length);  /* This one is called by plugin through FMOD_OUTPUT_STATE, not set by user as a callback. */
+alias FMOD_OUTPUT_COPYPORT = FMOD_RESULT                function(FMOD_OUTPUT_STATE *output, int portId, void *buffer, uint length);
 alias FMOD_OUTPUT_ALLOC = void*                         function(uint size, uint align_, const(char) *file, int line);
 alias FMOD_OUTPUT_FREE = void                           function(void *ptr, const(char) *file, int line);
 alias FMOD_OUTPUT_LOG = void                            function(FMOD_DEBUG_FLAGS level, const(char) *file, int line, const(char) *function_, const(char) *string, ...);
@@ -83,6 +87,8 @@ struct FMOD_OUTPUT_DESCRIPTION
     FMOD_OUTPUT_OBJECT3DALLOC_CALLBACK      object3dalloc;      /* [w] Reserve a hardware resources for a single 3D object. Called during a mix. */
     FMOD_OUTPUT_OBJECT3DFREE_CALLBACK       object3dfree;       /* [w] Release a hardware resource previously acquired with FMOD_OUTPUT_OBJECT3DALLOC_CALLBACK. Called during a mix. */
     FMOD_OUTPUT_OBJECT3DUPDATE_CALLBACK     object3dupdate;     /* [w] Called once for every acquired 3D object every mix to provide 3D information and buffered audio. Called during a mix. */
+    FMOD_OUTPUT_OPENPORT_CALLBACK           openport;           /* [w] Optional main thread callback to open an auxiliary output port on the device. */
+    FMOD_OUTPUT_CLOSEPORT_CALLBACK          closeport;          /* [w] Optional main thread callback to close an auxiliary output port on the device. */
 }
 
 struct FMOD_OUTPUT_STATE
@@ -92,6 +98,7 @@ struct FMOD_OUTPUT_STATE
     FMOD_OUTPUT_ALLOC           alloc;          /* [r] Function to allocate memory using the FMOD memory system. */
     FMOD_OUTPUT_FREE            free;           /* [r] Function to free memory allocated with FMOD_OUTPUT_ALLOC. */
     FMOD_OUTPUT_LOG             log;            /* [r] Function to write to the FMOD logging system. */
+    FMOD_OUTPUT_COPYPORT        copyport;       /* [r] Function to copy the output from the mixer for the given auxiliary port */
 }
 
 struct FMOD_OUTPUT_OBJECT3DINFO

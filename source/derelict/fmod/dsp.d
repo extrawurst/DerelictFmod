@@ -102,6 +102,7 @@ alias FMOD_DSP_PAN_SUM_MONO_TO_SURROUND_MATRIX = FMOD_RESULT   function(FMOD_DSP
 alias FMOD_DSP_PAN_SUM_STEREO_TO_SURROUND_MATRIX = FMOD_RESULT  function(FMOD_DSP_STATE *dsp_state, int targetSpeakerMode, float direction, float extent, float rotation, float lowFrequencyGain, float overallGain, int matrixHop, float *matrix);
 alias FMOD_DSP_PAN_3D_GET_ROLLOFF_GAIN = FMOD_RESULT           function(FMOD_DSP_STATE *dsp_state, FMOD_DSP_PAN_3D_ROLLOFF_TYPE rolloff, float distance, float mindistance, float maxdistance, float *gain);
 alias FMOD_DSP_STATE_GETCLOCK = FMOD_RESULT                    function(FMOD_DSP_STATE *dsp_state, ulong *clock, uint *offset, uint *length);
+alias FMOD_DSP_STATE_GETLISTENERATTRIBUTES = FMOD_RESULT function(FMOD_DSP_STATE *dsp_state, int *numlisteners, FMOD_3D_ATTRIBUTES *attributes);
 
 static immutable FMOD_DSP_GETPARAM_VALUESTR_LENGTH = 32;
 
@@ -226,7 +227,7 @@ struct FMOD_DSP_PARAMETER_FFT
     float[32]  *spectrum;                              /* [r] Per channel spectrum arrays.  See remarks for more. */
 }
 
-static immutable FMOD_PLUGIN_SDK_VERSION = 108;
+static immutable FMOD_PLUGIN_SDK_VERSION = 109;
 
 struct FMOD_DSP_DESCRIPTION
 {
@@ -287,6 +288,7 @@ struct FMOD_DSP_STATE_SYSTEMCALLBACKS
     FMOD_DSP_STATE_PAN_CALLBACKS           *pancallbacks;   /* [r] Pointer to a structure of callbacks for calculating pan, up-mix and down-mix matrices. */
     FMOD_DSP_SYSTEM_GETSPEAKERMODE          getspeakermode; /* [r] Callback for getting the system's speaker modes.  One is the mixer's default speaker mode, the other is the output mode the system is downmixing or upmixing to.*/
     FMOD_DSP_STATE_GETCLOCK                 getclock;       /* [r] Callback for getting the clock of the current DSP, as well as the subset of the input buffer that contains the signal */
+    FMOD_DSP_STATE_GETLISTENERATTRIBUTES    getlistenerattributes;  /* [r] Callback for getting the absolute listener attributes set via the API (returned as left-handed co-ordinates). */
 }
 
 struct FMOD_DSP_STATE
