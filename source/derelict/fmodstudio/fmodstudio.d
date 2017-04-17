@@ -106,6 +106,7 @@ class DerelictFmodStudioLoader : SharedLibLoader
             bindFunc(cast(void**)&FMOD_Studio_System_UnregisterPlugin, "FMOD_Studio_System_UnregisterPlugin");
             bindFunc(cast(void**)&FMOD_Studio_System_UnloadAll, "FMOD_Studio_System_UnloadAll");
             bindFunc(cast(void**)&FMOD_Studio_System_FlushCommands, "FMOD_Studio_System_FlushCommands");
+            bindFunc(cast(void**)&FMOD_Studio_System_FlushSampleLoading, "FMOD_Studio_System_FlushSampleLoading");
             bindFunc(cast(void**)&FMOD_Studio_System_StartCommandCapture, "FMOD_Studio_System_StartCommandCapture");
             bindFunc(cast(void**)&FMOD_Studio_System_StopCommandCapture, "FMOD_Studio_System_StopCommandCapture");
             bindFunc(cast(void**)&FMOD_Studio_System_LoadCommandReplay, "FMOD_Studio_System_LoadCommandReplay");
@@ -127,6 +128,7 @@ class DerelictFmodStudioLoader : SharedLibLoader
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_GetParameterCount, "FMOD_Studio_EventDescription_GetParameterCount");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_GetParameterByIndex, "FMOD_Studio_EventDescription_GetParameterByIndex");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_GetParameter, "FMOD_Studio_EventDescription_GetParameter");
+            bindFunc(cast(void**)&FMOD_Studio_EventInstance_GetParameterValue, "FMOD_Studio_EventInstance_GetParameterValue");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_GetUserPropertyCount, "FMOD_Studio_EventDescription_GetUserPropertyCount");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_GetUserPropertyByIndex, "FMOD_Studio_EventDescription_GetUserPropertyByIndex");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_GetUserProperty, "FMOD_Studio_EventDescription_GetUserProperty");
@@ -137,6 +139,7 @@ class DerelictFmodStudioLoader : SharedLibLoader
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_IsOneshot, "FMOD_Studio_EventDescription_IsOneshot");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_IsStream, "FMOD_Studio_EventDescription_IsStream");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_Is3D, "FMOD_Studio_EventDescription_Is3D");
+            bindFunc(cast(void**)&FMOD_Studio_EventDescription_HasCue, "FMOD_Studio_EventDescription_HasCue");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_CreateInstance, "FMOD_Studio_EventDescription_CreateInstance");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_GetInstanceCount, "FMOD_Studio_EventDescription_GetInstanceCount");
             bindFunc(cast(void**)&FMOD_Studio_EventDescription_GetInstanceList, "FMOD_Studio_EventDescription_GetInstanceList");
@@ -175,19 +178,12 @@ class DerelictFmodStudioLoader : SharedLibLoader
             bindFunc(cast(void**)&FMOD_Studio_EventInstance_GetParameterByIndex, "FMOD_Studio_EventInstance_GetParameterByIndex");
             bindFunc(cast(void**)&FMOD_Studio_EventInstance_GetParameterCount, "FMOD_Studio_EventInstance_GetParameterCount");
             bindFunc(cast(void**)&FMOD_Studio_EventInstance_SetParameterValue, "FMOD_Studio_EventInstance_SetParameterValue");
+            bindFunc(cast(void**)&FMOD_Studio_EventInstance_GetParameterValueByIndex, "FMOD_Studio_EventInstance_GetParameterValueByIndex");
             bindFunc(cast(void**)&FMOD_Studio_EventInstance_SetParameterValueByIndex, "FMOD_Studio_EventInstance_SetParameterValueByIndex");
-            bindFunc(cast(void**)&FMOD_Studio_EventInstance_GetCue, "FMOD_Studio_EventInstance_GetCue");
-            bindFunc(cast(void**)&FMOD_Studio_EventInstance_GetCueByIndex, "FMOD_Studio_EventInstance_GetCueByIndex");
-            bindFunc(cast(void**)&FMOD_Studio_EventInstance_GetCueCount, "FMOD_Studio_EventInstance_GetCueCount");
+            bindFunc(cast(void**)&FMOD_Studio_EventInstance_TriggerCue, "FMOD_Studio_EventInstance_TriggerCue");
             bindFunc(cast(void**)&FMOD_Studio_EventInstance_SetCallback, "FMOD_Studio_EventInstance_SetCallback");
             bindFunc(cast(void**)&FMOD_Studio_EventInstance_GetUserData, "FMOD_Studio_EventInstance_GetUserData");
             bindFunc(cast(void**)&FMOD_Studio_EventInstance_SetUserData, "FMOD_Studio_EventInstance_SetUserData");
-
-            /*
-            CueInstance
-            */
-            bindFunc(cast(void**)&FMOD_Studio_CueInstance_IsValid, "FMOD_Studio_CueInstance_IsValid");
-            bindFunc(cast(void**)&FMOD_Studio_CueInstance_Trigger, "FMOD_Studio_CueInstance_Trigger");
 
             /*
             ParameterInstance

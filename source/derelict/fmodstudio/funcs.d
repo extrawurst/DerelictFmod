@@ -81,6 +81,7 @@ extern(C) @nogc nothrow
     alias da_FMOD_Studio_System_UnregisterPlugin = FMOD_RESULT function(FMOD_STUDIO_SYSTEM *system, const char *name);
     alias da_FMOD_Studio_System_UnloadAll = FMOD_RESULT function(FMOD_STUDIO_SYSTEM *system);
     alias da_FMOD_Studio_System_FlushCommands = FMOD_RESULT function(FMOD_STUDIO_SYSTEM *system);
+    alias da_FMOD_Studio_System_FlushSampleLoading = FMOD_RESULT function(FMOD_STUDIO_SYSTEM *system);
     alias da_FMOD_Studio_System_StartCommandCapture = FMOD_RESULT function(FMOD_STUDIO_SYSTEM *system, const char *filename, FMOD_STUDIO_COMMANDCAPTURE_FLAGS flags);
     alias da_FMOD_Studio_System_StopCommandCapture = FMOD_RESULT function(FMOD_STUDIO_SYSTEM *system);
     alias da_FMOD_Studio_System_LoadCommandReplay = FMOD_RESULT function(FMOD_STUDIO_SYSTEM *system, const char *filename, FMOD_STUDIO_COMMANDREPLAY_FLAGS flags, FMOD_STUDIO_COMMANDREPLAY **replay);
@@ -111,7 +112,8 @@ extern(C) @nogc nothrow
     alias da_FMOD_Studio_EventDescription_GetSoundSize = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, float *size);
     alias da_FMOD_Studio_EventDescription_IsOneshot = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, FMOD_BOOL *oneshot);
     alias da_FMOD_Studio_EventDescription_IsStream = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, FMOD_BOOL *isStream);
-    alias da_FMOD_Studio_EventDescription_Is3D = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, FMOD_BOOL *is3D);        
+    alias da_FMOD_Studio_EventDescription_Is3D = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, FMOD_BOOL *is3D);
+    alias da_FMOD_Studio_EventDescription_HasCue = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, FMOD_BOOL *cue);
     alias da_FMOD_Studio_EventDescription_CreateInstance = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, FMOD_STUDIO_EVENTINSTANCE **instance);
     alias da_FMOD_Studio_EventDescription_GetInstanceCount = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, int *count);
     alias da_FMOD_Studio_EventDescription_GetInstanceList = FMOD_RESULT function(FMOD_STUDIO_EVENTDESCRIPTION *eventdescription, FMOD_STUDIO_EVENTINSTANCE **array, int capacity, int *count);
@@ -149,20 +151,14 @@ extern(C) @nogc nothrow
     alias da_FMOD_Studio_EventInstance_GetParameter = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, const char *name, FMOD_STUDIO_PARAMETERINSTANCE **parameter);
     alias da_FMOD_Studio_EventInstance_GetParameterByIndex = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, int index, FMOD_STUDIO_PARAMETERINSTANCE **parameter);
     alias da_FMOD_Studio_EventInstance_GetParameterCount = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, int *count);
+    alias da_FMOD_Studio_EventInstance_GetParameterValue = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, const(char) *name, float *value);
     alias da_FMOD_Studio_EventInstance_SetParameterValue = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, const char *name, float value);
+    alias da_FMOD_Studio_EventInstance_GetParameterValueByIndex = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, int index, float *value);
     alias da_FMOD_Studio_EventInstance_SetParameterValueByIndex = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, int index, float value);
-    alias da_FMOD_Studio_EventInstance_GetCue = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, const char *name, FMOD_STUDIO_CUEINSTANCE **cue);
-    alias da_FMOD_Studio_EventInstance_GetCueByIndex = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, int index, FMOD_STUDIO_CUEINSTANCE **cue);
-    alias da_FMOD_Studio_EventInstance_GetCueCount = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, int *count);
+    alias da_FMOD_Studio_EventInstance_TriggerCue = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance);
     alias da_FMOD_Studio_EventInstance_SetCallback = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, FMOD_STUDIO_EVENT_CALLBACK callback, FMOD_STUDIO_EVENT_CALLBACK_TYPE callbackmask);
     alias da_FMOD_Studio_EventInstance_GetUserData = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, void **userData);
     alias da_FMOD_Studio_EventInstance_SetUserData = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, void *userData);
-    
-    /*
-    CueInstance
-*/
-    alias da_FMOD_Studio_CueInstance_IsValid = FMOD_BOOL function(FMOD_STUDIO_CUEINSTANCE *cueinstance);
-    alias da_FMOD_Studio_CueInstance_Trigger = FMOD_RESULT function(FMOD_STUDIO_CUEINSTANCE *cueinstance);
     
     /*
     ParameterInstance
@@ -286,6 +282,7 @@ __gshared
     da_FMOD_Studio_System_UnregisterPlugin FMOD_Studio_System_UnregisterPlugin;
     da_FMOD_Studio_System_UnloadAll FMOD_Studio_System_UnloadAll;
     da_FMOD_Studio_System_FlushCommands FMOD_Studio_System_FlushCommands;
+    da_FMOD_Studio_System_FlushSampleLoading FMOD_Studio_System_FlushSampleLoading;
     da_FMOD_Studio_System_StartCommandCapture FMOD_Studio_System_StartCommandCapture;
     da_FMOD_Studio_System_StopCommandCapture FMOD_Studio_System_StopCommandCapture;
     da_FMOD_Studio_System_LoadCommandReplay FMOD_Studio_System_LoadCommandReplay;
@@ -307,6 +304,7 @@ __gshared
     da_FMOD_Studio_EventDescription_GetParameterCount FMOD_Studio_EventDescription_GetParameterCount;
     da_FMOD_Studio_EventDescription_GetParameterByIndex FMOD_Studio_EventDescription_GetParameterByIndex;
     da_FMOD_Studio_EventDescription_GetParameter FMOD_Studio_EventDescription_GetParameter;
+    da_FMOD_Studio_EventInstance_GetParameterValue FMOD_Studio_EventInstance_GetParameterValue;
     da_FMOD_Studio_EventDescription_GetUserPropertyCount FMOD_Studio_EventDescription_GetUserPropertyCount;
     da_FMOD_Studio_EventDescription_GetUserPropertyByIndex FMOD_Studio_EventDescription_GetUserPropertyByIndex;
     da_FMOD_Studio_EventDescription_GetUserProperty FMOD_Studio_EventDescription_GetUserProperty;
@@ -317,6 +315,7 @@ __gshared
     da_FMOD_Studio_EventDescription_IsOneshot FMOD_Studio_EventDescription_IsOneshot;
     da_FMOD_Studio_EventDescription_IsStream FMOD_Studio_EventDescription_IsStream;
     da_FMOD_Studio_EventDescription_Is3D FMOD_Studio_EventDescription_Is3D;
+    da_FMOD_Studio_EventDescription_HasCue FMOD_Studio_EventDescription_HasCue;
     da_FMOD_Studio_EventDescription_CreateInstance FMOD_Studio_EventDescription_CreateInstance;
     da_FMOD_Studio_EventDescription_GetInstanceCount FMOD_Studio_EventDescription_GetInstanceCount;
     da_FMOD_Studio_EventDescription_GetInstanceList FMOD_Studio_EventDescription_GetInstanceList;
@@ -355,19 +354,12 @@ __gshared
     da_FMOD_Studio_EventInstance_GetParameterByIndex FMOD_Studio_EventInstance_GetParameterByIndex;
     da_FMOD_Studio_EventInstance_GetParameterCount FMOD_Studio_EventInstance_GetParameterCount;
     da_FMOD_Studio_EventInstance_SetParameterValue FMOD_Studio_EventInstance_SetParameterValue;
+    da_FMOD_Studio_EventInstance_GetParameterValueByIndex FMOD_Studio_EventInstance_GetParameterValueByIndex;
     da_FMOD_Studio_EventInstance_SetParameterValueByIndex FMOD_Studio_EventInstance_SetParameterValueByIndex;
-    da_FMOD_Studio_EventInstance_GetCue FMOD_Studio_EventInstance_GetCue;
-    da_FMOD_Studio_EventInstance_GetCueByIndex FMOD_Studio_EventInstance_GetCueByIndex;
-    da_FMOD_Studio_EventInstance_GetCueCount FMOD_Studio_EventInstance_GetCueCount;
+    da_FMOD_Studio_EventInstance_TriggerCue FMOD_Studio_EventInstance_TriggerCue;
     da_FMOD_Studio_EventInstance_SetCallback FMOD_Studio_EventInstance_SetCallback;
     da_FMOD_Studio_EventInstance_GetUserData FMOD_Studio_EventInstance_GetUserData;
     da_FMOD_Studio_EventInstance_SetUserData FMOD_Studio_EventInstance_SetUserData;
-    
-    /*
-    CueInstance
-*/
-    da_FMOD_Studio_CueInstance_IsValid FMOD_Studio_CueInstance_IsValid;
-    da_FMOD_Studio_CueInstance_Trigger FMOD_Studio_CueInstance_Trigger;
     
     /*
     ParameterInstance

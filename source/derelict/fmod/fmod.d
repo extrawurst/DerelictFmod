@@ -89,6 +89,8 @@ class DerelictFmodLoader : SharedLibLoader
             bindFunc(cast(void**)&FMOD_System_SetPluginPath, "FMOD_System_SetPluginPath");
             bindFunc(cast(void**)&FMOD_System_LoadPlugin, "FMOD_System_LoadPlugin");
             bindFunc(cast(void**)&FMOD_System_UnloadPlugin, "FMOD_System_UnloadPlugin");
+            bindFunc(cast(void**)&FMOD_System_GetNumNestedPlugins, "FMOD_System_GetNumNestedPlugins");
+            bindFunc(cast(void**)&FMOD_System_GetNestedPlugin, "FMOD_System_GetNestedPlugin");
             bindFunc(cast(void**)&FMOD_System_GetNumPlugins, "FMOD_System_GetNumPlugins");
             bindFunc(cast(void**)&FMOD_System_GetPluginHandle, "FMOD_System_GetPluginHandle");
             bindFunc(cast(void**)&FMOD_System_GetPluginInfo, "FMOD_System_GetPluginInfo");
@@ -120,8 +122,8 @@ class DerelictFmodLoader : SharedLibLoader
             bindFunc(cast(void**)&FMOD_System_GetVersion, "FMOD_System_GetVersion");
             bindFunc(cast(void**)&FMOD_System_GetOutputHandle, "FMOD_System_GetOutputHandle");
             bindFunc(cast(void**)&FMOD_System_GetChannelsPlaying, "FMOD_System_GetChannelsPlaying");
-            bindFunc(cast(void**)&FMOD_System_GetChannelsReal, "FMOD_System_GetChannelsReal");
             bindFunc(cast(void**)&FMOD_System_GetCPUUsage, "FMOD_System_GetCPUUsage");
+            bindFunc(cast(void**)&FMOD_System_GetFileUsage, "FMOD_System_GetFileUsage");
             bindFunc(cast(void**)&FMOD_System_GetSoundRAM, "FMOD_System_GetSoundRAM");
             bindFunc(cast(void**)&FMOD_System_CreateSound, "FMOD_System_CreateSound");
             bindFunc(cast(void**)&FMOD_System_CreateStream, "FMOD_System_CreateStream");

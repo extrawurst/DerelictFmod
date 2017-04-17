@@ -69,7 +69,8 @@ enum
     FMOD_DSP_TYPE_CONVOLUTIONREVERB,  /* This unit implements convolution reverb. */
     FMOD_DSP_TYPE_CHANNELMIX,         /* This unit provides per signal channel gain, and output channel mapping to allow 1 multichannel signal made up of many groups of signals to map to a single output signal. */
     FMOD_DSP_TYPE_TRANSCEIVER,        /* This unit 'sends' and 'receives' from a selection of up to 32 different slots.  It is like a send/return but it uses global slots rather than returns as the destination.  It also has other features.  Multiple transceivers can receive from a single channel, or multiple transceivers can send to a single channel, or a combination of both. */
-    
+    FMOD_DSP_TYPE_OBJECTPAN,          /* This unit sends the signal to a 3d object encoder like Dolby Atmos.   Supports a subset of the FMOD_DSP_TYPE_PAN parameters. */
+
     FMOD_DSP_TYPE_MAX,                /* Maximum number of pre-defined DSP types. */
     FMOD_DSP_TYPE_FORCEINT = 65536    /* Makes sure this enum is signed 32bit. */
 }
@@ -449,4 +450,18 @@ enum
     FMOD_DSP_TRANSCEIVER_GAIN,                /* (Type:float) - [r/w] - Gain to receive or transmit at in dB.  -80.0 to 10.0.  Default = 0. */
     FMOD_DSP_TRANSCEIVER_CHANNEL,             /* (Type:int)   - [r/w] - Integer to select current global slot, shared by all Transceivers, that can be transmitted to or received from.  0 to 31.  Default = 0.*/
     FMOD_DSP_TRANSCEIVER_TRANSMITSPEAKERMODE  /* (Type:int)   - [r/w] - Speaker mode (transmitter mode only).  Specifies either 0 (Auto) Default = 0.*/
+}
+
+alias FMOD_DSP_OBJECTPAN = int;
+enum
+{
+    FMOD_DSP_OBJECTPAN_3D_POSITION,                   /* (Type:data)  - 3D Position.               data of type FMOD_DSP_PARAMETER_3DATTRIBUTES_MULTI */
+    FMOD_DSP_OBJECTPAN_3D_ROLLOFF,                    /* (Type:int)   - 3D Rolloff.                FMOD_DSP_PAN_3D_ROLLOFF_LINEARSQUARED to FMOD_DSP_PAN_3D_ROLLOFF_CUSTOM.  Default = FMOD_DSP_PAN_3D_ROLLOFF_LINEARSQUARED. */
+    FMOD_DSP_OBJECTPAN_3D_MIN_DISTANCE,               /* (Type:float) - 3D Min Distance.           0.0 to 1e+19f.  Default = 1.0. */
+    FMOD_DSP_OBJECTPAN_3D_MAX_DISTANCE,               /* (Type:float) - 3D Max Distance.           0.0 to 1e+19f.  Default = 20.0. */
+    FMOD_DSP_OBJECTPAN_3D_EXTENT_MODE,                /* (Type:int)   - 3D Extent Mode.            FMOD_DSP_PAN_3D_EXTENT_MODE_AUTO to FMOD_DSP_PAN_3D_EXTENT_MODE_OFF.  Default = FMOD_DSP_PAN_3D_EXTENT_MODE_AUTO. */
+    FMOD_DSP_OBJECTPAN_3D_SOUND_SIZE,                 /* (Type:float) - 3D Sound Size.             0.0 to 1e+19f.  Default = 0.0. */
+    FMOD_DSP_OBJECTPAN_3D_MIN_EXTENT,                 /* (Type:float) - 3D Min Extent.             0.0 (degrees) to 360.0 (degrees).  Default = 0.0. */
+    FMOD_DSP_OBJECTPAN_OVERALL_GAIN,                  /* (Type:data)  - Overall gain.              For information only, not set by user.  Data of type FMOD_DSP_PARAMETER_DATA_TYPE_OVERALLGAIN to provide to FMOD, to allow FMOD to know the DSP is scaling the signal for virtualization purposes. */
+    FMOD_DSP_OBJECTPAN_OUTPUTGAIN                     /* (Type:float) - Output gain level.         0.0 to 1.0 linear scale.  For the user to scale the output of the object panner's signal. */
 }

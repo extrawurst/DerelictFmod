@@ -38,7 +38,7 @@ import derelict.fmod.dsp;
 
 align(1):
 
-static immutable FMOD_VERSION    = 0x00010707;
+static immutable FMOD_VERSION    = 0x00010800;
 
 alias int                        FMOD_BOOL;
 struct FMOD_SYSTEM         {};
@@ -225,12 +225,14 @@ enum
     FMOD_OUTPUTTYPE_PULSEAUDIO,      /* Linux                - Pulse Audio.                         (Default on Linux if available) */
     FMOD_OUTPUTTYPE_ALSA,            /* Linux                - Advanced Linux Sound Architecture.   (Default on Linux if PulseAudio isn't available) */
     FMOD_OUTPUTTYPE_COREAUDIO,       /* Mac/iOS              - Core Audio.                          (Default on Mac and iOS) */
-    FMOD_OUTPUTTYPE_XBOX360,         /* Xbox 360             - XAudio.                              (Default on Xbox 360) */
+    FMOD_OUTPUTTYPE_XAUDIO,          /* Xbox 360             - XAudio.                              (Default on Xbox 360) */
     FMOD_OUTPUTTYPE_PS3,             /* PS3                  - Audio Out.                           (Default on PS3) */
     FMOD_OUTPUTTYPE_AUDIOTRACK,      /* Android              - Java Audio Track.                    (Default on Android 2.2 and below) */
     FMOD_OUTPUTTYPE_OPENSL,          /* Android              - OpenSL ES.                           (Default on Android 2.3 and above) */
     FMOD_OUTPUTTYPE_WIIU,            /* Wii U                - AX.                                  (Default on Wii U) */
     FMOD_OUTPUTTYPE_AUDIOOUT,        /* PS4/PSVita           - Audio Out.                           (Default on PS4 and PS Vita) */
+    FMOD_OUTPUTTYPE_AUDIO3D,         /* PS4                  - Audio3D. */
+    FMOD_OUTPUTTYPE_ATMOS,           /* Win                  - Dolby Atmos (WASAPI). */
     
     FMOD_OUTPUTTYPE_MAX,             /* Maximum number of output types supported. */
     FMOD_OUTPUTTYPE_FORCEINT = 65536 /* Makes sure this enum is signed 32bit. */
@@ -348,6 +350,12 @@ enum
     
     FMOD_PLUGINTYPE_MAX,             /* Maximum number of plugin types supported. */
     FMOD_PLUGINTYPE_FORCEINT = 65536 /* Makes sure this enum is signed 32bit. */
+}
+
+struct FMOD_PLUGINLIST
+{
+    FMOD_PLUGINTYPE   type;         /* The plugin type */
+    void*             description;  /* One of FMOD_DSP_DESCRIPTION, FMOD_OUTPUT_DESCRIPTION, FMOD_CODEC_DESCRIPTION */
 }
 
 static immutable FMOD_INIT_NORMAL                     = 0x00000000; /* Initialize normally */
@@ -509,7 +517,6 @@ enum
     FMOD_ERRORCALLBACK_INSTANCETYPE_STUDIO_EVENTDESCRIPTION,
     FMOD_ERRORCALLBACK_INSTANCETYPE_STUDIO_EVENTINSTANCE,
     FMOD_ERRORCALLBACK_INSTANCETYPE_STUDIO_PARAMETERINSTANCE,
-    FMOD_ERRORCALLBACK_INSTANCETYPE_STUDIO_CUEINSTANCE,
     FMOD_ERRORCALLBACK_INSTANCETYPE_STUDIO_BUS,
     FMOD_ERRORCALLBACK_INSTANCETYPE_STUDIO_VCA,
     FMOD_ERRORCALLBACK_INSTANCETYPE_STUDIO_BANK,
@@ -643,41 +650,43 @@ static immutable FMOD_PORT_INDEX_NONE            = -1UL;
 
 struct FMOD_CREATESOUNDEXINFO
 {
-    int                            cbsize;             /* [w] Size of this structure.  This is used so the structure can be expanded in the future and still work on older versions of FMOD Studio. */
-    uint                   length;             /* [w] Optional. Specify 0 to ignore. Number of bytes to load starting at 'fileoffset', or size of sound to create (if FMOD_OPENUSER is used).  Required if loading from memory.  If 0 is specified, then it will use the size of the file (unless loading from memory then an error will be returned). */
-    uint                   fileoffset;         /* [w] Optional. Specify 0 to ignore. Offset from start of the file to start loading from.  This is useful for loading files from inside big data files. */
-    int                            numchannels;        /* [w] Optional. Specify 0 to ignore. Number of channels in a sound mandatory if FMOD_OPENUSER or FMOD_OPENRAW is used.  Can be specified up to FMOD_MAX_CHANNEL_WIDTH. */
-    int                            defaultfrequency;   /* [w] Optional. Specify 0 to ignore. Default frequency of sound in Hz, mandatory if FMOD_OPENUSER or FMOD_OPENRAW is used.  Other formats use the frequency determined by the file format. */
-    FMOD_SOUND_FORMAT              format;             /* [w] Optional. Specify 0 or FMOD_SOUND_FORMAT_NONE to ignore. Format of the sound, mandatory if FMOD_OPENUSER or FMOD_OPENRAW is used.  Other formats use the format determined by the file format.   */
-    uint                   decodebuffersize;   /* [w] Optional. Specify 0 to ignore. For streams.  This determines the size of the double buffer (in PCM samples) that a stream uses.  Use this for user created streams if you want to determine the size of the callback buffer passed to you.  Specify 0 to use FMOD's default size which is currently equivalent to 400ms of the sound format created/loaded. */
-    int                            initialsubsound;    /* [w] Optional. Specify 0 to ignore. In a multi-sample file format such as .FSB/.DLS, specify the initial subsound to seek to, only if FMOD_CREATESTREAM is used. */
-    int                            numsubsounds;       /* [w] Optional. Specify 0 to ignore or have no subsounds.  In a sound created with FMOD_OPENUSER, specify the number of subsounds that are accessable with Sound::getSubSound.  If not created with FMOD_OPENUSER, this will limit the number of subsounds loaded within a multi-subsound file.  If using FSB, then if FMOD_CREATESOUNDEXINFO::inclusionlist is used, this will shuffle subsounds down so that there are not any gaps.  It will mean that the indices of the sounds will be different. */
-    int                           *inclusionlist;      /* [w] Optional. Specify 0 to ignore. In a multi-sample format such as .FSB/.DLS it may be desirable to specify only a subset of sounds to be loaded out of the whole file.  This is an array of subsound indices to load into memory when created. */
-    int                            inclusionlistnum;   /* [w] Optional. Specify 0 to ignore. This is the number of integers contained within the inclusionlist array. */
-    FMOD_SOUND_PCMREAD_CALLBACK    pcmreadcallback;    /* [w] Optional. Specify 0 to ignore. Callback to 'piggyback' on FMOD's read functions and accept or even write PCM data while FMOD is opening the sound.  Used for user sounds created with FMOD_OPENUSER or for capturing decoded data as FMOD reads it. */
-    FMOD_SOUND_PCMSETPOS_CALLBACK  pcmsetposcallback;  /* [w] Optional. Specify 0 to ignore. Callback for when the user calls a seeking function such as Channel::setTime or Channel::setPosition within a multi-sample sound, and for when it is opened.*/
-    FMOD_SOUND_NONBLOCK_CALLBACK   nonblockcallback;   /* [w] Optional. Specify 0 to ignore. Callback for successful completion, or error while loading a sound that used the FMOD_NONBLOCKING flag.  Also called duing seeking, when setPosition is called or a stream is restarted. */
-    const char                    *dlsname;            /* [w] Optional. Specify 0 to ignore. Filename for a DLS sample set when loading a MIDI file. If not specified, on Windows it will attempt to open /windows/system32/drivers/gm.dls or /windows/system32/drivers/etc/gm.dls, on Mac it will attempt to load /System/Library/Components/CoreAudio.component/Contents/Resources/gs_instruments.dls, otherwise the MIDI will fail to open. Current DLS support is for level 1 of the specification. */
-    const char                    *encryptionkey;      /* [w] Optional. Specify 0 to ignore. Key for encrypted FSB file.  Without this key an encrypted FSB file will not load. */
-    int                            maxpolyphony;       /* [w] Optional. Specify 0 to ignore. For sequenced formats with dynamic channel allocation such as .MID and .IT, this specifies the maximum voice count allowed while playing.  .IT defaults to 64.  .MID defaults to 32. */
-    void                          *userdata;           /* [w] Optional. Specify 0 to ignore. This is user data to be attached to the sound during creation.  Access via Sound::getUserData.  Note: This is not passed to FMOD_FILE_OPEN_CALLBACK - use fileuserdata for that. */
-    FMOD_SOUND_TYPE                suggestedsoundtype; /* [w] Optional. Specify 0 or FMOD_SOUND_TYPE_UNKNOWN to ignore.  Instead of scanning all codec types, use this to speed up loading by making it jump straight to this codec. */
-    FMOD_FILE_OPEN_CALLBACK        fileuseropen;       /* [w] Optional. Specify 0 to ignore. Callback for opening this file. */
-    FMOD_FILE_CLOSE_CALLBACK       fileuserclose;      /* [w] Optional. Specify 0 to ignore. Callback for closing this file. */
-    FMOD_FILE_READ_CALLBACK        fileuserread;       /* [w] Optional. Specify 0 to ignore. Callback for reading from this file. */
-    FMOD_FILE_SEEK_CALLBACK        fileuserseek;       /* [w] Optional. Specify 0 to ignore. Callback for seeking within this file. */
-    FMOD_FILE_ASYNCREAD_CALLBACK   fileuserasyncread;  /* [w] Optional. Specify 0 to ignore. Callback for seeking within this file. */
-    FMOD_FILE_ASYNCCANCEL_CALLBACK fileuserasynccancel;/* [w] Optional. Specify 0 to ignore. Callback for seeking within this file. */
-    void                          *fileuserdata;       /* [w] Optional. Specify 0 to ignore. User data to be passed into the file callbacks. */
-    FMOD_CHANNELORDER              channelorder;       /* [w] Optional. Specify 0 to ignore. Use this to differ the way fmod maps multichannel sounds to speakers.  See FMOD_CHANNELORDER for more. */
-    FMOD_CHANNELMASK               channelmask;        /* [w] Optional. Specify 0 to ignore. Use this to specify which channels map to which speakers.  See FMOD_CHANNELMASK for more. */
-    FMOD_SOUNDGROUP               *initialsoundgroup;  /* [w] Optional. Specify 0 to ignore. Specify a sound group if required, to put sound in as it is created. */
-    uint                   initialseekposition;/* [w] Optional. Specify 0 to ignore. For streams. Specify an initial position to seek the stream to. */
-    FMOD_TIMEUNIT                  initialseekpostype; /* [w] Optional. Specify 0 to ignore. For streams. Specify the time unit for the position set in initialseekposition. */
-    int                            ignoresetfilesystem;/* [w] Optional. Specify 0 to ignore. Set to 1 to use fmod's built in file system. Ignores setFileSystem callbacks and also FMOD_CREATESOUNEXINFO file callbacks.  Useful for specific cases where you don't want to use your own file system but want to use fmod's file system (ie net streaming). */
-    uint                   audioqueuepolicy;   /* [w] Optional. Specify 0 or FMOD_AUDIOQUEUE_CODECPOLICY_DEFAULT to ignore. Policy used to determine whether hardware or software is used for decoding, see FMOD_AUDIOQUEUE_CODECPOLICY for options (iOS >= 3.0 required, otherwise only hardware is available) */ 
-    uint                   minmidigranularity; /* [w] Optional. Specify 0 to ignore. Allows you to set a minimum desired MIDI mixer granularity. Values smaller than 512 give greater than default accuracy at the cost of more CPU and vice versa. Specify 0 for default (512 samples). */
-    int                            nonblockthreadid;   /* [w] Optional. Specify 0 to ignore. Specifies a thread index to execute non blocking load on.  Allows for up to 5 threads to be used for loading at once.  This is to avoid one load blocking another.  Maximum value = 4. */
+    int                            cbsize;             /* [w]   Size of this structure.  This is used so the structure can be expanded in the future and still work on older versions of FMOD Studio. */
+    uint                   length;             /* [w]   Optional. Specify 0 to ignore. Number of bytes to load starting at 'fileoffset', or size of sound to create (if FMOD_OPENUSER is used).  Required if loading from memory.  If 0 is specified, then it will use the size of the file (unless loading from memory then an error will be returned). */
+    uint                   fileoffset;         /* [w]   Optional. Specify 0 to ignore. Offset from start of the file to start loading from.  This is useful for loading files from inside big data files. */
+    int                            numchannels;        /* [w]   Optional. Specify 0 to ignore. Number of channels in a sound mandatory if FMOD_OPENUSER or FMOD_OPENRAW is used.  Can be specified up to FMOD_MAX_CHANNEL_WIDTH. */
+    int                            defaultfrequency;   /* [w]   Optional. Specify 0 to ignore. Default frequency of sound in Hz, mandatory if FMOD_OPENUSER or FMOD_OPENRAW is used.  Other formats use the frequency determined by the file format. */
+    FMOD_SOUND_FORMAT              format;             /* [w]   Optional. Specify 0 or FMOD_SOUND_FORMAT_NONE to ignore. Format of the sound, mandatory if FMOD_OPENUSER or FMOD_OPENRAW is used.  Other formats use the format determined by the file format.   */
+    uint                   decodebuffersize;   /* [w]   Optional. Specify 0 to ignore. For streams.  This determines the size of the double buffer (in PCM samples) that a stream uses.  Use this for user created streams if you want to determine the size of the callback buffer passed to you.  Specify 0 to use FMOD's default size which is currently equivalent to 400ms of the sound format created/loaded. */
+    int                            initialsubsound;    /* [w]   Optional. Specify 0 to ignore. In a multi-sample file format such as .FSB/.DLS, specify the initial subsound to seek to, only if FMOD_CREATESTREAM is used. */
+    int                            numsubsounds;       /* [w]   Optional. Specify 0 to ignore or have no subsounds.  In a sound created with FMOD_OPENUSER, specify the number of subsounds that are accessable with Sound::getSubSound.  If not created with FMOD_OPENUSER, this will limit the number of subsounds loaded within a multi-subsound file.  If using FSB, then if FMOD_CREATESOUNDEXINFO::inclusionlist is used, this will shuffle subsounds down so that there are not any gaps.  It will mean that the indices of the sounds will be different. */
+    int                           *inclusionlist;      /* [w]   Optional. Specify 0 to ignore. In a multi-sample format such as .FSB/.DLS it may be desirable to specify only a subset of sounds to be loaded out of the whole file.  This is an array of subsound indices to load into memory when created. */
+    int                            inclusionlistnum;   /* [w]   Optional. Specify 0 to ignore. This is the number of integers contained within the inclusionlist array. */
+    FMOD_SOUND_PCMREAD_CALLBACK    pcmreadcallback;    /* [w]   Optional. Specify 0 to ignore. Callback to 'piggyback' on FMOD's read functions and accept or even write PCM data while FMOD is opening the sound.  Used for user sounds created with FMOD_OPENUSER or for capturing decoded data as FMOD reads it. */
+    FMOD_SOUND_PCMSETPOS_CALLBACK  pcmsetposcallback;  /* [w]   Optional. Specify 0 to ignore. Callback for when the user calls a seeking function such as Channel::setTime or Channel::setPosition within a multi-sample sound, and for when it is opened.*/
+    FMOD_SOUND_NONBLOCK_CALLBACK   nonblockcallback;   /* [w]   Optional. Specify 0 to ignore. Callback for successful completion, or error while loading a sound that used the FMOD_NONBLOCKING flag.  Also called duing seeking, when setPosition is called or a stream is restarted. */
+    const(char)                    *dlsname;            /* [w]   Optional. Specify 0 to ignore. Filename for a DLS sample set when loading a MIDI file. If not specified, on Windows it will attempt to open /windows/system32/drivers/gm.dls or /windows/system32/drivers/etc/gm.dls, on Mac it will attempt to load /System/Library/Components/CoreAudio.component/Contents/Resources/gs_instruments.dls, otherwise the MIDI will fail to open. Current DLS support is for level 1 of the specification. */
+    const(char)                    *encryptionkey;      /* [w]   Optional. Specify 0 to ignore. Key for encrypted FSB file.  Without this key an encrypted FSB file will not load. */
+    int                            maxpolyphony;       /* [w]   Optional. Specify 0 to ignore. For sequenced formats with dynamic channel allocation such as .MID and .IT, this specifies the maximum voice count allowed while playing.  .IT defaults to 64.  .MID defaults to 32. */
+    void                          *userdata;           /* [w]   Optional. Specify 0 to ignore. This is user data to be attached to the sound during creation.  Access via Sound::getUserData.  Note: This is not passed to FMOD_FILE_OPEN_CALLBACK - use fileuserdata for that. */
+    FMOD_SOUND_TYPE                suggestedsoundtype; /* [w]   Optional. Specify 0 or FMOD_SOUND_TYPE_UNKNOWN to ignore.  Instead of scanning all codec types, use this to speed up loading by making it jump straight to this codec. */
+    FMOD_FILE_OPEN_CALLBACK        fileuseropen;       /* [w]   Optional. Specify 0 to ignore. Callback for opening this file. */
+    FMOD_FILE_CLOSE_CALLBACK       fileuserclose;      /* [w]   Optional. Specify 0 to ignore. Callback for closing this file. */
+    FMOD_FILE_READ_CALLBACK        fileuserread;       /* [w]   Optional. Specify 0 to ignore. Callback for reading from this file. */
+    FMOD_FILE_SEEK_CALLBACK        fileuserseek;       /* [w]   Optional. Specify 0 to ignore. Callback for seeking within this file. */
+    FMOD_FILE_ASYNCREAD_CALLBACK   fileuserasyncread;  /* [w]   Optional. Specify 0 to ignore. Callback for seeking within this file. */
+    FMOD_FILE_ASYNCCANCEL_CALLBACK fileuserasynccancel;/* [w]   Optional. Specify 0 to ignore. Callback for seeking within this file. */
+    void                          *fileuserdata;       /* [w]   Optional. Specify 0 to ignore. User data to be passed into the file callbacks. */
+    int                            filebuffersize;     /* [w]   Optional. Specify 0 to ignore. Buffer size for reading the file, -1 to disable buffering, or 0 for system default. */
+    FMOD_CHANNELORDER              channelorder;       /* [w]   Optional. Specify 0 to ignore. Use this to differ the way fmod maps multichannel sounds to speakers.  See FMOD_CHANNELORDER for more. */
+    FMOD_CHANNELMASK               channelmask;        /* [w]   Optional. Specify 0 to ignore. Use this to specify which channels map to which speakers.  See FMOD_CHANNELMASK for more. */
+    FMOD_SOUNDGROUP               *initialsoundgroup;  /* [w]   Optional. Specify 0 to ignore. Specify a sound group if required, to put sound in as it is created. */
+    uint                   initialseekposition;/* [w]   Optional. Specify 0 to ignore. For streams. Specify an initial position to seek the stream to. */
+    FMOD_TIMEUNIT                  initialseekpostype; /* [w]   Optional. Specify 0 to ignore. For streams. Specify the time unit for the position set in initialseekposition. */
+    int                            ignoresetfilesystem;/* [w]   Optional. Specify 0 to ignore. Set to 1 to use fmod's built in file system. Ignores setFileSystem callbacks and also FMOD_CREATESOUNEXINFO file callbacks.  Useful for specific cases where you don't want to use your own file system but want to use fmod's file system (ie net streaming). */
+    uint                   audioqueuepolicy;   /* [w]   Optional. Specify 0 or FMOD_AUDIOQUEUE_CODECPOLICY_DEFAULT to ignore. Policy used to determine whether hardware or software is used for decoding, see FMOD_AUDIOQUEUE_CODECPOLICY for options (iOS >= 3.0 required, otherwise only hardware is available) */ 
+    uint                   minmidigranularity; /* [w]   Optional. Specify 0 to ignore. Allows you to set a minimum desired MIDI mixer granularity. Values smaller than 512 give greater than default accuracy at the cost of more CPU and vice versa. Specify 0 for default (512 samples). */
+    int                            nonblockthreadid;   /* [w]   Optional. Specify 0 to ignore. Specifies a thread index to execute non blocking load on.  Allows for up to 5 threads to be used for loading at once.  This is to avoid one load blocking another.  Maximum value = 4. */
+    FMOD_GUID                     *fsbguid;            /* [r/w] Optional. Specify 0 to ignore. Allows you to provide the GUID lookup for cached FSB header info. Once loaded the GUID will be written back to the pointer. This is to avoid seeking and reading the FSB header. */
 }
 
 struct FMOD_REVERB_PROPERTIES

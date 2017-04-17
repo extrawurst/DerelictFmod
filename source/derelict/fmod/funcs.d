@@ -95,6 +95,8 @@ extern(C) @nogc nothrow
     alias da_FMOD_System_SetPluginPath = FMOD_RESULT function(FMOD_SYSTEM *system, const char *path);
     alias da_FMOD_System_LoadPlugin = FMOD_RESULT function(FMOD_SYSTEM *system, const char *filename,  uint *handle,  uint priority);
     alias da_FMOD_System_UnloadPlugin = FMOD_RESULT function(FMOD_SYSTEM *system,  uint handle);
+    alias da_FMOD_System_GetNumNestedPlugins = FMOD_RESULT function(FMOD_SYSTEM *system, uint handle, int* count);
+    alias da_FMOD_System_GetNestedPlugin = FMOD_RESULT function(FMOD_SYSTEM *system, uint handle, int index, uint *nestedhandle);
     alias da_FMOD_System_GetNumPlugins = FMOD_RESULT function(FMOD_SYSTEM *system, FMOD_PLUGINTYPE plugintype, int *numplugins);
     alias da_FMOD_System_GetPluginHandle = FMOD_RESULT function(FMOD_SYSTEM *system, FMOD_PLUGINTYPE plugintype, int index,  uint *handle);
     alias da_FMOD_System_GetPluginInfo = FMOD_RESULT function(FMOD_SYSTEM *system, uint handle, FMOD_PLUGINTYPE *plugintype, char *name, int namelen, uint  *version__);
@@ -141,9 +143,9 @@ extern(C) @nogc nothrow
     
     alias da_FMOD_System_GetVersion = FMOD_RESULT function(FMOD_SYSTEM *system,  uint  *version_);
     alias da_FMOD_System_GetOutputHandle = FMOD_RESULT function(FMOD_SYSTEM *system, void **handle);
-    alias da_FMOD_System_GetChannelsPlaying = FMOD_RESULT function(FMOD_SYSTEM *system, int *channels);
-    alias da_FMOD_System_GetChannelsReal = FMOD_RESULT function(FMOD_SYSTEM *system, int *realchannels);
+    alias da_FMOD_System_GetChannelsPlaying = FMOD_RESULT function(FMOD_SYSTEM *system, int *channels, int *realchannels);
     alias da_FMOD_System_GetCPUUsage = FMOD_RESULT function(FMOD_SYSTEM *system, float *dsp, float *stream, float *geometry, float *update, float *total);
+    alias da_FMOD_System_GetFileUsage = FMOD_RESULT function(FMOD_SYSTEM *system, long *sampleBytesRead, long *streamBytesRead, long *otherBytesRead);
     alias da_FMOD_System_GetSoundRAM = FMOD_RESULT function(FMOD_SYSTEM *system, int *currentalloced, int *maxalloced, int *total);
     
     /*
@@ -758,6 +760,8 @@ __gshared
     da_FMOD_System_SetPluginPath FMOD_System_SetPluginPath;
     da_FMOD_System_LoadPlugin FMOD_System_LoadPlugin;
     da_FMOD_System_UnloadPlugin FMOD_System_UnloadPlugin;
+    da_FMOD_System_GetNumNestedPlugins FMOD_System_GetNumNestedPlugins;
+    da_FMOD_System_GetNestedPlugin FMOD_System_GetNestedPlugin;
     da_FMOD_System_GetNumPlugins FMOD_System_GetNumPlugins;
     da_FMOD_System_GetPluginHandle FMOD_System_GetPluginHandle;
     da_FMOD_System_GetPluginInfo FMOD_System_GetPluginInfo;
@@ -789,8 +793,8 @@ __gshared
     da_FMOD_System_GetVersion FMOD_System_GetVersion;
     da_FMOD_System_GetOutputHandle FMOD_System_GetOutputHandle;
     da_FMOD_System_GetChannelsPlaying FMOD_System_GetChannelsPlaying;
-    da_FMOD_System_GetChannelsReal FMOD_System_GetChannelsReal;
     da_FMOD_System_GetCPUUsage FMOD_System_GetCPUUsage;
+    da_FMOD_System_GetFileUsage FMOD_System_GetFileUsage;
     da_FMOD_System_GetSoundRAM FMOD_System_GetSoundRAM;
     da_FMOD_System_CreateSound FMOD_System_CreateSound;
     da_FMOD_System_CreateStream FMOD_System_CreateStream;

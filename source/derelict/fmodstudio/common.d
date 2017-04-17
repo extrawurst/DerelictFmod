@@ -127,8 +127,10 @@ struct FMOD_STUDIO_BANK_INFO
 struct FMOD_STUDIO_PARAMETER_DESCRIPTION
 {
     const(char)* name;                           /* Name of the parameter. */
+    int index;                                  /* Index of parameter */
     float minimum;                              /* Minimum parameter value. */
     float maximum;                              /* Maximum parameter value. */
+    float defaultValue;                         /* Default value */
     FMOD_STUDIO_PARAMETER_TYPE type;            /* Type of the parameter */
 }
 
@@ -177,18 +179,19 @@ static immutable FMOD_STUDIO_SYSTEM_CALLBACK_ALL             = 0xFFFFFFFF;  /* P
 
 alias FMOD_STUDIO_SYSTEM_CALLBACK_TYPE = uint;
 
-static immutable FMOD_STUDIO_EVENT_CALLBACK_STARTED                  = 0x00000001;  /* Called when an instance starts. Parameters = unused. */
-static immutable FMOD_STUDIO_EVENT_CALLBACK_RESTARTED                = 0x00000002;  /* Called when an instance is restarted. Parameters = unused. */
-static immutable FMOD_STUDIO_EVENT_CALLBACK_STOPPED                  = 0x00000004;  /* Called when an instance stops. Parameters = unused. */
-static immutable FMOD_STUDIO_EVENT_CALLBACK_CREATE_PROGRAMMER_SOUND  = 0x00000008;  /* Called when a programmer sound needs to be created in order to play a programmer instrument. Parameters = FMOD_STUDIO_PROGRAMMER_SOUND_PROPERTIES. */
-static immutable FMOD_STUDIO_EVENT_CALLBACK_DESTROY_PROGRAMMER_SOUND = 0x00000010;  /* Called when a programmer sound needs to be destroyed. Parameters = FMOD_STUDIO_PROGRAMMER_SOUND_PROPERTIES. */
-static immutable FMOD_STUDIO_EVENT_CALLBACK_PLUGIN_CREATED           = 0x00000020;  /* Called when a DSP plugin instance has just been created. Parameters = FMOD_STUDIO_PLUGIN_INSTANCE_PROPERTIES. */
-static immutable FMOD_STUDIO_EVENT_CALLBACK_PLUGIN_DESTROYED         = 0x00000040;  /* Called when a DSP plugin instance is about to be destroyed. Parameters = FMOD_STUDIO_PLUGIN_INSTANCE_PROPERTIES. */
-static immutable FMOD_STUDIO_EVENT_CALLBACK_CREATED                  = 0x00000080;  /* Called when an instance is fully created. Parameters = unused. */
-static immutable FMOD_STUDIO_EVENT_CALLBACK_DESTROYED                = 0x00000100;  /* Called when an instance is just about to be destroyed. Parameters = unused. */
-static immutable FMOD_STUDIO_EVENT_CALLBACK_START_FAILED             = 0x00000200;  /* Called when an instance did not start, e.g. due to polyphony. Parameters = unused. */
-static immutable FMOD_STUDIO_EVENT_CALLBACK_TIMELINE_MARKER          = 0x00000400;  /* Called when the timeline passes a named marker.  Parameters = FMOD_STUDIO_TIMELINE_MARKER_PROPERTIES. */
-static immutable FMOD_STUDIO_EVENT_CALLBACK_TIMELINE_BEAT            = 0x00000800;  /* Called when the timeline hits a beat in a tempo section.  Parameters = FMOD_STUDIO_TIMELINE_BEAT_PROPERTIES. */
+static immutable FMOD_STUDIO_EVENT_CALLBACK_CREATED                  = 0x00000001;  /* Called when an instance is fully created. Parameters = unused. */
+static immutable FMOD_STUDIO_EVENT_CALLBACK_DESTROYED                = 0x00000002;  /* Called when an instance is just about to be destroyed. Parameters = unused. */
+static immutable FMOD_STUDIO_EVENT_CALLBACK_STARTING                 = 0x00000004;  /* Called when an instance is preparing to start. Parameters = unused. */
+static immutable FMOD_STUDIO_EVENT_CALLBACK_STARTED                  = 0x00000008;  /* Called when an instance starts playing. Parameters = unused. */
+static immutable FMOD_STUDIO_EVENT_CALLBACK_RESTARTED                = 0x00000010;  /* Called when an instance is restarted. Parameters = unused. */
+static immutable FMOD_STUDIO_EVENT_CALLBACK_STOPPED                  = 0x00000020;  /* Called when an instance stops. Parameters = unused. */
+static immutable FMOD_STUDIO_EVENT_CALLBACK_START_FAILED             = 0x00000040;  /* Called when an instance did not start, e.g. due to polyphony. Parameters = unused. */
+static immutable FMOD_STUDIO_EVENT_CALLBACK_CREATE_PROGRAMMER_SOUND  = 0x00000080;  /* Called when a programmer sound needs to be created in order to play a programmer instrument. Parameters = FMOD_STUDIO_PROGRAMMER_SOUND_PROPERTIES. */
+static immutable FMOD_STUDIO_EVENT_CALLBACK_DESTROY_PROGRAMMER_SOUND = 0x00000100;  /* Called when a programmer sound needs to be destroyed. Parameters = FMOD_STUDIO_PROGRAMMER_SOUND_PROPERTIES. */
+static immutable FMOD_STUDIO_EVENT_CALLBACK_PLUGIN_CREATED           = 0x00000200;  /* Called when a DSP plugin instance has just been created. Parameters = FMOD_STUDIO_PLUGIN_INSTANCE_PROPERTIES. */
+static immutable FMOD_STUDIO_EVENT_CALLBACK_PLUGIN_DESTROYED         = 0x00000400;  /* Called when a DSP plugin instance is about to be destroyed. Parameters = FMOD_STUDIO_PLUGIN_INSTANCE_PROPERTIES. */
+static immutable FMOD_STUDIO_EVENT_CALLBACK_TIMELINE_MARKER          = 0x00000800;  /* Called when the timeline passes a named marker.  Parameters = FMOD_STUDIO_TIMELINE_MARKER_PROPERTIES. */
+static immutable FMOD_STUDIO_EVENT_CALLBACK_TIMELINE_BEAT            = 0x00001000;  /* Called when the timeline hits a beat in a tempo section.  Parameters = FMOD_STUDIO_TIMELINE_BEAT_PROPERTIES. */
 static immutable FMOD_STUDIO_EVENT_CALLBACK_ALL                      = 0xFFFFFFFF;  /* Pass this mask to Studio::EventDescription::setCallback or Studio::EventInstance::setCallback to receive all callback types. */
 
 alias FMOD_STUDIO_EVENT_CALLBACK_TYPE = uint;
@@ -255,6 +258,7 @@ struct FMOD_STUDIO_ADVANCEDSETTINGS
     uint        commandQueueSize;           /* [r/w] Optional. Specify 0 to ignore. Specify the command queue size for studio async processing.  Default 32kB. */
     uint        handleInitialSize;          /* [r/w] Optional. Specify 0 to ignore. Specify the initial size to allocate for handles.  Memory for handles will grow as needed in pages. Default 8192 * sizeof(void*) */
     int                 studioUpdatePeriod;         /* [r/w] Optional. Specify 0 to ignore. Specify the update period of Studio when in async mode, in milliseconds.  Will be quantised to the nearest multiple of mixer duration.  Default is 20ms. */
+    int                 idleSampleDataPoolSize;       /* [r/w] Optional. Specify 0 to ignore. Specify the amount of sample data to keep in memory when no longer used, to avoid repeated disk IO.  Use -1 to disable.  Default is 256kB. */
 }
 
 struct FMOD_STUDIO_CPU_USAGE
@@ -308,7 +312,6 @@ enum
     FMOD_STUDIO_INSTANCETYPE_EVENTDESCRIPTION,
     FMOD_STUDIO_INSTANCETYPE_EVENTINSTANCE,
     FMOD_STUDIO_INSTANCETYPE_PARAMETERINSTANCE,
-    FMOD_STUDIO_INSTANCETYPE_CUEINSTANCE,
     FMOD_STUDIO_INSTANCETYPE_BUS,
     FMOD_STUDIO_INSTANCETYPE_VCA,
     FMOD_STUDIO_INSTANCETYPE_BANK,
