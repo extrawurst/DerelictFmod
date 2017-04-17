@@ -99,6 +99,8 @@ class DerelictFmodStudioLoader : SharedLibLoader
             bindFunc(cast(void**)&FMOD_Studio_System_SetNumListeners, "FMOD_Studio_System_SetNumListeners");
             bindFunc(cast(void**)&FMOD_Studio_System_GetListenerAttributes, "FMOD_Studio_System_GetListenerAttributes");
             bindFunc(cast(void**)&FMOD_Studio_System_SetListenerAttributes, "FMOD_Studio_System_SetListenerAttributes");
+            bindFunc(cast(void**)&FMOD_Studio_System_GetListenerWeight, "FMOD_Studio_System_GetListenerWeight");
+            bindFunc(cast(void**)&FMOD_Studio_System_SetListenerWeight, "FMOD_Studio_System_SetListenerWeight");
             bindFunc(cast(void**)&FMOD_Studio_System_LoadBankFile, "FMOD_Studio_System_LoadBankFile");
             bindFunc(cast(void**)&FMOD_Studio_System_LoadBankMemory, "FMOD_Studio_System_LoadBankMemory");
             bindFunc(cast(void**)&FMOD_Studio_System_LoadBankCustom, "FMOD_Studio_System_LoadBankCustom");
@@ -167,6 +169,8 @@ class DerelictFmodStudioLoader : SharedLibLoader
             bindFunc(cast(void**)&FMOD_Studio_EventInstance_SetListenerMask, "FMOD_Studio_EventInstance_SetListenerMask");
             bindFunc(cast(void**)&FMOD_Studio_EventInstance_GetProperty, "FMOD_Studio_EventInstance_GetProperty");
             bindFunc(cast(void**)&FMOD_Studio_EventInstance_SetProperty, "FMOD_Studio_EventInstance_SetProperty");
+            bindFunc(cast(void**)&FMOD_Studio_EventInstance_GetReverbLevel, "FMOD_Studio_EventInstance_GetReverbLevel");
+            bindFunc(cast(void**)&FMOD_Studio_EventInstance_SetReverbLevel, "FMOD_Studio_EventInstance_SetReverbLevel");
             bindFunc(cast(void**)&FMOD_Studio_EventInstance_GetPaused, "FMOD_Studio_EventInstance_GetPaused");
             bindFunc(cast(void**)&FMOD_Studio_EventInstance_SetPaused, "FMOD_Studio_EventInstance_SetPaused");
             bindFunc(cast(void**)&FMOD_Studio_EventInstance_Start, "FMOD_Studio_EventInstance_Start");
@@ -202,8 +206,8 @@ class DerelictFmodStudioLoader : SharedLibLoader
             bindFunc(cast(void**)&FMOD_Studio_Bus_IsValid, "FMOD_Studio_Bus_IsValid");
             bindFunc(cast(void**)&FMOD_Studio_Bus_GetID, "FMOD_Studio_Bus_GetID");
             bindFunc(cast(void**)&FMOD_Studio_Bus_GetPath, "FMOD_Studio_Bus_GetPath");
-            bindFunc(cast(void**)&FMOD_Studio_Bus_GetFaderLevel, "FMOD_Studio_Bus_GetFaderLevel");
-            bindFunc(cast(void**)&FMOD_Studio_Bus_SetFaderLevel, "FMOD_Studio_Bus_SetFaderLevel");
+            bindFunc(cast(void**)&FMOD_Studio_Bus_SetVolume, "FMOD_Studio_Bus_SetVolume");
+            bindFunc(cast(void**)&FMOD_Studio_Bus_GetVolume, "FMOD_Studio_Bus_GetVolume");
             bindFunc(cast(void**)&FMOD_Studio_Bus_GetPaused, "FMOD_Studio_Bus_GetPaused");
             bindFunc(cast(void**)&FMOD_Studio_Bus_SetPaused, "FMOD_Studio_Bus_SetPaused");
             bindFunc(cast(void**)&FMOD_Studio_Bus_GetMute, "FMOD_Studio_Bus_GetMute");
@@ -219,8 +223,8 @@ class DerelictFmodStudioLoader : SharedLibLoader
             bindFunc(cast(void**)&FMOD_Studio_VCA_IsValid, "FMOD_Studio_VCA_IsValid");
             bindFunc(cast(void**)&FMOD_Studio_VCA_GetID, "FMOD_Studio_VCA_GetID");
             bindFunc(cast(void**)&FMOD_Studio_VCA_GetPath, "FMOD_Studio_VCA_GetPath");
-            bindFunc(cast(void**)&FMOD_Studio_VCA_GetFaderLevel, "FMOD_Studio_VCA_GetFaderLevel");
-            bindFunc(cast(void**)&FMOD_Studio_VCA_SetFaderLevel, "FMOD_Studio_VCA_SetFaderLevel");
+            bindFunc(cast(void**)&FMOD_Studio_VCA_GetVolume, "FMOD_Studio_VCA_GetVolume");
+            bindFunc(cast(void**)&FMOD_Studio_VCA_SetVolume, "FMOD_Studio_VCA_SetVolume");
 
             /*
             Bank

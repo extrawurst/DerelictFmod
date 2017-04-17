@@ -70,6 +70,7 @@ enum
     FMOD_DSP_TYPE_CHANNELMIX,         /* This unit provides per signal channel gain, and output channel mapping to allow 1 multichannel signal made up of many groups of signals to map to a single output signal. */
     FMOD_DSP_TYPE_TRANSCEIVER,        /* This unit 'sends' and 'receives' from a selection of up to 32 different slots.  It is like a send/return but it uses global slots rather than returns as the destination.  It also has other features.  Multiple transceivers can receive from a single channel, or multiple transceivers can send to a single channel, or a combination of both. */
     FMOD_DSP_TYPE_OBJECTPAN,          /* This unit sends the signal to a 3d object encoder like Dolby Atmos.   Supports a subset of the FMOD_DSP_TYPE_PAN parameters. */
+    FMOD_DSP_TYPE_MULTIBAND_EQ,       /* This unit is a flexible five band parametric equalizer. */
 
     FMOD_DSP_TYPE_MAX,                /* Maximum number of pre-defined DSP types. */
     FMOD_DSP_TYPE_FORCEINT = 65536    /* Makes sure this enum is signed 32bit. */
@@ -149,6 +150,49 @@ enum
     FMOD_DSP_PARAMEQ_CENTER,     /* (Type:float) - Frequency center.  20.0 to 22000.0.  Default = 8000.0. */
     FMOD_DSP_PARAMEQ_BANDWIDTH,  /* (Type:float) - Octave range around the center frequency to filter.  0.2 to 5.0.  Default = 1.0. */
     FMOD_DSP_PARAMEQ_GAIN        /* (Type:float) - Frequency Gain in dB.  -30 to 30.  Default = 0.  */
+}
+
+alias FMOD_DSP_MULTIBAND_EQ = int;
+enum
+{
+    FMOD_DSP_MULTIBAND_EQ_A_FILTER,    /* (Type:int)   - Band A: FMOD_DSP_MULTIBAND_EQ_FILTER_TYPE used to interpret the behavior of the remaining parameters. Default = FMOD_DSP_MULTIBAND_EQ_FILTER_LOWPASS_12DB */
+    FMOD_DSP_MULTIBAND_EQ_A_FREQUENCY, /* (Type:float) - Band A: Significant frequency in Hz, cutoff [low/high pass, low/high shelf], center [notch, peaking, band-pass], phase transition point [all-pass]. 20 to 22000. Default = 8000. */
+    FMOD_DSP_MULTIBAND_EQ_A_Q,         /* (Type:float) - Band A: Quality factor, resonance [low/high pass], bandwidth [notch, peaking, band-pass], phase transition sharpness [all-pass], unused [low/high shelf]. 0.1 to 10.0. Default = 0.707. */
+    FMOD_DSP_MULTIBAND_EQ_A_GAIN,      /* (Type:float) - Band A: Boost or attenuation in dB [peaking, high/low shelf only]. -30 to 30. Default = 0. */
+    FMOD_DSP_MULTIBAND_EQ_B_FILTER,    /* (Type:int)   - Band B: See Band A. Default = FMOD_DSP_MULTIBAND_EQ_FILTER_DISABLED */
+    FMOD_DSP_MULTIBAND_EQ_B_FREQUENCY, /* (Type:float) - Band B: See Band A */
+    FMOD_DSP_MULTIBAND_EQ_B_Q,         /* (Type:float) - Band B: See Band A */
+    FMOD_DSP_MULTIBAND_EQ_B_GAIN,      /* (Type:float) - Band B: See Band A */
+    FMOD_DSP_MULTIBAND_EQ_C_FILTER,    /* (Type:int)   - Band C: See Band A. Default = FMOD_DSP_MULTIBAND_EQ_FILTER_DISABLED */
+    FMOD_DSP_MULTIBAND_EQ_C_FREQUENCY, /* (Type:float) - Band C: See Band A. */
+    FMOD_DSP_MULTIBAND_EQ_C_Q,         /* (Type:float) - Band C: See Band A. */
+    FMOD_DSP_MULTIBAND_EQ_C_GAIN,      /* (Type:float) - Band C: See Band A. */
+    FMOD_DSP_MULTIBAND_EQ_D_FILTER,    /* (Type:int)   - Band D: See Band A. Default = FMOD_DSP_MULTIBAND_EQ_FILTER_DISABLED */
+    FMOD_DSP_MULTIBAND_EQ_D_FREQUENCY, /* (Type:float) - Band D: See Band A. */
+    FMOD_DSP_MULTIBAND_EQ_D_Q,         /* (Type:float) - Band D: See Band A. */
+    FMOD_DSP_MULTIBAND_EQ_D_GAIN,      /* (Type:float) - Band D: See Band A. */
+    FMOD_DSP_MULTIBAND_EQ_E_FILTER,    /* (Type:int)   - Band E: See Band A. Default = FMOD_DSP_MULTIBAND_EQ_FILTER_DISABLED */
+    FMOD_DSP_MULTIBAND_EQ_E_FREQUENCY, /* (Type:float) - Band E: See Band A. */
+    FMOD_DSP_MULTIBAND_EQ_E_Q,         /* (Type:float) - Band E: See Band A. */
+    FMOD_DSP_MULTIBAND_EQ_E_GAIN,      /* (Type:float) - Band E: See Band A. */
+}
+
+alias FMOD_DSP_MULTIBAND_EQ_FILTER_TYPE = int;
+enum
+{
+    FMOD_DSP_MULTIBAND_EQ_FILTER_DISABLED,       /* Disabled filter, no processing. */
+    FMOD_DSP_MULTIBAND_EQ_FILTER_LOWPASS_12DB,   /* Resonant low-pass filter, attenuates frequencies (12dB per octave) above a given point (with specificed resonance) while allowing the rest to pass. */
+    FMOD_DSP_MULTIBAND_EQ_FILTER_LOWPASS_24DB,   /* Resonant low-pass filter, attenuates frequencies (24dB per octave) above a given point (with specificed resonance) while allowing the rest to pass. */
+    FMOD_DSP_MULTIBAND_EQ_FILTER_LOWPASS_48DB,   /* Resonant low-pass filter, attenuates frequencies (48dB per octave) above a given point (with specificed resonance) while allowing the rest to pass. */
+    FMOD_DSP_MULTIBAND_EQ_FILTER_HIGHPASS_12DB,  /* Resonant low-pass filter, attenuates frequencies (12dB per octave) below a given point (with specificed resonance) while allowing the rest to pass. */
+    FMOD_DSP_MULTIBAND_EQ_FILTER_HIGHPASS_24DB,  /* Resonant low-pass filter, attenuates frequencies (24dB per octave) below a given point (with specificed resonance) while allowing the rest to pass. */
+    FMOD_DSP_MULTIBAND_EQ_FILTER_HIGHPASS_48DB,  /* Resonant low-pass filter, attenuates frequencies (48dB per octave) below a given point (with specificed resonance) while allowing the rest to pass. */
+    FMOD_DSP_MULTIBAND_EQ_FILTER_LOWSHELF,       /* Low-shelf filter, boosts or attenuates frequencies (with specified gain) below a given point while allowing the rest to pass. */
+    FMOD_DSP_MULTIBAND_EQ_FILTER_HIGHSHELF,      /* High-shelf filter, boosts or attenuates frequencies (with specified gain) above a given point while allowing the rest to pass. */
+    FMOD_DSP_MULTIBAND_EQ_FILTER_PEAKING,        /* Peaking filter, boosts or attenuates frequencies (with specified gain) at a given point (with specificed bandwidth) while allowing the rest to pass. */
+    FMOD_DSP_MULTIBAND_EQ_FILTER_BANDPASS,       /* Band-pass filter, allows frequencies at a given point (with specificed bandwidth) to pass while attenuating frequencies outside this range. */
+    FMOD_DSP_MULTIBAND_EQ_FILTER_NOTCH,          /* Notch or band-reject filter, attenuates frequencies at a given point (with specificed bandwidth) while allowing frequencies outside this range to pass. */
+    FMOD_DSP_MULTIBAND_EQ_FILTER_ALLPASS,        /* All-pass filter, allows all frequencies to pass, but changes the phase response at a given point (with specified sharpness). */
 }
 
 alias FMOD_DSP_PITCHSHIFT = int;
@@ -269,11 +313,11 @@ enum
     FMOD_DSP_HIGHPASS_SIMPLE_CUTOFF     /* (Type:float) - Highpass cutoff frequency in hz.  10.0 to 22000.0.  Default = 1000.0 */
 }
 
-alias FMOD_DSP_PAN_SURROUND_FROM_STEREO_MODE_TYPE = int;
+alias FMOD_DSP_PAN_2D_STEREO_MODE_TYPE = int;
 enum
 {
-    FMOD_DSP_PAN_SURROUND_FROM_STEREO_MODE_DISTRIBUTED,
-    FMOD_DSP_PAN_SURROUND_FROM_STEREO_MODE_DISCRETE
+    FMOD_DSP_PAN_2D_STEREO_MODE_DISTRIBUTED,     /* The parts of a stereo sound are spread around desination speakers based on FMOD_DSP_PAN_2D_EXTENT / FMOD_DSP_PAN_2D_DIRECTION */
+    FMOD_DSP_PAN_2D_STEREO_MODE_DISCRETE         /* The L/R parts of a stereo sound are rotated around a circle based on FMOD_DSP_PAN_2D_STEREO_AXIS / FMOD_DSP_PAN_2D_STEREO_SEPARATION. */
 }
 
 alias FMOD_DSP_PAN_MODE_TYPE = int;
@@ -306,15 +350,15 @@ alias FMOD_DSP_PAN = int;
 enum
 {
     FMOD_DSP_PAN_MODE,                          /* (Type:int)   - Panner mode.               FMOD_DSP_PAN_MODE_MONO for mono down-mix, FMOD_DSP_PAN_MODE_STEREO for stereo panning or FMOD_DSP_PAN_MODE_SURROUND for surround panning.  Default = FMOD_DSP_PAN_MODE_SURROUND */
-    FMOD_DSP_PAN_STEREO_POSITION,               /* (Type:float) - Stereo pan position.       -100.0 to 100.0.  Default = 0.0. */
-    FMOD_DSP_PAN_SURROUND_DIRECTION,            /* (Type:float) - Surround pan direction.    -180.0 (degrees) to 180.0 (degrees).  Default = 0.0. */
-    FMOD_DSP_PAN_SURROUND_EXTENT,               /* (Type:float) - Surround pan extent.       0.0 (degrees) to 360.0 (degrees).  Distance from center point of panning circle.  Default = 360.0. */
-    FMOD_DSP_PAN_SURROUND_ROTATION,             /* (Type:float) - Surround pan rotation.     -180.0 (degrees) to 180.0 (degrees).  Default = 0.0. */
-    FMOD_DSP_PAN_SURROUND_LFE_LEVEL,            /* (Type:float) - Surround pan LFE level.    -80.0 (db) to 20.0 (db).  Default = 0.0. */
-    FMOD_DSP_PAN_SURROUND_FROM_STEREO_MODE,     /* (Type:int)   - Stereo-To-Surround Mode.   FMOD_DSP_PAN_SURROUND_FROM_STEREO_MODE_DISTRIBUTED to FMOD_DSP_PAN_SURROUND_FROM_STEREO_MODE_DISCRETE.  Default = FMOD_DSP_PAN_SURROUND_FROM_STEREO_MODE_DISCRETE. */
-    FMOD_DSP_PAN_SURROUND_STEREO_SEPARATION,    /* (Type:float) - Stereo-To-Surround Stereo  Separation. -180.0 (degrees) to +180.0 (degrees).  Default = 60.0. */
-    FMOD_DSP_PAN_SURROUND_STEREO_AXIS,          /* (Type:float) - Stereo-To-Surround Stereo  Axis. -180.0 (degrees) to +180.0 (degrees).  Default = 0.0. */
-    FMOD_DSP_PAN_ENABLED_SURROUND_SPEAKERS,     /* (Type:int)   - Surround Speakers Enabled. 0 to 0xFFF.  Default = 0xFFF.  */
+    FMOD_DSP_PAN_2D_STEREO_POSITION,            /* (Type:float) - 2D Stereo pan position.    -100.0 to 100.0.  Default = 0.0. */
+    FMOD_DSP_PAN_2D_DIRECTION,                  /* (Type:float) - 2D Surround pan direction. Direction from center point of panning circle. -180.0 (degrees) to 180.0 (degrees).  0 = front center, -180 or +180 = rear speakers center point. Default = 0.0. */
+    FMOD_DSP_PAN_2D_EXTENT,                     /* (Type:float) - 2D Surround pan extent.    Distance from center point of panning circle.  0.0 (degrees) to 360.0 (degrees).  Default = 360.0. */
+    FMOD_DSP_PAN_2D_ROTATION,                   /* (Type:float) - 2D Surround pan rotation.  -180.0 (degrees) to 180.0 (degrees).  Default = 0.0. */
+    FMOD_DSP_PAN_2D_LFE_LEVEL,                  /* (Type:float) - 2D Surround pan LFE level. 2D LFE level in dB.  -80.0 (db) to 20.0 (db).  Default = 0.0. */
+    FMOD_DSP_PAN_2D_STEREO_MODE,                /* (Type:int)   - Stereo-To-Surround Mode.   FMOD_DSP_PAN_2D_STEREO_MODE_DISTRIBUTED to FMOD_DSP_PAN_2D_STEREO_MODE_DISCRETE.  Default = FMOD_DSP_PAN_2D_STEREO_MODE_DISCRETE.*/
+    FMOD_DSP_PAN_2D_STEREO_SEPARATION,          /* (Type:float) - Stereo-To-Surround Stereo  For FMOD_DSP_PAN_2D_STEREO_MODE_DISCRETE mode.  Separation/width of L/R parts of stereo sound. -180.0 (degrees) to +180.0 (degrees).  Default = 60.0. */
+    FMOD_DSP_PAN_2D_STEREO_AXIS,                /* (Type:float) - Stereo-To-Surround Stereo  For FMOD_DSP_PAN_2D_STEREO_MODE_DISCRETE mode.  Axis/rotation of L/R parts of stereo sound. -180.0 (degrees) to +180.0 (degrees).  Default = 0.0. */
+    FMOD_DSP_PAN_ENABLED_SPEAKERS,              /* (Type:int)   - Speakers Enabled.          Bitmask for each speaker from 0 to 32 to be considered by panner.  Use to disable speakers from being panned to.  0 to 0xFFF.  Default = 0xFFF (All on).  */
     FMOD_DSP_PAN_3D_POSITION,                   /* (Type:data)  - 3D Position.               data of type FMOD_DSP_PARAMETER_3DATTRIBUTES_MULTI */
     FMOD_DSP_PAN_3D_ROLLOFF,                    /* (Type:int)   - 3D Rolloff.                FMOD_DSP_PAN_3D_ROLLOFF_LINEARSQUARED to FMOD_DSP_PAN_3D_ROLLOFF_CUSTOM.  Default = FMOD_DSP_PAN_3D_ROLLOFF_LINEARSQUARED. */
     FMOD_DSP_PAN_3D_MIN_DISTANCE,               /* (Type:float) - 3D Min Distance.           0.0 to 1e+19f.  Default = 1.0. */
@@ -381,7 +425,8 @@ enum
 {
     FMOD_DSP_CONVOLUTION_REVERB_PARAM_IR,       /* (Type:data)  - [w]   16-bit reverb IR (short*) with an extra sample prepended to the start which specifies the number of channels. */
     FMOD_DSP_CONVOLUTION_REVERB_PARAM_WET,      /* (Type:float) - [r/w] Volume of echo signal to pass to output in dB.  -80.0 to 10.0.  Default = 0. */
-    FMOD_DSP_CONVOLUTION_REVERB_PARAM_DRY       /* (Type:float) - [r/w] Original sound volume in dB.  -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CONVOLUTION_REVERB_PARAM_DRY,      /* (Type:float) - [r/w] Original sound volume in dB.  -80.0 to 10.0.  Default = 0. */
+    FMOD_DSP_CONVOLUTION_REVERB_PARAM_LINKED    /* (Type:bool)  - [r/w] Linked - channels are mixed together before processing through the reverb.  Default = TRUE. */
 }
 
 alias FMOD_DSP_CHANNELMIX_OUTPUT = int;

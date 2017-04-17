@@ -51,29 +51,12 @@ struct FMOD_STUDIO_VCA {}
 struct FMOD_STUDIO_BANK {}
 struct FMOD_STUDIO_COMMANDREPLAY {}
 
-
-/*
-[DEFINE]
-[
-    [NAME]
-    FMOD_STUDIO_INITFLAGS
-
-    [DESCRIPTION]
-    Studio System initialization flags.
-    Use them with Studio::System::initialize in the *studioflags* parameter to change various behavior.
-
-    [REMARKS]
-
-    [SEE_ALSO]
-    Studio::System::initialize
-]
-*/
 static immutable FMOD_STUDIO_INIT_NORMAL                     = 0x00000000;  /* Initialize normally. */
 static immutable FMOD_STUDIO_INIT_LIVEUPDATE                 = 0x00000001;  /* Enable live update. */
 static immutable FMOD_STUDIO_INIT_ALLOW_MISSING_PLUGINS      = 0x00000002;  /* Load banks even if they reference plugins that have not been loaded. */
 static immutable FMOD_STUDIO_INIT_SYNCHRONOUS_UPDATE         = 0x00000004;  /* Disable asynchronous processing and perform all processing on the calling thread instead. */
 static immutable FMOD_STUDIO_INIT_DEFERRED_CALLBACKS         = 0x00000008;  /* Defer timeline callbacks until the main update. See Studio::EventInstance::setCallback for more information. */
-/* [DEFINE_END] */
+static immutable FMOD_STUDIO_INIT_LOAD_FROM_UPDATE           = 0x00000010;  /* No additional threads are created for bank and resource loading.  Loading is driven from Studio::System::update.  Mainly used in non-realtime situations. */
 
 alias FMOD_STUDIO_INITFLAGS = uint;
 
@@ -97,6 +80,8 @@ enum
     
     FMOD_STUDIO_LOAD_MEMORY_FORCEINT = 65536    /* Makes sure this enum is signed 32bit. */
 }
+
+static immutable FMOD_STUDIO_LOAD_MEMORY_ALIGNMENT = 32;
 
 alias FMOD_STUDIO_PARAMETER_TYPE = int;
 enum
@@ -165,10 +150,10 @@ struct FMOD_STUDIO_USER_PROPERTY
     
     union
     {
-        int intValue;                           /* Value of the user property. Only valid when type is FMOD_STUDIO_USER_PROPERTY_TYPE_INTEGER. */
-        FMOD_BOOL boolValue;                    /* Value of the user property. Only valid when type is FMOD_STUDIO_USER_PROPERTY_TYPE_BOOLEAN. */
-        float floatValue;                       /* Value of the user property. Only valid when type is FMOD_STUDIO_USER_PROPERTY_TYPE_FLOAT. */
-        const(char)* stringValue;                /* Value of the user property. Only valid when type is FMOD_STUDIO_USER_PROPERTY_TYPE_STRING. */
+        int intvalue;                           /* Value of the user property. Only valid when type is FMOD_STUDIO_USER_PROPERTY_TYPE_INTEGER. */
+        FMOD_BOOL boolvalue;                    /* Value of the user property. Only valid when type is FMOD_STUDIO_USER_PROPERTY_TYPE_BOOLEAN. */
+        float floatvalue;                       /* Value of the user property. Only valid when type is FMOD_STUDIO_USER_PROPERTY_TYPE_FLOAT. */
+        const(char)* stringvalue;                /* Value of the user property. Only valid when type is FMOD_STUDIO_USER_PROPERTY_TYPE_STRING. */
     }
 }
 
@@ -202,7 +187,7 @@ struct FMOD_STUDIO_PROGRAMMER_SOUND_PROPERTIES
 {
     const(char)* name;                           /* The name of the programmer instrument (set in FMOD Studio). */
     FMOD_SOUND *sound;                          /* The programmer-created sound. This should be filled in by the create callback, and cleaned up by the destroy callback. This can be cast to/from FMOD::Sound* type. */
-    int subsoundIndex;                          /* The index of the subsound to use, or -1 if the provided sound should be used directly. Defaults to -1. */
+    int subsoundindex;                          /* The index of the subsound to use, or -1 if the provided sound should be used directly. Defaults to -1. */
 }
 
 struct FMOD_STUDIO_PLUGIN_INSTANCE_PROPERTIES
@@ -223,8 +208,8 @@ struct FMOD_STUDIO_TIMELINE_BEAT_PROPERTIES
     int beat;                                   /* The beat number within the bar (starting from 1). */
     int position;                               /* The position of the beat on the timeline in milliseconds. */
     float tempo;                                /* The current tempo in beats per minute. */
-    int timeSignatureUpper;                     /* The current time signature upper number (beats per bar). */
-    int timeSignatureLower;                     /* The current time signature lower number (beat unit). */
+    int timesignatureupper;                     /* The current time signature upper number (beats per bar). */
+    int timesignaturelower;                     /* The current time signature lower number (beat unit). */
 }
 
 alias FMOD_STUDIO_PLAYBACK_STATE = int;
@@ -256,35 +241,35 @@ alias FMOD_STUDIO_LOAD_BANK_FLAGS = uint;
 
 struct FMOD_STUDIO_ADVANCEDSETTINGS
 {
-    int                 cbSize;                     /* [w]   Size of this structure.  Use sizeof(FMOD_STUDIO_ADVANCEDSETTINGS)  NOTE: This must be set before calling Studio::System::getAdvancedSettings or Studio::System::setAdvancedSettings! */
-    uint        commandQueueSize;           /* [r/w] Optional. Specify 0 to ignore. Specify the command queue size for studio async processing.  Default 32kB. */
-    uint        handleInitialSize;          /* [r/w] Optional. Specify 0 to ignore. Specify the initial size to allocate for handles.  Memory for handles will grow as needed in pages. Default 8192 * sizeof(void*) */
-    int                 studioUpdatePeriod;         /* [r/w] Optional. Specify 0 to ignore. Specify the update period of Studio when in async mode, in milliseconds.  Will be quantised to the nearest multiple of mixer duration.  Default is 20ms. */
-    int                 idleSampleDataPoolSize;       /* [r/w] Optional. Specify 0 to ignore. Specify the amount of sample data to keep in memory when no longer used, to avoid repeated disk IO.  Use -1 to disable.  Default is 256kB. */
+    int                 cbsize;                     /* [w]   Size of this structure.  Use sizeof(FMOD_STUDIO_ADVANCEDSETTINGS)  NOTE: This must be set before calling Studio::System::getAdvancedSettings or Studio::System::setAdvancedSettings! */
+    uint        commandqueuesize;           /* [r/w] Optional. Specify 0 to ignore. Specify the command queue size for studio async processing.  Default 32kB. */
+    uint        handleinitialsize;          /* [r/w] Optional. Specify 0 to ignore. Specify the initial size to allocate for handles.  Memory for handles will grow as needed in pages. Default 8192 * sizeof(void*) */
+    int                 studioupdateperiod;         /* [r/w] Optional. Specify 0 to ignore. Specify the update period of Studio when in async mode, in milliseconds.  Will be quantised to the nearest multiple of mixer duration.  Default is 20ms. */
+    int                 idlesampledatapoolsize;       /* [r/w] Optional. Specify 0 to ignore. Specify the amount of sample data to keep in memory when no longer used, to avoid repeated disk IO.  Use -1 to disable.  Default is 256kB. */
 }
 
 struct FMOD_STUDIO_CPU_USAGE
 {
-    float               dspUsage;                           /* Returns the % CPU time taken by DSP processing on the low level mixer thread. */
-    float               streamUsage;                        /* Returns the % CPU time taken by stream processing on the low level stream thread. */
-    float               geometryUsage;                      /* Returns the % CPU time taken by geometry processing on the low level geometry thread. */
-    float               updateUsage;                        /* Returns the % CPU time taken by low level update, called as part of the studio update. */
-    float               studioUsage;                        /* Returns the % CPU time taken by studio update, called from the studio thread. Does not include low level update time. */
+    float               dspusage;                           /* Returns the % CPU time taken by DSP processing on the low level mixer thread. */
+    float               streamusage;                        /* Returns the % CPU time taken by stream processing on the low level stream thread. */
+    float               geometryusage;                      /* Returns the % CPU time taken by geometry processing on the low level geometry thread. */
+    float               updateusage;                        /* Returns the % CPU time taken by low level update, called as part of the studio update. */
+    float               studiousage;                        /* Returns the % CPU time taken by studio update, called from the studio thread. Does not include low level update time. */
 }
 
 struct FMOD_STUDIO_BUFFER_INFO
 {
-    int                 currentUsage;                       /* Current buffer usage in bytes. */
-    int                 peakUsage;                          /* Peak buffer usage in bytes. */
+    int                 currentusage;                       /* Current buffer usage in bytes. */
+    int                 peakusage;                          /* Peak buffer usage in bytes. */
     int                 capacity;                           /* Buffer capacity in bytes. */
-    int                 stallCount;                         /* Cumulative number of stalls due to buffer overflow. */
-    float               stallTime;                          /* Cumulative amount of time stalled due to buffer overflow, in seconds. */
+    int                 stallcount;                         /* Cumulative number of stalls due to buffer overflow. */
+    float               stalltime;                          /* Cumulative amount of time stalled due to buffer overflow, in seconds. */
 }
 
 struct FMOD_STUDIO_BUFFER_USAGE
 {
-    FMOD_STUDIO_BUFFER_INFO studioCommandQueue;             /* Information for the Studio Async Command buffer, controlled by FMOD_STUDIO_ADVANCEDSETTINGS commandQueueSize. */
-    FMOD_STUDIO_BUFFER_INFO studioHandle;                   /* Information for the Studio handle table, controlled by FMOD_STUDIO_ADVANCEDSETTINGS handleInitialSize. */
+    FMOD_STUDIO_BUFFER_INFO studiocommandqueue;             /* Information for the Studio Async Command buffer, controlled by FMOD_STUDIO_ADVANCEDSETTINGS commandQueueSize. */
+    FMOD_STUDIO_BUFFER_INFO studiohandle;                   /* Information for the Studio handle table, controlled by FMOD_STUDIO_ADVANCEDSETTINGS handleInitialSize. */
 }
 
 struct FMOD_STUDIO_SOUND_INFO
@@ -303,6 +288,7 @@ alias FMOD_STUDIO_COMMANDCAPTURE_FLAGS = uint;
 
 static immutable FMOD_STUDIO_COMMANDREPLAY_NORMAL               = 0x00000000;       /* Standard behaviour. */
 static immutable FMOD_STUDIO_COMMANDREPLAY_SKIP_CLEANUP         = 0x00000001;       /* Normally the playback will release any created resources when it stops, unless this flag is set. */
+static immutable FMOD_STUDIO_COMMANDREPLAY_FAST_FORWARD         = 0x00000002;       /* Play back at maximum speed, ignoring the timing of the original replay. */
 
 alias FMOD_STUDIO_COMMANDREPLAY_FLAGS = uint;
 
@@ -324,14 +310,14 @@ enum
 
 struct FMOD_STUDIO_COMMAND_INFO
 {
-    const(char)* commandName;                                    /* The full name of the API function for this command. */
-    int parentCommandIndex;                                     /* For commands that operate on an instance, this is the command that created the instance. */
-    int frameNumber;                                            /* The frame the command belongs to. */
-    float frameTime;                                            /* The playback time at which this command will be executed. */
-    FMOD_STUDIO_INSTANCETYPE instanceType;                      /* The type of object that this command uses as an instance. */
-    FMOD_STUDIO_INSTANCETYPE outputType;                        /* The type of object that this command outputs, if any. */
-    uint instanceHandle;                                /* The original handle value of the instance.  This will no longer correspond to any actual object in playback. */
-    uint outputHandle;                                  /* The original handle value of the command output.  This will no longer correspond to any actual object in playback. */
+    const(char)* commandname;                                    /* The full name of the API function for this command. */
+    int parentcommandindex;                                     /* For commands that operate on an instance, this is the command that created the instance. */
+    int framenumber;                                            /* The frame the command belongs to. */
+    float frametime;                                            /* The playback time at which this command will be executed. */
+    FMOD_STUDIO_INSTANCETYPE instancetype;                      /* The type of object that this command uses as an instance. */
+    FMOD_STUDIO_INSTANCETYPE outputtype;                        /* The type of object that this command outputs, if any. */
+    uint instancehandle;                                /* The original handle value of the instance.  This will no longer correspond to any actual object in playback. */
+    uint outputhandle;                                  /* The original handle value of the command output.  This will no longer correspond to any actual object in playback. */
 }
 
 alias FMOD_STUDIO_SYSTEM_CALLBACK = FMOD_RESULT function(FMOD_STUDIO_SYSTEM *system, FMOD_STUDIO_SYSTEM_CALLBACK_TYPE type, void *commanddata, void *userdata);

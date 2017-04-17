@@ -242,7 +242,6 @@ class DerelictFmodLoader : SharedLibLoader
             bindFunc(cast(void**)&FMOD_Channel_GetNumDSPs, "FMOD_Channel_GetNumDSPs");
             bindFunc(cast(void**)&FMOD_Channel_SetDSPIndex, "FMOD_Channel_SetDSPIndex");
             bindFunc(cast(void**)&FMOD_Channel_GetDSPIndex, "FMOD_Channel_GetDSPIndex");
-            bindFunc(cast(void**)&FMOD_Channel_OverridePanDSP, "FMOD_Channel_OverridePanDSP");
             bindFunc(cast(void**)&FMOD_Channel_Set3DAttributes, "FMOD_Channel_Set3DAttributes");
             bindFunc(cast(void**)&FMOD_Channel_Get3DAttributes, "FMOD_Channel_Get3DAttributes");
             bindFunc(cast(void**)&FMOD_Channel_Set3DMinMaxDistance, "FMOD_Channel_Set3DMinMaxDistance");
@@ -319,7 +318,6 @@ class DerelictFmodLoader : SharedLibLoader
             bindFunc(cast(void**)&FMOD_ChannelGroup_GetNumDSPs, "FMOD_ChannelGroup_GetNumDSPs");
             bindFunc(cast(void**)&FMOD_ChannelGroup_SetDSPIndex, "FMOD_ChannelGroup_SetDSPIndex");
             bindFunc(cast(void**)&FMOD_ChannelGroup_GetDSPIndex, "FMOD_ChannelGroup_GetDSPIndex");
-            bindFunc(cast(void**)&FMOD_ChannelGroup_OverridePanDSP, "FMOD_ChannelGroup_OverridePanDSP");
             bindFunc(cast(void**)&FMOD_ChannelGroup_Set3DAttributes, "FMOD_ChannelGroup_Set3DAttributes");
             bindFunc(cast(void**)&FMOD_ChannelGroup_Get3DAttributes, "FMOD_ChannelGroup_Get3DAttributes");
             bindFunc(cast(void**)&FMOD_ChannelGroup_Set3DMinMaxDistance, "FMOD_ChannelGroup_Set3DMinMaxDistance");

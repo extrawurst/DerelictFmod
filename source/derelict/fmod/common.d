@@ -38,7 +38,7 @@ import derelict.fmod.dsp;
 
 align(1):
 
-static immutable FMOD_VERSION    = 0x00010818;
+static immutable FMOD_VERSION    = 0x00010901;
 
 alias int                        FMOD_BOOL;
 struct FMOD_SYSTEM         {};
@@ -189,7 +189,7 @@ struct FMOD_GUID
     ubyte[8]  Data4;    /* Array of 8 bytes. The first 2 bytes contain the third group of 4 hexadecimal digits. The remaining 6 bytes contain the final 12 hexadecimal digits. */
 }
 
-alias FMOD_FILE_ASYNCDONE = void function(FMOD_ASYNCREADINFO *info, FMOD_RESULT result);
+alias FMOD_FILE_ASYNCDONE_FUNC = void function(FMOD_ASYNCREADINFO *info, FMOD_RESULT result);
 
 ///
 struct FMOD_ASYNCREADINFO
@@ -204,7 +204,7 @@ struct FMOD_ASYNCREADINFO
     void                 *buffer;    /* [w] Buffer to read file data into. */
     uint          bytesread; /* [w] Fill this in before setting result code to tell FMOD how many bytes were read. */
     
-    FMOD_FILE_ASYNCDONE   done;      /* [r] FMOD file system wake up function.  Call this when user file read is finished.  Pass result of file read as a parameter. */
+    FMOD_FILE_ASYNCDONE_FUNC   done;      /* [r] FMOD file system wake up function.  Call this when user file read is finished.  Pass result of file read as a parameter. */
 }
 
 alias FMOD_OUTPUTTYPE = int;
@@ -233,6 +233,8 @@ enum
     FMOD_OUTPUTTYPE_AUDIOOUT,        /* PS4/PSVita           - Audio Out.                           (Default on PS4 and PS Vita) */
     FMOD_OUTPUTTYPE_AUDIO3D,         /* PS4                  - Audio3D. */
     FMOD_OUTPUTTYPE_ATMOS,           /* Win                  - Dolby Atmos (WASAPI). */
+    FMOD_OUTPUTTYPE_WEBAUDIO,        /* Web Browser          - JavaScript webaudio output.          (Default on JavaScript) */
+    FMOD_OUTPUTTYPE_NNAUDIO,         /* NX                   - NX nn::audio.                        (Default on NX)*/
     
     FMOD_OUTPUTTYPE_MAX,             /* Maximum number of output types supported. */
     FMOD_OUTPUTTYPE_FORCEINT = 65536 /* Makes sure this enum is signed 32bit. */
@@ -493,8 +495,7 @@ enum
 {
     FMOD_CHANNELCONTROL_DSP_HEAD = -1,          /* Head of the DSP chain.   Equivalent of index 0. */
     FMOD_CHANNELCONTROL_DSP_FADER = -2,         /* Built in fader DSP. */
-    FMOD_CHANNELCONTROL_DSP_PANNER = -3,        /* Built in panner DSP. */
-    FMOD_CHANNELCONTROL_DSP_TAIL = -4,          /* Tail of the DSP chain.  Equivalent of the number of dsps minus 1. */
+    FMOD_CHANNELCONTROL_DSP_TAIL = -3,          /* Tail of the DSP chain.  Equivalent of the number of dsps minus 1. */
     
     FMOD_CHANNELCONTROL_DSP_FORCEINT = 65536    /* Makes sure this enum is signed 32bit. */
 }
@@ -689,6 +690,8 @@ struct FMOD_CREATESOUNDEXINFO
     FMOD_GUID                     *fsbguid;            /* [r/w] Optional. Specify 0 to ignore. Allows you to provide the GUID lookup for cached FSB header info. Once loaded the GUID will be written back to the pointer. This is to avoid seeking and reading the FSB header. */
 }
 
+static immutable FMOD_REVERB_MAXINSTANCES = 4;
+
 struct FMOD_REVERB_PROPERTIES
 {                                   /*       MIN    MAX     DEFAULT DESCRIPTION */
     float        DecayTime;         /* [r/w] 0.0    20000.0 1500.0  Reverberation decay time in ms                                        */
@@ -704,8 +707,9 @@ struct FMOD_REVERB_PROPERTIES
     float        EarlyLateMix;      /* [r/w] 0.0    100.0   50.0    Early reflections level relative to room effect                       */
     float        WetLevel;          /* [r/w] -80.0  20.0    -6.0    Room effect level (at mid frequencies)                                */
 }
+
+//static immutable FMOD_REVERB_PROPERTIES FMOD_PRESET_OFF              = {  1000,    7,  11, 5000, 100, 100, 100, 250, 0,    20,  96, -80.0f };
 /+
-static immutable FMOD_REVERB_PROPERTIES FMOD_PRESET_OFF              = {  1000,    7,  11, 5000, 100, 100, 100, 250, 0,    20,  96, -80.0f };
 static immutable FMOD_REVERB_PROPERTIES FMOD_PRESET_GENERIC          = {  1500,    7,  11, 5000,  83, 100, 100, 250, 0, 14500,  96,  -8.0f };
 static immutable FMOD_REVERB_PROPERTIES FMOD_PRESET_PADDEDCELL       = {   170,    1,   2, 5000,  10, 100, 100, 250, 0,   160,  84,  -7.8f };
 static immutable FMOD_REVERB_PROPERTIES FMOD_PRESET_ROOM             = {   400,    2,   3, 5000,  83, 100, 100, 250, 0,  6050,  88,  -9.4f };

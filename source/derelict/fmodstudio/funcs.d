@@ -74,6 +74,8 @@ extern(C) @nogc nothrow
     alias da_FMOD_Studio_System_SetNumListeners = FMOD_RESULT function(FMOD_STUDIO_SYSTEM *system, int numlisteners);
     alias da_FMOD_Studio_System_GetListenerAttributes = FMOD_RESULT function(FMOD_STUDIO_SYSTEM *system, int index, FMOD_3D_ATTRIBUTES *attributes);
     alias da_FMOD_Studio_System_SetListenerAttributes = FMOD_RESULT function(FMOD_STUDIO_SYSTEM *system, int index, FMOD_3D_ATTRIBUTES *attributes);
+    alias da_FMOD_Studio_System_GetListenerWeight = FMOD_RESULT function(FMOD_STUDIO_SYSTEM *system, int index, float *weight);
+    alias da_FMOD_Studio_System_SetListenerWeight = FMOD_RESULT function(FMOD_STUDIO_SYSTEM *system, int index, float weight);
     alias da_FMOD_Studio_System_LoadBankFile = FMOD_RESULT function(FMOD_STUDIO_SYSTEM *system, const char *filename, FMOD_STUDIO_LOAD_BANK_FLAGS flags, FMOD_STUDIO_BANK **bank);
     alias da_FMOD_Studio_System_LoadBankMemory = FMOD_RESULT function(FMOD_STUDIO_SYSTEM *system, const char *buffer, int length, FMOD_STUDIO_LOAD_MEMORY_MODE mode, FMOD_STUDIO_LOAD_BANK_FLAGS flags, FMOD_STUDIO_BANK **bank);
     alias da_FMOD_Studio_System_LoadBankCustom = FMOD_RESULT function(FMOD_STUDIO_SYSTEM *system, const FMOD_STUDIO_BANK_INFO *info, FMOD_STUDIO_LOAD_BANK_FLAGS flags, FMOD_STUDIO_BANK **bank);
@@ -131,9 +133,9 @@ extern(C) @nogc nothrow
 */
     alias da_FMOD_Studio_EventInstance_IsValid = FMOD_BOOL function(FMOD_STUDIO_EVENTINSTANCE *eventinstance);
     alias da_FMOD_Studio_EventInstance_GetDescription = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, FMOD_STUDIO_EVENTDESCRIPTION **description);
-    alias da_FMOD_Studio_EventInstance_GetVolume = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, float *volume);
+    alias da_FMOD_Studio_EventInstance_GetVolume = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, float *volume, float *finalvolume);
     alias da_FMOD_Studio_EventInstance_SetVolume = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, float volume);
-    alias da_FMOD_Studio_EventInstance_GetPitch = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, float *pitch);
+    alias da_FMOD_Studio_EventInstance_GetPitch = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, float *pitch, float *finalpitch);
     alias da_FMOD_Studio_EventInstance_SetPitch = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, float pitch);
     alias da_FMOD_Studio_EventInstance_Get3DAttributes = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, FMOD_3D_ATTRIBUTES *attributes);
     alias da_FMOD_Studio_EventInstance_Set3DAttributes = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, FMOD_3D_ATTRIBUTES *attributes);
@@ -141,6 +143,8 @@ extern(C) @nogc nothrow
     alias da_FMOD_Studio_EventInstance_SetListenerMask = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, uint mask);
     alias da_FMOD_Studio_EventInstance_GetProperty = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, FMOD_STUDIO_EVENT_PROPERTY index, float *value);
     alias da_FMOD_Studio_EventInstance_SetProperty = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, FMOD_STUDIO_EVENT_PROPERTY index, float value);
+    alias da_FMOD_Studio_EventInstance_GetReverbLevel = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, int index, float *level);
+    alias da_FMOD_Studio_EventInstance_SetReverbLevel = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, int index, float level);
     alias da_FMOD_Studio_EventInstance_GetPaused = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, FMOD_BOOL *paused);
     alias da_FMOD_Studio_EventInstance_SetPaused = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, FMOD_BOOL paused);
     alias da_FMOD_Studio_EventInstance_Start = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance);
@@ -151,12 +155,12 @@ extern(C) @nogc nothrow
     alias da_FMOD_Studio_EventInstance_GetChannelGroup = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, FMOD_CHANNELGROUP **group);
     alias da_FMOD_Studio_EventInstance_Release = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance);
     alias da_FMOD_Studio_EventInstance_IsVirtual = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, FMOD_BOOL *virtualState);
-    alias da_FMOD_Studio_EventInstance_GetParameter = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, const char *name, FMOD_STUDIO_PARAMETERINSTANCE **parameter);
+    alias da_FMOD_Studio_EventInstance_GetParameter = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, const(char) *name, FMOD_STUDIO_PARAMETERINSTANCE **parameter);
     alias da_FMOD_Studio_EventInstance_GetParameterByIndex = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, int index, FMOD_STUDIO_PARAMETERINSTANCE **parameter);
     alias da_FMOD_Studio_EventInstance_GetParameterCount = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, int *count);
-    alias da_FMOD_Studio_EventInstance_GetParameterValue = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, const(char) *name, float *value);
+    alias da_FMOD_Studio_EventInstance_GetParameterValue = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, const(char) *name, float *value, float *finalvalue);
     alias da_FMOD_Studio_EventInstance_SetParameterValue = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, const char *name, float value);
-    alias da_FMOD_Studio_EventInstance_GetParameterValueByIndex = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, int index, float *value);
+    alias da_FMOD_Studio_EventInstance_GetParameterValueByIndex = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, int index, float *value, float *finalvalue);
     alias da_FMOD_Studio_EventInstance_SetParameterValueByIndex = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, int index, float value);
     alias da_FMOD_Studio_EventInstance_TriggerCue = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance);
     alias da_FMOD_Studio_EventInstance_SetCallback = FMOD_RESULT function(FMOD_STUDIO_EVENTINSTANCE *eventinstance, FMOD_STUDIO_EVENT_CALLBACK callback, FMOD_STUDIO_EVENT_CALLBACK_TYPE callbackmask);
@@ -177,8 +181,8 @@ extern(C) @nogc nothrow
     alias da_FMOD_Studio_Bus_IsValid = FMOD_BOOL function(FMOD_STUDIO_BUS *bus);
     alias da_FMOD_Studio_Bus_GetID = FMOD_RESULT function(FMOD_STUDIO_BUS *bus, FMOD_GUID *id);
     alias da_FMOD_Studio_Bus_GetPath = FMOD_RESULT function(FMOD_STUDIO_BUS *bus, char *path, int size, int *retrieved);
-    alias da_FMOD_Studio_Bus_GetFaderLevel = FMOD_RESULT function(FMOD_STUDIO_BUS *bus, float *level);
-    alias da_FMOD_Studio_Bus_SetFaderLevel = FMOD_RESULT function(FMOD_STUDIO_BUS *bus, float level);
+    alias da_FMOD_Studio_Bus_GetVolume = FMOD_RESULT function(FMOD_STUDIO_BUS *bus, float *volume, float *finalvolume);
+    alias da_FMOD_Studio_Bus_SetVolume = FMOD_RESULT function(FMOD_STUDIO_BUS *bus, float volume);
     alias da_FMOD_Studio_Bus_GetPaused = FMOD_RESULT function(FMOD_STUDIO_BUS *bus, FMOD_BOOL *paused);
     alias da_FMOD_Studio_Bus_SetPaused = FMOD_RESULT function(FMOD_STUDIO_BUS *bus, FMOD_BOOL paused);
     alias da_FMOD_Studio_Bus_GetMute = FMOD_RESULT function(FMOD_STUDIO_BUS *bus, FMOD_BOOL *mute);
@@ -194,8 +198,8 @@ extern(C) @nogc nothrow
     alias da_FMOD_Studio_VCA_IsValid = FMOD_BOOL function(FMOD_STUDIO_VCA *vca);
     alias da_FMOD_Studio_VCA_GetID = FMOD_RESULT function(FMOD_STUDIO_VCA *vca, FMOD_GUID *id);
     alias da_FMOD_Studio_VCA_GetPath = FMOD_RESULT function(FMOD_STUDIO_VCA *vca, char *path, int size, int *retrieved);
-    alias da_FMOD_Studio_VCA_GetFaderLevel = FMOD_RESULT function(FMOD_STUDIO_VCA *vca, float *level);
-    alias da_FMOD_Studio_VCA_SetFaderLevel = FMOD_RESULT function(FMOD_STUDIO_VCA *vca, float level);
+    alias da_FMOD_Studio_VCA_GetVolume = FMOD_RESULT function(FMOD_STUDIO_VCA *vca, float *volume, float *finalvolume);
+    alias da_FMOD_Studio_VCA_SetVolume = FMOD_RESULT function(FMOD_STUDIO_VCA *vca, float volume);
     
     /*
     Bank
@@ -278,6 +282,8 @@ __gshared
     da_FMOD_Studio_System_SetNumListeners FMOD_Studio_System_SetNumListeners;
     da_FMOD_Studio_System_GetListenerAttributes FMOD_Studio_System_GetListenerAttributes;
     da_FMOD_Studio_System_SetListenerAttributes FMOD_Studio_System_SetListenerAttributes;
+    da_FMOD_Studio_System_GetListenerWeight FMOD_Studio_System_GetListenerWeight;
+    da_FMOD_Studio_System_SetListenerWeight FMOD_Studio_System_SetListenerWeight;
     da_FMOD_Studio_System_LoadBankFile FMOD_Studio_System_LoadBankFile;
     da_FMOD_Studio_System_LoadBankMemory FMOD_Studio_System_LoadBankMemory;
     da_FMOD_Studio_System_LoadBankCustom FMOD_Studio_System_LoadBankCustom;
@@ -346,6 +352,8 @@ __gshared
     da_FMOD_Studio_EventInstance_SetListenerMask FMOD_Studio_EventInstance_SetListenerMask;
     da_FMOD_Studio_EventInstance_GetProperty FMOD_Studio_EventInstance_GetProperty;
     da_FMOD_Studio_EventInstance_SetProperty FMOD_Studio_EventInstance_SetProperty;
+    da_FMOD_Studio_EventInstance_GetReverbLevel FMOD_Studio_EventInstance_GetReverbLevel;
+    da_FMOD_Studio_EventInstance_SetReverbLevel FMOD_Studio_EventInstance_SetReverbLevel;
     da_FMOD_Studio_EventInstance_GetPaused FMOD_Studio_EventInstance_GetPaused;
     da_FMOD_Studio_EventInstance_SetPaused FMOD_Studio_EventInstance_SetPaused;
     da_FMOD_Studio_EventInstance_Start FMOD_Studio_EventInstance_Start;
@@ -381,8 +389,8 @@ __gshared
     da_FMOD_Studio_Bus_IsValid FMOD_Studio_Bus_IsValid;
     da_FMOD_Studio_Bus_GetID FMOD_Studio_Bus_GetID;
     da_FMOD_Studio_Bus_GetPath FMOD_Studio_Bus_GetPath;
-    da_FMOD_Studio_Bus_GetFaderLevel FMOD_Studio_Bus_GetFaderLevel;
-    da_FMOD_Studio_Bus_SetFaderLevel FMOD_Studio_Bus_SetFaderLevel;
+    da_FMOD_Studio_Bus_GetVolume FMOD_Studio_Bus_GetVolume;
+    da_FMOD_Studio_Bus_SetVolume FMOD_Studio_Bus_SetVolume;
     da_FMOD_Studio_Bus_GetPaused FMOD_Studio_Bus_GetPaused;
     da_FMOD_Studio_Bus_SetPaused FMOD_Studio_Bus_SetPaused;
     da_FMOD_Studio_Bus_GetMute FMOD_Studio_Bus_GetMute;
@@ -398,8 +406,8 @@ __gshared
     da_FMOD_Studio_VCA_IsValid FMOD_Studio_VCA_IsValid;
     da_FMOD_Studio_VCA_GetID FMOD_Studio_VCA_GetID;
     da_FMOD_Studio_VCA_GetPath FMOD_Studio_VCA_GetPath;
-    da_FMOD_Studio_VCA_GetFaderLevel FMOD_Studio_VCA_GetFaderLevel;
-    da_FMOD_Studio_VCA_SetFaderLevel FMOD_Studio_VCA_SetFaderLevel;
+    da_FMOD_Studio_VCA_GetVolume FMOD_Studio_VCA_GetVolume;
+    da_FMOD_Studio_VCA_SetVolume FMOD_Studio_VCA_SetVolume;
     
     /*
     Bank

@@ -93,16 +93,28 @@ alias FMOD_DSP_SYSTEM_GETSAMPLERATE = FMOD_RESULT          function(FMOD_DSP_STA
 alias FMOD_DSP_SYSTEM_GETBLOCKSIZE = FMOD_RESULT           function(FMOD_DSP_STATE *dsp_state, uint *blocksize);
 alias FMOD_DSP_SYSTEM_GETSPEAKERMODE = FMOD_RESULT         function(FMOD_DSP_STATE *dsp_state, FMOD_SPEAKERMODE* speakermode_mixer, FMOD_SPEAKERMODE* speakermode_output);
 
-alias FMOD_DSP_DFT_FFTREAL = FMOD_RESULT                   function(FMOD_DSP_STATE* thisdsp, int size, const float *signal, FMOD_COMPLEX* dft, const float *window, int signalhop);
-alias FMOD_DSP_DFT_IFFTREAL = FMOD_RESULT                  function(FMOD_DSP_STATE* thisdsp, int size, const FMOD_COMPLEX *dft, float* signal, const float *window, int signalhop);
-alias FMOD_DSP_PAN_SUM_MONO_MATRIX = FMOD_RESULT               function(FMOD_DSP_STATE *dsp_state, int sourceSpeakerMode, float lowFrequencyGain, float overallGain, float *matrix);
-alias FMOD_DSP_PAN_SUM_STEREO_MATRIX = FMOD_RESULT             function(FMOD_DSP_STATE *dsp_state, int sourceSpeakerMode, float pan, float lowFrequencyGain, float overallGain, int matrixHop, float *matrix);
-alias FMOD_DSP_PAN_SUM_SURROUND_MATRIX = FMOD_RESULT           function(FMOD_DSP_STATE *dsp_state, int sourceSpeakerMode, int targetSpeakerMode, float direction, float extent, float rotation, float lowFrequencyGain, float overallGain, int matrixHop, float *matrix, FMOD_DSP_PAN_SURROUND_FLAGS flags);
-alias FMOD_DSP_PAN_SUM_MONO_TO_SURROUND_MATRIX = FMOD_RESULT   function(FMOD_DSP_STATE *dsp_state, int targetSpeakerMode, float direction, float extent, float lowFrequencyGain, float overallGain, int matrixHop, float *matrix);
-alias FMOD_DSP_PAN_SUM_STEREO_TO_SURROUND_MATRIX = FMOD_RESULT  function(FMOD_DSP_STATE *dsp_state, int targetSpeakerMode, float direction, float extent, float rotation, float lowFrequencyGain, float overallGain, int matrixHop, float *matrix);
-alias FMOD_DSP_PAN_3D_GET_ROLLOFF_GAIN = FMOD_RESULT           function(FMOD_DSP_STATE *dsp_state, FMOD_DSP_PAN_3D_ROLLOFF_TYPE rolloff, float distance, float mindistance, float maxdistance, float *gain);
-alias FMOD_DSP_STATE_GETCLOCK = FMOD_RESULT                    function(FMOD_DSP_STATE *dsp_state, ulong *clock, uint *offset, uint *length);
-alias FMOD_DSP_STATE_GETLISTENERATTRIBUTES = FMOD_RESULT function(FMOD_DSP_STATE *dsp_state, int *numlisteners, FMOD_3D_ATTRIBUTES *attributes);
+alias FMOD_DSP_ALLOC_FUNC = FMOD_RESULT                    function(uint size, FMOD_MEMORY_TYPE type, const(char) *sourcestr);
+alias FMOD_DSP_REALLOC_FUNC = FMOD_RESULT                  function(void *ptr, uint size, FMOD_MEMORY_TYPE type, const(char) *sourcestr);
+alias FMOD_DSP_FREE_FUNC = FMOD_RESULT                     function(void *ptr, FMOD_MEMORY_TYPE type, const(char) *sourcestr);
+alias FMOD_DSP_LOG_FUNC = FMOD_RESULT                      function(FMOD_DEBUG_FLAGS level, const(char) *file, int line, const(char) *function_, const(char) *string, ...);
+alias FMOD_DSP_GETSAMPLERATE_FUNC = FMOD_RESULT            function(FMOD_DSP_STATE *dsp_state, int *rate);
+alias FMOD_DSP_GETBLOCKSIZE_FUNC = FMOD_RESULT             function(FMOD_DSP_STATE *dsp_state, uint *blocksize);
+alias FMOD_DSP_GETSPEAKERMODE_FUNC = FMOD_RESULT           function(FMOD_DSP_STATE *dsp_state, FMOD_SPEAKERMODE *speakermode_mixer, FMOD_SPEAKERMODE *speakermode_output);
+alias FMOD_DSP_GETCLOCK_FUNC = FMOD_RESULT                 function(FMOD_DSP_STATE *dsp_state, ulong *clock, uint *offset, uint *length);
+alias FMOD_DSP_GETLISTENERATTRIBUTES_FUNC = FMOD_RESULT    function(FMOD_DSP_STATE *dsp_state, int *numlisteners, FMOD_3D_ATTRIBUTES *attributes);
+alias FMOD_DSP_GETUSERDATA_FUNC = FMOD_RESULT              function(FMOD_DSP_STATE *dsp_state, void **userdata);
+
+alias FMOD_DSP_DFT_FFTREAL_FUNC = FMOD_RESULT                   function(FMOD_DSP_STATE* thisdsp, int size, const float *signal, FMOD_COMPLEX* dft, const float *window, int signalhop);
+alias FMOD_DSP_DFT_IFFTREAL_FUNC = FMOD_RESULT                  function(FMOD_DSP_STATE* thisdsp, int size, const FMOD_COMPLEX *dft, float* signal, const float *window, int signalhop);
+
+alias FMOD_DSP_PAN_SUMMONOMATRIX_FUNC = FMOD_RESULT               function(FMOD_DSP_STATE *dsp_state, int sourceSpeakerMode, float lowFrequencyGain, float overallGain, float *matrix);
+alias FMOD_DSP_PAN_SUMSTEREOMATRIX_FUNC = FMOD_RESULT             function(FMOD_DSP_STATE *dsp_state, int sourceSpeakerMode, float pan, float lowFrequencyGain, float overallGain, int matrixHop, float *matrix);
+alias FMOD_DSP_PAN_SUMSURROUNDMATRIX_FUNC = FMOD_RESULT           function(FMOD_DSP_STATE *dsp_state, int sourceSpeakerMode, int targetSpeakerMode, float direction, float extent, float rotation, float lowFrequencyGain, float overallGain, int matrixHop, float *matrix, FMOD_DSP_PAN_SURROUND_FLAGS flags);
+alias FMOD_DSP_PAN_SUMMONOTOSURROUNDMATRIX_FUNC = FMOD_RESULT   function(FMOD_DSP_STATE *dsp_state, int targetSpeakerMode, float direction, float extent, float lowFrequencyGain, float overallGain, int matrixHop, float *matrix);
+alias FMOD_DSP_PAN_SUMSTEREOTOSURROUNDMATRIX_FUNC = FMOD_RESULT  function(FMOD_DSP_STATE *dsp_state, int targetSpeakerMode, float direction, float extent, float rotation, float lowFrequencyGain, float overallGain, int matrixHop, float *matrix);
+alias FMOD_DSP_PAN_GETROLLOFFGAIN_FUNC = FMOD_RESULT           function(FMOD_DSP_STATE *dsp_state, FMOD_DSP_PAN_3D_ROLLOFF_TYPE rolloff, float distance, float mindistance, float maxdistance, float *gain);
+alias FMOD_DSP_STATE_GETCLOCK_FUNC = FMOD_RESULT                    function(FMOD_DSP_STATE *dsp_state, ulong *clock, uint *offset, uint *length);
+alias FMOD_DSP_STATE_GETLISTENERATTRIBUTES_FUNC = FMOD_RESULT function(FMOD_DSP_STATE *dsp_state, int *numlisteners, FMOD_3D_ATTRIBUTES *attributes);
 
 static immutable FMOD_DSP_GETPARAM_VALUESTR_LENGTH = 32;
 
@@ -212,6 +224,7 @@ struct FMOD_DSP_PARAMETER_3DATTRIBUTES_MULTI
 {
     int                numlisteners;                    /* [w] The number of listeners. */
     FMOD_3D_ATTRIBUTES[FMOD_MAX_LISTENERS] relative;    /* [w] The position of the sound relative to the listeners. */
+    float[FMOD_MAX_LISTENERS]              weight;      /* [w] The weighting of the listeners where 0 means listener has no contribution and 1 means full contribution. */
     FMOD_3D_ATTRIBUTES absolute;                        /* [w] The position of the sound in world coordinates. */
 }
 
@@ -227,7 +240,7 @@ struct FMOD_DSP_PARAMETER_FFT
     float[32]  *spectrum;                              /* [r] Per channel spectrum arrays.  See remarks for more. */
 }
 
-static immutable FMOD_PLUGIN_SDK_VERSION = 109;
+static immutable FMOD_PLUGIN_SDK_VERSION = 110;
 
 struct FMOD_DSP_DESCRIPTION
 {
@@ -261,34 +274,36 @@ struct FMOD_DSP_DESCRIPTION
     FMOD_DSP_SYSTEM_MIX_CALLBACK        sys_mix;            /* [w] System mix stage callback.  This is called when the mixer starts to execute or is just finishing executing.  Useful for 'global'/per system object once a mix update calls for a plugin.  Can be null. */
 }
 
-struct FMOD_DSP_STATE_DFTCALLBACKS
+struct FMOD_DSP_STATE_DFT_FUNCTIONS
 {
-    FMOD_DSP_DFT_FFTREAL                            fftreal;        /* [r] Callback for performing an FFT on a real signal. */
-    FMOD_DSP_DFT_IFFTREAL                           inversefftreal; /* [r] Callback for performing an inverse FFT to get a real signal. */
+    FMOD_DSP_DFT_FFTREAL_FUNC  fftreal;        /* [r] Function for performing an FFT on a real signal. */
+    FMOD_DSP_DFT_IFFTREAL_FUNC inversefftreal; /* [r] Function for performing an inverse FFT to get a real signal. */
 }
 
-struct FMOD_DSP_STATE_PAN_CALLBACKS
+struct FMOD_DSP_STATE_PAN_FUNCTIONS
 {
-    FMOD_DSP_PAN_SUM_MONO_MATRIX                summonomatrix;
-    FMOD_DSP_PAN_SUM_STEREO_MATRIX              sumstereomatrix;
-    FMOD_DSP_PAN_SUM_SURROUND_MATRIX            sumsurroundmatrix;
-    FMOD_DSP_PAN_SUM_MONO_TO_SURROUND_MATRIX    summonotosurroundmatrix;
-    FMOD_DSP_PAN_SUM_STEREO_TO_SURROUND_MATRIX  sumstereotosurroundmatrix;
-    FMOD_DSP_PAN_3D_GET_ROLLOFF_GAIN            getrolloffgain;
+    FMOD_DSP_PAN_SUMMONOMATRIX_FUNC             summonomatrix;             /* [r] TBD. */
+    FMOD_DSP_PAN_SUMSTEREOMATRIX_FUNC           sumstereomatrix;           /* [r] TBD. */
+    FMOD_DSP_PAN_SUMSURROUNDMATRIX_FUNC         sumsurroundmatrix;         /* [r] TBD. */
+    FMOD_DSP_PAN_SUMMONOTOSURROUNDMATRIX_FUNC   summonotosurroundmatrix;   /* [r] TBD. */
+    FMOD_DSP_PAN_SUMSTEREOTOSURROUNDMATRIX_FUNC sumstereotosurroundmatrix; /* [r] TBD. */
+    FMOD_DSP_PAN_GETROLLOFFGAIN_FUNC            getrolloffgain;            /* [r] TBD. */
 }
 
-struct FMOD_DSP_STATE_SYSTEMCALLBACKS
+struct FMOD_DSP_STATE_FUNCTIONS
 {
-    FMOD_MEMORY_ALLOC_CALLBACK              alloc;          /* [r] Memory allocation callback. Use this for all dynamic memory allocation within the plugin. */
-    FMOD_MEMORY_REALLOC_CALLBACK            realloc;        /* [r] Memory reallocation callback. */
-    FMOD_MEMORY_FREE_CALLBACK               free;           /* [r] Memory free callback. */
-    FMOD_DSP_SYSTEM_GETSAMPLERATE           getsamplerate;  /* [r] Callback for getting the system samplerate. */
-    FMOD_DSP_SYSTEM_GETBLOCKSIZE            getblocksize;   /* [r] Callback for getting the system's block size.  DSPs will be requested to process blocks of varying length up to this size.*/
-    FMOD_DSP_STATE_DFTCALLBACKS            *dft;            /* [r] Struct containing callbacks for performing FFTs and inverse FFTs. */
-    FMOD_DSP_STATE_PAN_CALLBACKS           *pancallbacks;   /* [r] Pointer to a structure of callbacks for calculating pan, up-mix and down-mix matrices. */
-    FMOD_DSP_SYSTEM_GETSPEAKERMODE          getspeakermode; /* [r] Callback for getting the system's speaker modes.  One is the mixer's default speaker mode, the other is the output mode the system is downmixing or upmixing to.*/
-    FMOD_DSP_STATE_GETCLOCK                 getclock;       /* [r] Callback for getting the clock of the current DSP, as well as the subset of the input buffer that contains the signal */
-    FMOD_DSP_STATE_GETLISTENERATTRIBUTES    getlistenerattributes;  /* [r] Callback for getting the absolute listener attributes set via the API (returned as left-handed co-ordinates). */
+    FMOD_DSP_ALLOC_FUNC                 alloc;                  /* [r] Function to allocate memory using the FMOD memory system. */
+    FMOD_DSP_REALLOC_FUNC               realloc;                /* [r] Function to reallocate memory using the FMOD memory system. */
+    FMOD_DSP_FREE_FUNC                  free;                   /* [r] Function to free memory allocated with FMOD_DSP_ALLOC_FUNC. */
+    FMOD_DSP_GETSAMPLERATE_FUNC         getsamplerate;          /* [r] Function to query the system sample rate. */
+    FMOD_DSP_GETBLOCKSIZE_FUNC          getblocksize;           /* [r] Function to query the system block size, DSPs will be requested to process blocks of varying length up to this size. */
+    FMOD_DSP_STATE_DFT_FUNCTIONS       *dft;                    /* [r] Struct containing DFT functions to enable a plugin to perform optimized time-frequency domain conversion. */
+    FMOD_DSP_STATE_PAN_FUNCTIONS       *pan;                    /* [r] Struct containing panning helper functions for spatialization plugins. */
+    FMOD_DSP_GETSPEAKERMODE_FUNC        getspeakermode;         /* [r] Function to query the system speaker modes.  One is the mixer's default speaker mode, the other is the output mode the system is downmixing or upmixing to.*/
+    FMOD_DSP_GETCLOCK_FUNC              getclock;               /* [r] Function to get the clock of the current DSP, as well as the subset of the input buffer that contains the signal. */
+    FMOD_DSP_GETLISTENERATTRIBUTES_FUNC getlistenerattributes;  /* [r] Callback for getting the absolute listener attributes set via the API (returned as left-handed co-ordinates). */
+    FMOD_DSP_LOG_FUNC                   log;                    /* [r] Function to write to the FMOD logging system. */
+    FMOD_DSP_GETUSERDATA_FUNC           getuserdata;            /* [r] Function to get the user data attached to this DSP. See FMOD_DSP_DESCRIPTION::userdata. */
 }
 
 struct FMOD_DSP_STATE
@@ -299,7 +314,8 @@ struct FMOD_DSP_STATE
     FMOD_SPEAKERMODE                source_speakermode;  /* [r] Specifies which speaker mode the signal originated for information purposes, ie in case panning needs to be done differently. */
     float                          *sidechaindata;       /* [r] The mixed result of all incoming sidechains is stored at this pointer address. */
     int                             sidechainchannels;   /* [r] The number of channels of pcm data stored within the sidechain buffer. */
-    FMOD_DSP_STATE_SYSTEMCALLBACKS *callbacks;           /* [r] Struct containing callbacks for system level functionality. */
+    FMOD_DSP_STATE_FUNCTIONS        *functions;           /* [r] Struct containing callbacks for system level functionality. */
+    int                             systemobject;        /* [r] FMOD::System object index, relating to the System object that created this DSP. */
 }
 
 /+

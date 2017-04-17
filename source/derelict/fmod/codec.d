@@ -65,7 +65,7 @@ struct FMOD_CODEC_DESCRIPTION
 
 struct FMOD_CODEC_WAVEFORMAT
 {
-    char[256]          name;     /* [w] Name of sound.  Optional. */
+    const(char)*       name;     /* [w] Name of sound.  Optional. */
     FMOD_SOUND_FORMAT  format;        /* [w] Format for (decompressed) codec output, ie FMOD_SOUND_FORMAT_PCM8, FMOD_SOUND_FORMAT_PCM16.  Mandantory - Must be supplied. */
     int                channels;      /* [w] Number of channels used by codec, ie mono = 1, stereo = 2.  Mandantory - Must be supplied.  */
     int                frequency;     /* [w] Default frequency in hz of the codec, ie 44100.  Mandantory - Must be supplied.  */
@@ -80,7 +80,7 @@ struct FMOD_CODEC_WAVEFORMAT
     float              peakvolume;    /* [w] Peak volume of sound. Optional. Default = 0 if not used. */
 }
 
-static immutable FMOD_CODEC_WAVEFORMAT_VERSION = 2;
+static immutable FMOD_CODEC_WAVEFORMAT_VERSION = 3;
 
 struct FMOD_CODEC_STATE
 {

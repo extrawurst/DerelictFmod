@@ -252,10 +252,10 @@ extern(C) @nogc nothrow
     alias da_FMOD_Sound_GetFormat = FMOD_RESULT function(FMOD_SOUND *sound, FMOD_SOUND_TYPE *type, FMOD_SOUND_FORMAT *format, int *channels, int *bits);
     alias da_FMOD_Sound_GetNumSubSounds = FMOD_RESULT function(FMOD_SOUND *sound, int *numsubsounds);
     alias da_FMOD_Sound_GetNumTags = FMOD_RESULT function(FMOD_SOUND *sound, int *numtags, int *numtagsupdated);
-    alias da_FMOD_Sound_GetTag = FMOD_RESULT function(FMOD_SOUND *sound, const char *name, int index, FMOD_TAG *tag);
-    alias da_FMOD_Sound_GetOpenState = FMOD_RESULT function(FMOD_SOUND *sound, FMOD_OPENSTATE *openstate,  uint *percentbuffered, FMOD_BOOL *starving, FMOD_BOOL *diskbusy);
-    alias da_FMOD_Sound_ReadData = FMOD_RESULT function(FMOD_SOUND *sound, void *buffer,  uint lenbytes,  uint *read);
-    alias da_FMOD_Sound_SeekData = FMOD_RESULT function(FMOD_SOUND *sound,  uint pcm);
+    alias da_FMOD_Sound_GetTag = FMOD_RESULT function(FMOD_SOUND *sound, const(char) *name, int index, FMOD_TAG *tag);
+    alias da_FMOD_Sound_GetOpenState = FMOD_RESULT function(FMOD_SOUND *sound, FMOD_OPENSTATE *openstate, uint *percentbuffered, FMOD_BOOL *starving, FMOD_BOOL *diskbusy);
+    alias da_FMOD_Sound_ReadData = FMOD_RESULT function(FMOD_SOUND *sound, void *buffer, uint length, uint *read);
+    alias da_FMOD_Sound_SeekData = FMOD_RESULT function(FMOD_SOUND *sound, uint pcm);
     
     alias da_FMOD_Sound_SetSoundGroup = FMOD_RESULT function(FMOD_SOUND *sound, FMOD_SOUNDGROUP *soundgroup);
     alias da_FMOD_Sound_GetSoundGroup = FMOD_RESULT function(FMOD_SOUND *sound, FMOD_SOUNDGROUP **soundgroup);
@@ -361,7 +361,6 @@ extern(C) @nogc nothrow
     alias da_FMOD_Channel_GetNumDSPs = FMOD_RESULT function(FMOD_CHANNEL *channel, int *numdsps);
     alias da_FMOD_Channel_SetDSPIndex = FMOD_RESULT function(FMOD_CHANNEL *channel, FMOD_DSP *dsp, int index);
     alias da_FMOD_Channel_GetDSPIndex = FMOD_RESULT function(FMOD_CHANNEL *channel, FMOD_DSP *dsp, int *index);
-    alias da_FMOD_Channel_OverridePanDSP = FMOD_RESULT function(FMOD_CHANNEL *channel, FMOD_DSP *pan);
     
     /*
      3D functionality.
@@ -483,7 +482,6 @@ extern(C) @nogc nothrow
     alias da_FMOD_ChannelGroup_GetNumDSPs = FMOD_RESULT function(FMOD_CHANNELGROUP *channelgroup, int *numdsps);
     alias da_FMOD_ChannelGroup_SetDSPIndex = FMOD_RESULT function(FMOD_CHANNELGROUP *channelgroup, FMOD_DSP *dsp, int index);
     alias da_FMOD_ChannelGroup_GetDSPIndex = FMOD_RESULT function(FMOD_CHANNELGROUP *channelgroup, FMOD_DSP *dsp, int *index);
-    alias da_FMOD_ChannelGroup_OverridePanDSP = FMOD_RESULT function(FMOD_CHANNELGROUP *channelgroup, FMOD_DSP *pan);
     
     /*
      3D functionality.
@@ -913,7 +911,6 @@ __gshared
     da_FMOD_Channel_GetNumDSPs FMOD_Channel_GetNumDSPs;
     da_FMOD_Channel_SetDSPIndex FMOD_Channel_SetDSPIndex;
     da_FMOD_Channel_GetDSPIndex FMOD_Channel_GetDSPIndex;
-    da_FMOD_Channel_OverridePanDSP FMOD_Channel_OverridePanDSP;
     da_FMOD_Channel_Set3DAttributes FMOD_Channel_Set3DAttributes;
     da_FMOD_Channel_Get3DAttributes FMOD_Channel_Get3DAttributes;
     da_FMOD_Channel_Set3DMinMaxDistance FMOD_Channel_Set3DMinMaxDistance;
@@ -990,7 +987,6 @@ __gshared
     da_FMOD_ChannelGroup_GetNumDSPs FMOD_ChannelGroup_GetNumDSPs;
     da_FMOD_ChannelGroup_SetDSPIndex FMOD_ChannelGroup_SetDSPIndex;
     da_FMOD_ChannelGroup_GetDSPIndex FMOD_ChannelGroup_GetDSPIndex;
-    da_FMOD_ChannelGroup_OverridePanDSP FMOD_ChannelGroup_OverridePanDSP;
     da_FMOD_ChannelGroup_Set3DAttributes FMOD_ChannelGroup_Set3DAttributes;
     da_FMOD_ChannelGroup_Get3DAttributes FMOD_ChannelGroup_Get3DAttributes;
     da_FMOD_ChannelGroup_Set3DMinMaxDistance FMOD_ChannelGroup_Set3DMinMaxDistance;
