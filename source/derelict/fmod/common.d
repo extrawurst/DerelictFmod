@@ -38,7 +38,7 @@ import derelict.fmod.dsp;
 
 align(1):
 
-static immutable FMOD_VERSION    = 0x00010904;
+static immutable FMOD_VERSION    = 0x00010905;
 
 alias int                        FMOD_BOOL;
 struct FMOD_SYSTEM         {};
@@ -648,7 +648,7 @@ static immutable FMOD_TIMEUNIT_MODROW            = 0x00000200;  /* MOD/S3M/XM/IT
 static immutable FMOD_TIMEUNIT_MODPATTERN        = 0x00000400;  /* MOD/S3M/XM/IT.  Current pattern in a sequenced module format.  Sound::getLength will return the number of patterns in the song and Channel::getPosition will return the currently playing pattern. */
 static immutable FMOD_TIMEUNIT_BUFFERED          = 0x10000000;  /* Time value as seen by buffered stream.  This is always ahead of audible time, and is only used for processing. */
 
-static immutable FMOD_PORT_INDEX_NONE            = -1UL;
+static immutable FMOD_PORT_INDEX_NONE            = 0xFFFFFFFFFFFFFFFF;
 
 struct FMOD_CREATESOUNDEXINFO
 {
