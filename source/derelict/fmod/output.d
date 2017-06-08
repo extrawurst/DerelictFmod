@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2016 Derelict Developers
+ * Copyright (c) 2017 Derelict Developers
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,46 +67,46 @@ alias FMOD_OUTPUT_LOG = void                            function(FMOD_DEBUG_FLAG
 
 struct FMOD_OUTPUT_DESCRIPTION
 {
-    uint                            apiversion;         /* [w] The output plugin API version this plugin is built for. Set to this to FMOD_OUTPUT_PLUGIN_VERSION defined above. */
-    const(char)                         *name;                  /* [in] Name of the output. */
-    uint                                version_;               /* [in] Plugin writer's version number. */
-    int                                 polling;               /* [in] If TRUE (non zero), this tells FMOD to start a thread and call getposition / lock / unlock for feeding data.  If 0, the output is probably callback based, so all the plugin needs to do is call readfrommixer to the appropriate pointer. */ 
-    FMOD_OUTPUT_GETNUMDRIVERS_CALLBACK  getnumdrivers;         /* [in] For sound device enumeration.  This callback is to give System::getNumDrivers somthing to return. */
-    FMOD_OUTPUT_GETDRIVERINFO_CALLBACK  getdriverinfo;         /* [in] For sound device enumeration.  This callback is to give System::getDriverName somthing to return. */
-    FMOD_OUTPUT_INIT_CALLBACK           init;                  /* [in] Initialization function for the output device.  This is called from System::init. */
-    FMOD_OUTPUT_START_CALLBACK          start;                 /* [in] Initialization function for the output device to start accepting audio data from the FMOD software mixer.  This is called from System::init. */
-    FMOD_OUTPUT_STOP_CALLBACK           stop;                  /* [in] Initialization function for the output device to stop accepting audio data from FMOD the software mixer.  This is called from System::close. */
-    FMOD_OUTPUT_CLOSE_CALLBACK          close;                 /* [in] Cleanup / close down function for the output device.  This is called from System::close. */
-    FMOD_OUTPUT_UPDATE_CALLBACK         update;                /* [in] Update function that is called once a frame by the user.  This is called from System::update. */
-    FMOD_OUTPUT_GETHANDLE_CALLBACK      gethandle;             /* [in] This is called from System::getOutputHandle.  This is just to return a pointer to the internal system device object that the system may be using.*/
-    FMOD_OUTPUT_GETPOSITION_CALLBACK    getposition;           /* [in] This is called from the FMOD software mixer thread if 'polling' = true.  This returns a position value in samples so that FMOD knows where and when to fill its buffer. */
-    FMOD_OUTPUT_LOCK_CALLBACK           lock;                  /* [in] This is called from the FMOD software mixer thread if 'polling' = true.  This function provides a pointer to data that FMOD can write to when software mixing. */
-    FMOD_OUTPUT_UNLOCK_CALLBACK         unlock;                /* [in] This is called from the FMOD software mixer thread if 'polling' = true.  This optional function accepts the data that has been mixed and copies it or does whatever it needs to before sending it to the hardware. */
-    FMOD_OUTPUT_MIXER_CALLBACK              mixer;              /* [w] ('polling' == FALSE) Mixer thread that will continually retrigger. Wait on a synchronization primitive until ready, then call FMOD_OUTPUT_READFROMMIXER, then leave the callback (will retrigger immediately if mixer is still running). Called continually after FMOD_OUTPUT_START_CALLBACK and before FMOD_OUTPUT_STOP_CALLBACK. */
-    FMOD_OUTPUT_OBJECT3DGETINFO_CALLBACK    object3dgetinfo;    /* [w] Provide information about the capabilities of the 3D object hardware. Called during a mix. */
-    FMOD_OUTPUT_OBJECT3DALLOC_CALLBACK      object3dalloc;      /* [w] Reserve a hardware resources for a single 3D object. Called during a mix. */
-    FMOD_OUTPUT_OBJECT3DFREE_CALLBACK       object3dfree;       /* [w] Release a hardware resource previously acquired with FMOD_OUTPUT_OBJECT3DALLOC_CALLBACK. Called during a mix. */
-    FMOD_OUTPUT_OBJECT3DUPDATE_CALLBACK     object3dupdate;     /* [w] Called once for every acquired 3D object every mix to provide 3D information and buffered audio. Called during a mix. */
-    FMOD_OUTPUT_OPENPORT_CALLBACK           openport;           /* [w] Optional main thread callback to open an auxiliary output port on the device. */
-    FMOD_OUTPUT_CLOSEPORT_CALLBACK          closeport;          /* [w] Optional main thread callback to close an auxiliary output port on the device. */
+	uint                            apiversion;         /* [w] The output plugin API version this plugin is built for. Set to this to FMOD_OUTPUT_PLUGIN_VERSION defined above. */
+	const(char)                         *name;                  /* [in] Name of the output. */
+	uint                                version_;               /* [in] Plugin writer's version number. */
+	int                                 polling;               /* [in] If TRUE (non zero), this tells FMOD to start a thread and call getposition / lock / unlock for feeding data.  If 0, the output is probably callback based, so all the plugin needs to do is call readfrommixer to the appropriate pointer. */ 
+	FMOD_OUTPUT_GETNUMDRIVERS_CALLBACK  getnumdrivers;         /* [in] For sound device enumeration.  This callback is to give System::getNumDrivers somthing to return. */
+	FMOD_OUTPUT_GETDRIVERINFO_CALLBACK  getdriverinfo;         /* [in] For sound device enumeration.  This callback is to give System::getDriverName somthing to return. */
+	FMOD_OUTPUT_INIT_CALLBACK           init;                  /* [in] Initialization function for the output device.  This is called from System::init. */
+	FMOD_OUTPUT_START_CALLBACK          start;                 /* [in] Initialization function for the output device to start accepting audio data from the FMOD software mixer.  This is called from System::init. */
+	FMOD_OUTPUT_STOP_CALLBACK           stop;                  /* [in] Initialization function for the output device to stop accepting audio data from FMOD the software mixer.  This is called from System::close. */
+	FMOD_OUTPUT_CLOSE_CALLBACK          close;                 /* [in] Cleanup / close down function for the output device.  This is called from System::close. */
+	FMOD_OUTPUT_UPDATE_CALLBACK         update;                /* [in] Update function that is called once a frame by the user.  This is called from System::update. */
+	FMOD_OUTPUT_GETHANDLE_CALLBACK      gethandle;             /* [in] This is called from System::getOutputHandle.  This is just to return a pointer to the internal system device object that the system may be using.*/
+	FMOD_OUTPUT_GETPOSITION_CALLBACK    getposition;           /* [in] This is called from the FMOD software mixer thread if 'polling' = true.  This returns a position value in samples so that FMOD knows where and when to fill its buffer. */
+	FMOD_OUTPUT_LOCK_CALLBACK           lock;                  /* [in] This is called from the FMOD software mixer thread if 'polling' = true.  This function provides a pointer to data that FMOD can write to when software mixing. */
+	FMOD_OUTPUT_UNLOCK_CALLBACK         unlock;                /* [in] This is called from the FMOD software mixer thread if 'polling' = true.  This optional function accepts the data that has been mixed and copies it or does whatever it needs to before sending it to the hardware. */
+	FMOD_OUTPUT_MIXER_CALLBACK              mixer;              /* [w] ('polling' == FALSE) Mixer thread that will continually retrigger. Wait on a synchronization primitive until ready, then call FMOD_OUTPUT_READFROMMIXER, then leave the callback (will retrigger immediately if mixer is still running). Called continually after FMOD_OUTPUT_START_CALLBACK and before FMOD_OUTPUT_STOP_CALLBACK. */
+	FMOD_OUTPUT_OBJECT3DGETINFO_CALLBACK    object3dgetinfo;    /* [w] Provide information about the capabilities of the 3D object hardware. Called during a mix. */
+	FMOD_OUTPUT_OBJECT3DALLOC_CALLBACK      object3dalloc;      /* [w] Reserve a hardware resources for a single 3D object. Called during a mix. */
+	FMOD_OUTPUT_OBJECT3DFREE_CALLBACK       object3dfree;       /* [w] Release a hardware resource previously acquired with FMOD_OUTPUT_OBJECT3DALLOC_CALLBACK. Called during a mix. */
+	FMOD_OUTPUT_OBJECT3DUPDATE_CALLBACK     object3dupdate;     /* [w] Called once for every acquired 3D object every mix to provide 3D information and buffered audio. Called during a mix. */
+	FMOD_OUTPUT_OPENPORT_CALLBACK           openport;           /* [w] Optional main thread callback to open an auxiliary output port on the device. */
+	FMOD_OUTPUT_CLOSEPORT_CALLBACK          closeport;          /* [w] Optional main thread callback to close an auxiliary output port on the device. */
 }
 
 struct FMOD_OUTPUT_STATE
 {
-    void                      *plugindata;      /* [in] Plugin writer created data the output author wants to attach to this object. */
-    FMOD_OUTPUT_READFROMMIXER   readfrommixer;  /* [r] Function to execute the mixer producing a buffer of audio. Used to control when the mix occurs manually as an alternative to FMOD_OUTPUT_DESCRIPTION::polling == TRUE. */
-    FMOD_OUTPUT_ALLOC           alloc;          /* [r] Function to allocate memory using the FMOD memory system. */
-    FMOD_OUTPUT_FREE            free;           /* [r] Function to free memory allocated with FMOD_OUTPUT_ALLOC. */
-    FMOD_OUTPUT_LOG             log;            /* [r] Function to write to the FMOD logging system. */
-    FMOD_OUTPUT_COPYPORT        copyport;       /* [r] Function to copy the output from the mixer for the given auxiliary port */
+	void                      *plugindata;      /* [in] Plugin writer created data the output author wants to attach to this object. */
+	FMOD_OUTPUT_READFROMMIXER   readfrommixer;  /* [r] Function to execute the mixer producing a buffer of audio. Used to control when the mix occurs manually as an alternative to FMOD_OUTPUT_DESCRIPTION::polling == TRUE. */
+	FMOD_OUTPUT_ALLOC           alloc;          /* [r] Function to allocate memory using the FMOD memory system. */
+	FMOD_OUTPUT_FREE            free;           /* [r] Function to free memory allocated with FMOD_OUTPUT_ALLOC. */
+	FMOD_OUTPUT_LOG             log;            /* [r] Function to write to the FMOD logging system. */
+	FMOD_OUTPUT_COPYPORT        copyport;       /* [r] Function to copy the output from the mixer for the given auxiliary port */
 }
 
 struct FMOD_OUTPUT_OBJECT3DINFO
 {
-    float          *buffer;         /* [r] Mono PCM floating point buffer. This buffer needs to be scaled by the gain value to get distance attenuation.  */
-    uint            bufferlength;   /* [r] Length in PCM samples of buffer. */
-    FMOD_VECTOR     position;       /* [r] Vector relative between object and listener. */
-    float           gain;           /* [r] 0.0 to 1.0 - 1 = 'buffer' is not attenuated, 0 = 'buffer' is fully attenuated. */
-    float           spread;         /* [r] 0 - 360 degrees.  0 = point source, 360 = sound is spread around all speakers */
-    float           priority;       /* [r] 0.0 to 1.0 - 0 = most important, 1 = least important. Based on height and distance (height is more important). */
+	float          *buffer;         /* [r] Mono PCM floating point buffer. This buffer needs to be scaled by the gain value to get distance attenuation.  */
+	uint            bufferlength;   /* [r] Length in PCM samples of buffer. */
+	FMOD_VECTOR     position;       /* [r] Vector relative between object and listener. */
+	float           gain;           /* [r] 0.0 to 1.0 - 1 = 'buffer' is not attenuated, 0 = 'buffer' is fully attenuated. */
+	float           spread;         /* [r] 0 - 360 degrees.  0 = point source, 360 = sound is spread around all speakers */
+	float           priority;       /* [r] 0.0 to 1.0 - 0 = most important, 1 = least important. Based on height and distance (height is more important). */
 }

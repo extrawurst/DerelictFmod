@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright (c) 2016 Derelict Developers
+ * Copyright (c) 2017 Derelict Developers
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,33 +40,33 @@ align(1):
 
 struct FMOD_DSP_BUFFER_ARRAY
 {
-    int                numbuffers;              /* [r/w] number of buffers */
-    int               *buffernumchannels;       /* [r/w] array of number of channels for each buffer */
-    FMOD_CHANNELMASK  *bufferchannelmask;       /* [r/w] array of channel masks for each buffer */
-    float            **buffers;                 /* [r/w] array of buffers */
-    FMOD_SPEAKERMODE   speakermode;             /* [r/w] speaker mode for all buffers in the array */
+	int                numbuffers;              /* [r/w] number of buffers */
+	int               *buffernumchannels;       /* [r/w] array of number of channels for each buffer */
+	FMOD_CHANNELMASK  *bufferchannelmask;       /* [r/w] array of channel masks for each buffer */
+	float            **buffers;                 /* [r/w] array of buffers */
+	FMOD_SPEAKERMODE   speakermode;             /* [r/w] speaker mode for all buffers in the array */
 }
 
 alias FMOD_DSP_PROCESS_OPERATION = int;
 enum
 {
-    FMOD_DSP_PROCESS_PERFORM,                   /* Process the incoming audio in 'inbufferarray' and output to 'outbufferarray'. */
-    FMOD_DSP_PROCESS_QUERY                      /* The DSP is being queried for the expected output format and whether it needs to process audio or should be bypassed.  The function should return FMOD_OK, or FMOD_ERR_DSP_DONTPROCESS or FMOD_ERR_DSP_SILENCE if audio can pass through unprocessed. See remarks for more.  If audio is to be processed, 'outbufferarray' must be filled with the expected output format, channel count and mask. */
+	FMOD_DSP_PROCESS_PERFORM,                   /* Process the incoming audio in 'inbufferarray' and output to 'outbufferarray'. */
+	FMOD_DSP_PROCESS_QUERY                      /* The DSP is being queried for the expected output format and whether it needs to process audio or should be bypassed.  The function should return FMOD_OK, or FMOD_ERR_DSP_DONTPROCESS or FMOD_ERR_DSP_SILENCE if audio can pass through unprocessed. See remarks for more.  If audio is to be processed, 'outbufferarray' must be filled with the expected output format, channel count and mask. */
 }
 
 struct FMOD_COMPLEX
 {
-    float real_; /* Real component */
-    float imag; /* Imaginary component */
+	float real_; /* Real component */
+	float imag; /* Imaginary component */
 }
 
 alias FMOD_DSP_PAN_SURROUND_FLAGS = int;
 enum
 {
-    FMOD_DSP_PAN_SURROUND_DEFAULT = 0,
-    FMOD_DSP_PAN_SURROUND_ROTATION_NOT_BIASED = 1,
-    
-    FMOD_DSP_PAN_SURROUND_FLAGS_FORCEINT = 65536     /* Makes sure this enum is signed 32bit. */
+	FMOD_DSP_PAN_SURROUND_DEFAULT = 0,
+	FMOD_DSP_PAN_SURROUND_ROTATION_NOT_BIASED = 1,
+	
+	FMOD_DSP_PAN_SURROUND_FLAGS_FORCEINT = 65536     /* Makes sure this enum is signed 32bit. */
 } 
 
 alias FMOD_DSP_CREATE_CALLBACK = FMOD_RESULT               function(FMOD_DSP_STATE *dsp_state);
@@ -85,9 +85,9 @@ alias FMOD_DSP_GETPARAM_INT_CALLBACK = FMOD_RESULT         function(FMOD_DSP_STA
 alias FMOD_DSP_GETPARAM_BOOL_CALLBACK = FMOD_RESULT        function(FMOD_DSP_STATE *dsp_state, int index, FMOD_BOOL *value, char *valuestr);
 alias FMOD_DSP_GETPARAM_DATA_CALLBACK = FMOD_RESULT        function(FMOD_DSP_STATE *dsp_state, int index, void **data, uint *length, char *valuestr);
 
-alias FMOD_DSP_SYSTEM_REGISTER_CALLBACK = FMOD_RESULT		function (FMOD_DSP_STATE *dsp_state);
-alias FMOD_DSP_SYSTEM_DEREGISTER_CALLBACK = FMOD_RESULT		function (FMOD_DSP_STATE *dsp_state);
-alias FMOD_DSP_SYSTEM_MIX_CALLBACK = FMOD_RESULT			function (FMOD_DSP_STATE *dsp_state, int stage);
+alias FMOD_DSP_SYSTEM_REGISTER_CALLBACK = FMOD_RESULT		function(FMOD_DSP_STATE *dsp_state);
+alias FMOD_DSP_SYSTEM_DEREGISTER_CALLBACK = FMOD_RESULT		function(FMOD_DSP_STATE *dsp_state);
+alias FMOD_DSP_SYSTEM_MIX_CALLBACK = FMOD_RESULT			function(FMOD_DSP_STATE *dsp_state, int stage);
 
 alias FMOD_DSP_SYSTEM_GETSAMPLERATE = FMOD_RESULT          function(FMOD_DSP_STATE *dsp_state, int *rate);
 alias FMOD_DSP_SYSTEM_GETBLOCKSIZE = FMOD_RESULT           function(FMOD_DSP_STATE *dsp_state, uint *blocksize);
@@ -121,201 +121,201 @@ static immutable FMOD_DSP_GETPARAM_VALUESTR_LENGTH = 32;
 alias FMOD_DSP_PARAMETER_TYPE = int;
 enum
 {
-    FMOD_DSP_PARAMETER_TYPE_FLOAT,
-    FMOD_DSP_PARAMETER_TYPE_INT,
-    FMOD_DSP_PARAMETER_TYPE_BOOL,
-    FMOD_DSP_PARAMETER_TYPE_DATA,
-    
-    FMOD_DSP_PARAMETER_TYPE_MAX,                /* Maximum number of DSP parameter types. */
-    FMOD_DSP_PARAMETER_TYPE_FORCEINT = 65536    /* Makes sure this enum is signed 32bit. */
+	FMOD_DSP_PARAMETER_TYPE_FLOAT,
+	FMOD_DSP_PARAMETER_TYPE_INT,
+	FMOD_DSP_PARAMETER_TYPE_BOOL,
+	FMOD_DSP_PARAMETER_TYPE_DATA,
+	
+	FMOD_DSP_PARAMETER_TYPE_MAX,                /* Maximum number of DSP parameter types. */
+	FMOD_DSP_PARAMETER_TYPE_FORCEINT = 65536    /* Makes sure this enum is signed 32bit. */
 }
 
 alias FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE = int;
 enum
 {
-    FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_LINEAR,               /* Values mapped linearly across range. */
-    FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_AUTO,                 /* A mapping is automatically chosen based on range and units.  See remarks. */
-    FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_PIECEWISE_LINEAR,     /* Values mapped in a piecewise linear fashion defined by FMOD_DSP_PARAMETER_FLOAT_MAPPING_PIECEWISE_LINEAR. */
-    
-    FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_FORCEINT = 65536      /* Makes sure this enum is signed 32bit. */
+	FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_LINEAR,               /* Values mapped linearly across range. */
+	FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_AUTO,                 /* A mapping is automatically chosen based on range and units.  See remarks. */
+	FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_PIECEWISE_LINEAR,     /* Values mapped in a piecewise linear fashion defined by FMOD_DSP_PARAMETER_FLOAT_MAPPING_PIECEWISE_LINEAR. */
+	
+	FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_FORCEINT = 65536      /* Makes sure this enum is signed 32bit. */
 }
 
 struct FMOD_DSP_PARAMETER_FLOAT_MAPPING_PIECEWISE_LINEAR
 {
-    int numpoints;                              /* [w] The number of <position, value> pairs in the piecewise mapping (at least 2). */
-    float *pointparamvalues;                    /* [w] The values in the parameter's units for each point */
-    float *pointpositions;                      /* [w] The positions along the control's scale (e.g. dial angle) corresponding to each parameter value.  The range of this scale is arbitrary and all positions will be relative to the minimum and maximum values (e.g. [0,1,3] is equivalent to [1,2,4] and [2,4,8]).  If this array is zero, pointparamvalues will be distributed with equal spacing. */
+	int numpoints;                              /* [w] The number of <position, value> pairs in the piecewise mapping (at least 2). */
+	float *pointparamvalues;                    /* [w] The values in the parameter's units for each point */
+	float *pointpositions;                      /* [w] The positions along the control's scale (e.g. dial angle) corresponding to each parameter value.  The range of this scale is arbitrary and all positions will be relative to the minimum and maximum values (e.g. [0,1,3] is equivalent to [1,2,4] and [2,4,8]).  If this array is zero, pointparamvalues will be distributed with equal spacing. */
 }
 
 struct FMOD_DSP_PARAMETER_FLOAT_MAPPING
 {
-    FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE type;
-    FMOD_DSP_PARAMETER_FLOAT_MAPPING_PIECEWISE_LINEAR piecewiselinearmapping; /* [w] Only required for FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_PIECEWISE_LINEAR type mapping. */
+	FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE type;
+	FMOD_DSP_PARAMETER_FLOAT_MAPPING_PIECEWISE_LINEAR piecewiselinearmapping; /* [w] Only required for FMOD_DSP_PARAMETER_FLOAT_MAPPING_TYPE_PIECEWISE_LINEAR type mapping. */
 }
 
 struct FMOD_DSP_PARAMETER_DESC_FLOAT
 {
-    float                     min;                      /* [w] Minimum parameter value. */
-    float                     max;                      /* [w] Maximum parameter value. */
-    float                     defaultval;               /* [w] Default parameter value. */
-    FMOD_DSP_PARAMETER_FLOAT_MAPPING mapping;           /* [w] How the values are distributed across dials and automation curves (e.g. linearly, exponentially etc). */
+	float                     min;                      /* [w] Minimum parameter value. */
+	float                     max;                      /* [w] Maximum parameter value. */
+	float                     defaultval;               /* [w] Default parameter value. */
+	FMOD_DSP_PARAMETER_FLOAT_MAPPING mapping;           /* [w] How the values are distributed across dials and automation curves (e.g. linearly, exponentially etc). */
 }
 
 struct FMOD_DSP_PARAMETER_DESC_INT
 {
-    int                       min;                      /* [w] Minimum parameter value. */
-    int                       max;                      /* [w] Maximum parameter value. */
-    int                       defaultval;               /* [w] Default parameter value. */
-    FMOD_BOOL                 goestoinf;                /* [w] Whether the last value represents infiniy. */
-    const char**        valuenames;               /* [w] Names for each value.  There should be as many strings as there are possible values (max - min + 1).  Optional. */
+	int                       min;                      /* [w] Minimum parameter value. */
+	int                       max;                      /* [w] Maximum parameter value. */
+	int                       defaultval;               /* [w] Default parameter value. */
+	FMOD_BOOL                 goestoinf;                /* [w] Whether the last value represents infiniy. */
+	const char**        valuenames;               /* [w] Names for each value.  There should be as many strings as there are possible values (max - min + 1).  Optional. */
 }
 
 struct FMOD_DSP_PARAMETER_DESC_BOOL
 {
-    FMOD_BOOL                 defaultval;               /* [w] Default parameter value. */
-    const char**        valuenames;               /* [w] Names for false and true, respectively.  There should be two strings.  Optional. */
+	FMOD_BOOL                 defaultval;               /* [w] Default parameter value. */
+	const char**        valuenames;               /* [w] Names for false and true, respectively.  There should be two strings.  Optional. */
 }
 
 struct FMOD_DSP_PARAMETER_DESC_DATA
 {
-    int                       datatype;                 /* [w] The type of data for this parameter.  Use 0 or above for custom types or set to one of the FMOD_DSP_PARAMETER_DATA_TYPE values. */
+	int                       datatype;                 /* [w] The type of data for this parameter.  Use 0 or above for custom types or set to one of the FMOD_DSP_PARAMETER_DATA_TYPE values. */
 }
 
 struct FMOD_DSP_PARAMETER_DESC
 {
-    FMOD_DSP_PARAMETER_TYPE   type;                 /* [w] Type of this parameter. */
-    char[16]                      name;             /* [w] Name of the parameter to be displayed (ie "Cutoff frequency"). */
-    char[16]                      label;            /* [w] Short string to be put next to value to denote the unit type (ie "hz"). */
-    const char               *description;          /* [w] Description of the parameter to be displayed as a help item / tooltip for this parameter. */
-    
-    union
-    {
-        FMOD_DSP_PARAMETER_DESC_FLOAT   floatdesc;  /* [w] Struct containing information about the parameter in floating point format.  Use when type is FMOD_DSP_PARAMETER_TYPE_FLOAT. */
-        FMOD_DSP_PARAMETER_DESC_INT     intdesc;    /* [w] Struct containing information about the parameter in integer format.  Use when type is FMOD_DSP_PARAMETER_TYPE_INT. */
-        FMOD_DSP_PARAMETER_DESC_BOOL    booldesc;   /* [w] Struct containing information about the parameter in boolean format.  Use when type is FMOD_DSP_PARAMETER_TYPE_BOOL. */
-        FMOD_DSP_PARAMETER_DESC_DATA    datadesc;   /* [w] Struct containing information about the parameter in data format.  Use when type is FMOD_DSP_PARAMETER_TYPE_DATA. */
-    }
+	FMOD_DSP_PARAMETER_TYPE   type;                 /* [w] Type of this parameter. */
+	char[16]                      name;             /* [w] Name of the parameter to be displayed (ie "Cutoff frequency"). */
+	char[16]                      label;            /* [w] Short string to be put next to value to denote the unit type (ie "hz"). */
+	const char               *description;          /* [w] Description of the parameter to be displayed as a help item / tooltip for this parameter. */
+	
+	union
+	{
+		FMOD_DSP_PARAMETER_DESC_FLOAT   floatdesc;  /* [w] Struct containing information about the parameter in floating point format.  Use when type is FMOD_DSP_PARAMETER_TYPE_FLOAT. */
+		FMOD_DSP_PARAMETER_DESC_INT     intdesc;    /* [w] Struct containing information about the parameter in integer format.  Use when type is FMOD_DSP_PARAMETER_TYPE_INT. */
+		FMOD_DSP_PARAMETER_DESC_BOOL    booldesc;   /* [w] Struct containing information about the parameter in boolean format.  Use when type is FMOD_DSP_PARAMETER_TYPE_BOOL. */
+		FMOD_DSP_PARAMETER_DESC_DATA    datadesc;   /* [w] Struct containing information about the parameter in data format.  Use when type is FMOD_DSP_PARAMETER_TYPE_DATA. */
+	}
 }
 
 alias FMOD_DSP_PARAMETER_DATA_TYPE = int;
 enum
 {
-    FMOD_DSP_PARAMETER_DATA_TYPE_USER = 0,                  /* The default data type.  All user data types should be 0 or above. */
-    FMOD_DSP_PARAMETER_DATA_TYPE_OVERALLGAIN = -1,          /* The data type for FMOD_DSP_PARAMETER_OVERALLGAIN parameters.  There should a maximum of one per DSP. */
-    FMOD_DSP_PARAMETER_DATA_TYPE_3DATTRIBUTES = -2,         /* The data type for FMOD_DSP_PARAMETER_3DATTRIBUTES parameters.  There should a maximum of one per DSP. */
-    FMOD_DSP_PARAMETER_DATA_TYPE_SIDECHAIN = -3,            /* The data type for FMOD_DSP_PARAMETER_SIDECHAIN parameters.  There should a maximum of one per DSP. */
-    FMOD_DSP_PARAMETER_DATA_TYPE_FFT = -4,                  /* The data type for FMOD_DSP_PARAMETER_FFT parameters.  There should a maximum of one per DSP. */
-    FMOD_DSP_PARAMETER_DATA_TYPE_3DATTRIBUTES_MULTI = -5,   /* The data type for FMOD_DSP_PARAMETER_3DATTRIBUTES_MULTI parameters.  There should a maximum of one per DSP. */
+	FMOD_DSP_PARAMETER_DATA_TYPE_USER = 0,                  /* The default data type.  All user data types should be 0 or above. */
+	FMOD_DSP_PARAMETER_DATA_TYPE_OVERALLGAIN = -1,          /* The data type for FMOD_DSP_PARAMETER_OVERALLGAIN parameters.  There should a maximum of one per DSP. */
+	FMOD_DSP_PARAMETER_DATA_TYPE_3DATTRIBUTES = -2,         /* The data type for FMOD_DSP_PARAMETER_3DATTRIBUTES parameters.  There should a maximum of one per DSP. */
+	FMOD_DSP_PARAMETER_DATA_TYPE_SIDECHAIN = -3,            /* The data type for FMOD_DSP_PARAMETER_SIDECHAIN parameters.  There should a maximum of one per DSP. */
+	FMOD_DSP_PARAMETER_DATA_TYPE_FFT = -4,                  /* The data type for FMOD_DSP_PARAMETER_FFT parameters.  There should a maximum of one per DSP. */
+	FMOD_DSP_PARAMETER_DATA_TYPE_3DATTRIBUTES_MULTI = -5,   /* The data type for FMOD_DSP_PARAMETER_3DATTRIBUTES_MULTI parameters.  There should a maximum of one per DSP. */
 }
 
 struct FMOD_DSP_PARAMETER_OVERALLGAIN
 {
-    float linear_gain;                                  /* [r] The overall linear gain of the effect on the direct signal path */
-    float linear_gain_additive;                         /* [r] Additive gain, for parallel signal paths */
+	float linear_gain;                                  /* [r] The overall linear gain of the effect on the direct signal path */
+	float linear_gain_additive;                         /* [r] Additive gain, for parallel signal paths */
 }
 
 struct FMOD_DSP_PARAMETER_3DATTRIBUTES
 {
-    FMOD_3D_ATTRIBUTES relative;                        /* [w] The position of the sound relative to the listener. */
-    FMOD_3D_ATTRIBUTES absolute;                        /* [w] The position of the sound in world coordinates. */
+	FMOD_3D_ATTRIBUTES relative;                        /* [w] The position of the sound relative to the listener. */
+	FMOD_3D_ATTRIBUTES absolute;                        /* [w] The position of the sound in world coordinates. */
 }
 
 struct FMOD_DSP_PARAMETER_3DATTRIBUTES_MULTI
 {
-    int                numlisteners;                    /* [w] The number of listeners. */
-    FMOD_3D_ATTRIBUTES[FMOD_MAX_LISTENERS] relative;    /* [w] The position of the sound relative to the listeners. */
-    float[FMOD_MAX_LISTENERS]              weight;      /* [w] The weighting of the listeners where 0 means listener has no contribution and 1 means full contribution. */
-    FMOD_3D_ATTRIBUTES absolute;                        /* [w] The position of the sound in world coordinates. */
+	int                numlisteners;                    /* [w] The number of listeners. */
+	FMOD_3D_ATTRIBUTES[FMOD_MAX_LISTENERS] relative;    /* [w] The position of the sound relative to the listeners. */
+	float[FMOD_MAX_LISTENERS]              weight;      /* [w] The weighting of the listeners where 0 means listener has no contribution and 1 means full contribution. */
+	FMOD_3D_ATTRIBUTES absolute;                        /* [w] The position of the sound in world coordinates. */
 }
 
 struct FMOD_DSP_PARAMETER_SIDECHAIN
 {
-    FMOD_BOOL sidechainenable;                               /* [r/w] Whether sidechains are enabled. */
+	FMOD_BOOL sidechainenable;                               /* [r/w] Whether sidechains are enabled. */
 }
 
 struct FMOD_DSP_PARAMETER_FFT
 {
-    int     length;                                    /* [r] Number of entries in this spectrum window.   Divide this by the output rate to get the hz per entry. */
-    int     numchannels;                               /* [r] Number of channels in spectrum. */
-    float[32]  *spectrum;                              /* [r] Per channel spectrum arrays.  See remarks for more. */
+	int     length;                                    /* [r] Number of entries in this spectrum window.   Divide this by the output rate to get the hz per entry. */
+	int     numchannels;                               /* [r] Number of channels in spectrum. */
+	float[32]  *spectrum;                              /* [r] Per channel spectrum arrays.  See remarks for more. */
 }
 
 static immutable FMOD_PLUGIN_SDK_VERSION = 110;
 
 struct FMOD_DSP_DESCRIPTION
 {
-    uint                     pluginsdkversion;   /* [w] The plugin SDK version this plugin is built for.  set to this to FMOD_PLUGIN_SDK_VERSION defined above. */
-    char[32]                             name;           /* [w] The identifier of the DSP. This will also be used as the name of DSP and shouldn't change between versions. */
-    uint                     version_;            /* [w] Plugin writer's version number. */
-    int                              numinputbuffers;    /* [w] Number of input buffers to process.  Use 0 for DSPs that only generate sound and 1 for effects that process incoming sound. */
-    int                              numoutputbuffers;   /* [w] Number of audio output buffers.  Only one output buffer is currently supported. */
-    FMOD_DSP_CREATE_CALLBACK         create;             /* [w] Create callback.  This is called when DSP unit is created.  Can be null. */
-    FMOD_DSP_RELEASE_CALLBACK        release;            /* [w] Release callback.  This is called just before the unit is freed so the user can do any cleanup needed for the unit.  Can be null. */
-    FMOD_DSP_RESET_CALLBACK          reset;              /* [w] Reset callback.  This is called by the user to reset any history buffers that may need resetting for a filter, when it is to be used or re-used for the first time to its initial clean state.  Use to avoid clicks or artifacts. */
-    FMOD_DSP_READ_CALLBACK           read;               /* [w] Read callback.  Processing is done here.  Can be null. */
-    FMOD_DSP_PROCESS_CALLBACK        process;            /* [w] Process callback.  Can be specified instead of the read callback if any channel format changes occur between input and output.  This also replaces shouldiprocess and should return an error if the effect is to be bypassed.  Can be null. */
-    FMOD_DSP_SETPOSITION_CALLBACK    setposition;        /* [w] Set position callback.  This is called if the unit wants to update its position info but not process data, or reset a cursor position internally if it is reading data from a certain source.  Can be null. */
-    
-    int                              numparameters;      /* [w] Number of parameters used in this filter.  The user finds this with DSP::getNumParameters */
-    FMOD_DSP_PARAMETER_DESC        **paramdesc;          /* [w] Variable number of parameter structures. */
-    FMOD_DSP_SETPARAM_FLOAT_CALLBACK setparameterfloat;  /* [w] This is called when the user calls DSP::setParameterFloat. Can be null. */
-    FMOD_DSP_SETPARAM_INT_CALLBACK   setparameterint;    /* [w] This is called when the user calls DSP::setParameterInt.   Can be null. */
-    FMOD_DSP_SETPARAM_BOOL_CALLBACK  setparameterbool;   /* [w] This is called when the user calls DSP::setParameterBool.  Can be null. */
-    FMOD_DSP_SETPARAM_DATA_CALLBACK  setparameterdata;   /* [w] This is called when the user calls DSP::setParameterData.  Can be null. */
-    FMOD_DSP_GETPARAM_FLOAT_CALLBACK getparameterfloat;  /* [w] This is called when the user calls DSP::getParameterFloat. Can be null. */
-    FMOD_DSP_GETPARAM_INT_CALLBACK   getparameterint;    /* [w] This is called when the user calls DSP::getParameterInt.   Can be null. */
-    FMOD_DSP_GETPARAM_BOOL_CALLBACK  getparameterbool;   /* [w] This is called when the user calls DSP::getParameterBool.  Can be null. */
-    FMOD_DSP_GETPARAM_DATA_CALLBACK  getparameterdata;   /* [w] This is called when the user calls DSP::getParameterData.  Can be null. */
-    FMOD_DSP_SHOULDIPROCESS_CALLBACK shouldiprocess;     /* [w] This is called before processing.  You can detect if inputs are idle and return FMOD_OK to process, or any other error code to avoid processing the effect.  Use a count down timer to allow effect tails to process before idling! */
-    void                            *userdata;           /* [w] Optional. Specify 0 to ignore. This is user data to be attached to the DSP unit during creation.  Access via DSP::getUserData. */
+	uint                     pluginsdkversion;   /* [w] The plugin SDK version this plugin is built for.  set to this to FMOD_PLUGIN_SDK_VERSION defined above. */
+	char[32]                             name;           /* [w] The identifier of the DSP. This will also be used as the name of DSP and shouldn't change between versions. */
+	uint                     version_;            /* [w] Plugin writer's version number. */
+	int                              numinputbuffers;    /* [w] Number of input buffers to process.  Use 0 for DSPs that only generate sound and 1 for effects that process incoming sound. */
+	int                              numoutputbuffers;   /* [w] Number of audio output buffers.  Only one output buffer is currently supported. */
+	FMOD_DSP_CREATE_CALLBACK         create;             /* [w] Create callback.  This is called when DSP unit is created.  Can be null. */
+	FMOD_DSP_RELEASE_CALLBACK        release;            /* [w] Release callback.  This is called just before the unit is freed so the user can do any cleanup needed for the unit.  Can be null. */
+	FMOD_DSP_RESET_CALLBACK          reset;              /* [w] Reset callback.  This is called by the user to reset any history buffers that may need resetting for a filter, when it is to be used or re-used for the first time to its initial clean state.  Use to avoid clicks or artifacts. */
+	FMOD_DSP_READ_CALLBACK           read;               /* [w] Read callback.  Processing is done here.  Can be null. */
+	FMOD_DSP_PROCESS_CALLBACK        process;            /* [w] Process callback.  Can be specified instead of the read callback if any channel format changes occur between input and output.  This also replaces shouldiprocess and should return an error if the effect is to be bypassed.  Can be null. */
+	FMOD_DSP_SETPOSITION_CALLBACK    setposition;        /* [w] Set position callback.  This is called if the unit wants to update its position info but not process data, or reset a cursor position internally if it is reading data from a certain source.  Can be null. */
+	
+	int                              numparameters;      /* [w] Number of parameters used in this filter.  The user finds this with DSP::getNumParameters */
+	FMOD_DSP_PARAMETER_DESC        **paramdesc;          /* [w] Variable number of parameter structures. */
+	FMOD_DSP_SETPARAM_FLOAT_CALLBACK setparameterfloat;  /* [w] This is called when the user calls DSP::setParameterFloat. Can be null. */
+	FMOD_DSP_SETPARAM_INT_CALLBACK   setparameterint;    /* [w] This is called when the user calls DSP::setParameterInt.   Can be null. */
+	FMOD_DSP_SETPARAM_BOOL_CALLBACK  setparameterbool;   /* [w] This is called when the user calls DSP::setParameterBool.  Can be null. */
+	FMOD_DSP_SETPARAM_DATA_CALLBACK  setparameterdata;   /* [w] This is called when the user calls DSP::setParameterData.  Can be null. */
+	FMOD_DSP_GETPARAM_FLOAT_CALLBACK getparameterfloat;  /* [w] This is called when the user calls DSP::getParameterFloat. Can be null. */
+	FMOD_DSP_GETPARAM_INT_CALLBACK   getparameterint;    /* [w] This is called when the user calls DSP::getParameterInt.   Can be null. */
+	FMOD_DSP_GETPARAM_BOOL_CALLBACK  getparameterbool;   /* [w] This is called when the user calls DSP::getParameterBool.  Can be null. */
+	FMOD_DSP_GETPARAM_DATA_CALLBACK  getparameterdata;   /* [w] This is called when the user calls DSP::getParameterData.  Can be null. */
+	FMOD_DSP_SHOULDIPROCESS_CALLBACK shouldiprocess;     /* [w] This is called before processing.  You can detect if inputs are idle and return FMOD_OK to process, or any other error code to avoid processing the effect.  Use a count down timer to allow effect tails to process before idling! */
+	void                            *userdata;           /* [w] Optional. Specify 0 to ignore. This is user data to be attached to the DSP unit during creation.  Access via DSP::getUserData. */
 
 	FMOD_DSP_SYSTEM_REGISTER_CALLBACK   sys_register;       /* [w] Register callback.  This is called when DSP unit is loaded/registered.  Useful for 'global'/per system object init for plugin.  Can be null. */
-    FMOD_DSP_SYSTEM_DEREGISTER_CALLBACK sys_deregister;     /* [w] Deregister callback.  This is called when DSP unit is unloaded/deregistered.  Useful as 'global'/per system object shutdown for plugin.  Can be null. */
-    FMOD_DSP_SYSTEM_MIX_CALLBACK        sys_mix;            /* [w] System mix stage callback.  This is called when the mixer starts to execute or is just finishing executing.  Useful for 'global'/per system object once a mix update calls for a plugin.  Can be null. */
+	FMOD_DSP_SYSTEM_DEREGISTER_CALLBACK sys_deregister;     /* [w] Deregister callback.  This is called when DSP unit is unloaded/deregistered.  Useful as 'global'/per system object shutdown for plugin.  Can be null. */
+	FMOD_DSP_SYSTEM_MIX_CALLBACK        sys_mix;            /* [w] System mix stage callback.  This is called when the mixer starts to execute or is just finishing executing.  Useful for 'global'/per system object once a mix update calls for a plugin.  Can be null. */
 }
 
 struct FMOD_DSP_STATE_DFT_FUNCTIONS
 {
-    FMOD_DSP_DFT_FFTREAL_FUNC  fftreal;        /* [r] Function for performing an FFT on a real signal. */
-    FMOD_DSP_DFT_IFFTREAL_FUNC inversefftreal; /* [r] Function for performing an inverse FFT to get a real signal. */
+	FMOD_DSP_DFT_FFTREAL_FUNC  fftreal;        /* [r] Function for performing an FFT on a real signal. */
+	FMOD_DSP_DFT_IFFTREAL_FUNC inversefftreal; /* [r] Function for performing an inverse FFT to get a real signal. */
 }
 
 struct FMOD_DSP_STATE_PAN_FUNCTIONS
 {
-    FMOD_DSP_PAN_SUMMONOMATRIX_FUNC             summonomatrix;             /* [r] TBD. */
-    FMOD_DSP_PAN_SUMSTEREOMATRIX_FUNC           sumstereomatrix;           /* [r] TBD. */
-    FMOD_DSP_PAN_SUMSURROUNDMATRIX_FUNC         sumsurroundmatrix;         /* [r] TBD. */
-    FMOD_DSP_PAN_SUMMONOTOSURROUNDMATRIX_FUNC   summonotosurroundmatrix;   /* [r] TBD. */
-    FMOD_DSP_PAN_SUMSTEREOTOSURROUNDMATRIX_FUNC sumstereotosurroundmatrix; /* [r] TBD. */
-    FMOD_DSP_PAN_GETROLLOFFGAIN_FUNC            getrolloffgain;            /* [r] TBD. */
+	FMOD_DSP_PAN_SUMMONOMATRIX_FUNC             summonomatrix;             /* [r] TBD. */
+	FMOD_DSP_PAN_SUMSTEREOMATRIX_FUNC           sumstereomatrix;           /* [r] TBD. */
+	FMOD_DSP_PAN_SUMSURROUNDMATRIX_FUNC         sumsurroundmatrix;         /* [r] TBD. */
+	FMOD_DSP_PAN_SUMMONOTOSURROUNDMATRIX_FUNC   summonotosurroundmatrix;   /* [r] TBD. */
+	FMOD_DSP_PAN_SUMSTEREOTOSURROUNDMATRIX_FUNC sumstereotosurroundmatrix; /* [r] TBD. */
+	FMOD_DSP_PAN_GETROLLOFFGAIN_FUNC            getrolloffgain;            /* [r] TBD. */
 }
 
 struct FMOD_DSP_STATE_FUNCTIONS
 {
-    FMOD_DSP_ALLOC_FUNC                 alloc;                  /* [r] Function to allocate memory using the FMOD memory system. */
-    FMOD_DSP_REALLOC_FUNC               realloc;                /* [r] Function to reallocate memory using the FMOD memory system. */
-    FMOD_DSP_FREE_FUNC                  free;                   /* [r] Function to free memory allocated with FMOD_DSP_ALLOC_FUNC. */
-    FMOD_DSP_GETSAMPLERATE_FUNC         getsamplerate;          /* [r] Function to query the system sample rate. */
-    FMOD_DSP_GETBLOCKSIZE_FUNC          getblocksize;           /* [r] Function to query the system block size, DSPs will be requested to process blocks of varying length up to this size. */
-    FMOD_DSP_STATE_DFT_FUNCTIONS       *dft;                    /* [r] Struct containing DFT functions to enable a plugin to perform optimized time-frequency domain conversion. */
-    FMOD_DSP_STATE_PAN_FUNCTIONS       *pan;                    /* [r] Struct containing panning helper functions for spatialization plugins. */
-    FMOD_DSP_GETSPEAKERMODE_FUNC        getspeakermode;         /* [r] Function to query the system speaker modes.  One is the mixer's default speaker mode, the other is the output mode the system is downmixing or upmixing to.*/
-    FMOD_DSP_GETCLOCK_FUNC              getclock;               /* [r] Function to get the clock of the current DSP, as well as the subset of the input buffer that contains the signal. */
-    FMOD_DSP_GETLISTENERATTRIBUTES_FUNC getlistenerattributes;  /* [r] Callback for getting the absolute listener attributes set via the API (returned as left-handed co-ordinates). */
-    FMOD_DSP_LOG_FUNC                   log;                    /* [r] Function to write to the FMOD logging system. */
-    FMOD_DSP_GETUSERDATA_FUNC           getuserdata;            /* [r] Function to get the user data attached to this DSP. See FMOD_DSP_DESCRIPTION::userdata. */
+	FMOD_DSP_ALLOC_FUNC                 alloc;                  /* [r] Function to allocate memory using the FMOD memory system. */
+	FMOD_DSP_REALLOC_FUNC               realloc;                /* [r] Function to reallocate memory using the FMOD memory system. */
+	FMOD_DSP_FREE_FUNC                  free;                   /* [r] Function to free memory allocated with FMOD_DSP_ALLOC_FUNC. */
+	FMOD_DSP_GETSAMPLERATE_FUNC         getsamplerate;          /* [r] Function to query the system sample rate. */
+	FMOD_DSP_GETBLOCKSIZE_FUNC          getblocksize;           /* [r] Function to query the system block size, DSPs will be requested to process blocks of varying length up to this size. */
+	FMOD_DSP_STATE_DFT_FUNCTIONS       *dft;                    /* [r] Struct containing DFT functions to enable a plugin to perform optimized time-frequency domain conversion. */
+	FMOD_DSP_STATE_PAN_FUNCTIONS       *pan;                    /* [r] Struct containing panning helper functions for spatialization plugins. */
+	FMOD_DSP_GETSPEAKERMODE_FUNC        getspeakermode;         /* [r] Function to query the system speaker modes.  One is the mixer's default speaker mode, the other is the output mode the system is downmixing or upmixing to.*/
+	FMOD_DSP_GETCLOCK_FUNC              getclock;               /* [r] Function to get the clock of the current DSP, as well as the subset of the input buffer that contains the signal. */
+	FMOD_DSP_GETLISTENERATTRIBUTES_FUNC getlistenerattributes;  /* [r] Callback for getting the absolute listener attributes set via the API (returned as left-handed co-ordinates). */
+	FMOD_DSP_LOG_FUNC                   log;                    /* [r] Function to write to the FMOD logging system. */
+	FMOD_DSP_GETUSERDATA_FUNC           getuserdata;            /* [r] Function to get the user data attached to this DSP. See FMOD_DSP_DESCRIPTION::userdata. */
 }
 
 struct FMOD_DSP_STATE
 {
-    FMOD_DSP                       *instance;            /* [r] Handle to the FMOD_DSP object the callback is associated with.  Not to be modified.  C++ users cast to FMOD::DSP to use.  */
-    void                           *plugindata;          /* [r/w] Plugin writer created data the output author wants to attach to this object. */
-    FMOD_CHANNELMASK                channelmask;         /* [r] Specifies which speakers the DSP effect is active on */
-    FMOD_SPEAKERMODE                source_speakermode;  /* [r] Specifies which speaker mode the signal originated for information purposes, ie in case panning needs to be done differently. */
-    float                          *sidechaindata;       /* [r] The mixed result of all incoming sidechains is stored at this pointer address. */
-    int                             sidechainchannels;   /* [r] The number of channels of pcm data stored within the sidechain buffer. */
-    FMOD_DSP_STATE_FUNCTIONS        *functions;           /* [r] Struct containing callbacks for system level functionality. */
-    int                             systemobject;        /* [r] FMOD::System object index, relating to the System object that created this DSP. */
+	FMOD_DSP                       *instance;            /* [r] Handle to the FMOD_DSP object the callback is associated with.  Not to be modified.  C++ users cast to FMOD::DSP to use.  */
+	void                           *plugindata;          /* [r/w] Plugin writer created data the output author wants to attach to this object. */
+	FMOD_CHANNELMASK                channelmask;         /* [r] Specifies which speakers the DSP effect is active on */
+	FMOD_SPEAKERMODE                source_speakermode;  /* [r] Specifies which speaker mode the signal originated for information purposes, ie in case panning needs to be done differently. */
+	float                          *sidechaindata;       /* [r] The mixed result of all incoming sidechains is stored at this pointer address. */
+	int                             sidechainchannels;   /* [r] The number of channels of pcm data stored within the sidechain buffer. */
+	FMOD_DSP_STATE_FUNCTIONS        *functions;           /* [r] Struct containing callbacks for system level functionality. */
+	int                             systemobject;        /* [r] FMOD::System object index, relating to the System object that created this DSP. */
 }
 
 /+
@@ -330,8 +330,8 @@ static immutable FMOD_DSP_STATE_IFFTREAL(_state, _size, _dft, _signal, _window, 
 
 struct FMOD_DSP_METERING_INFO
 {
-    int   numsamples;       /* [r] The number of samples considered for this metering info. */
-    float[32] peaklevel;    /* [r] The peak level per channel. */
-    float[32] rmslevel;     /* [r] The rms level per channel. */
-    short numchannels;      /* [r] Number of channels. */
+	int   numsamples;       /* [r] The number of samples considered for this metering info. */
+	float[32] peaklevel;    /* [r] The peak level per channel. */
+	float[32] rmslevel;     /* [r] The rms level per channel. */
+	short numchannels;      /* [r] Number of channels. */
 }
