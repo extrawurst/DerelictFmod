@@ -2,7 +2,7 @@ DerelictFmod [![Build Status](https://travis-ci.org/Extrawurst/DerelictFmod.svg)
 ============
 
 Note:
-Supports fmod version 1.09.08
+Supports fmod version 1.10.00
 
 A dynamic binding to [Fmod](http://www.fmod.org/) low level api and fmodstudio api (c-api) for the D Programming Language.
 

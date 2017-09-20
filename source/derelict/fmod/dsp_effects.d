@@ -369,7 +369,8 @@ enum
 	FMOD_DSP_PAN_3D_PAN_BLEND,                  /* (Type:float) - 3D Pan Blend.              0.0 (fully 2D) to 1.0 (fully 3D).  Default = 0.0. */
 	FMOD_DSP_PAN_LFE_UPMIX_ENABLED,             /* (Type:int)   - LFE Upmix Enabled.         0 to 1.  Default = 0. */
 	FMOD_DSP_PAN_OVERALL_GAIN,                  /* (Type:data)  - Overall gain.              data of type FMOD_DSP_PARAMETER_DATA_TYPE_OVERALLGAIN */
-	FMOD_DSP_PAN_SURROUND_SPEAKER_MODE          /* (Type:int)   - Surround speaker mode.     Target speaker mode for surround panning. */
+	FMOD_DSP_PAN_SURROUND_SPEAKER_MODE,         /* (Type:int)   - Surround speaker mode.     Target speaker mode for surround panning. */
+	FMOD_DSP_PAN_2D_HEIGHT_BLEND,               /* (Type:float) - 2D Height blend.           When the input or FMOD_DSP_PAN_SURROUND_SPEAKER_MODE has height speakers, control the blend between ground and height. -1.0 (push top speakers to ground), 0.0 (preserve top / ground separation), 1.0 (push ground speakers to top). Default = 0.0. */
 }
 
 alias FMOD_DSP_THREE_EQ_CROSSOVERSLOPE_TYPE = int;

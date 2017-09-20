@@ -35,7 +35,7 @@ import derelict.fmod.common;
 
 align(1):
 
-static immutable FMOD_OUTPUT_PLUGIN_VERSION = 2;
+static immutable FMOD_OUTPUT_PLUGIN_VERSION = 3;
 
 alias FMOD_OUTPUT_GETNUMDRIVERS_CALLBACK = FMOD_RESULT  function(FMOD_OUTPUT_STATE *output_state, int *numdrivers);
 alias FMOD_OUTPUT_GETDRIVERINFO_CALLBACK = FMOD_RESULT  function(FMOD_OUTPUT_STATE *output, int id, char *name, int namelen, FMOD_GUID *guid, int *systemrate, FMOD_SPEAKERMODE *speakermode, int *speakermodechannels);
@@ -58,11 +58,12 @@ alias FMOD_OUTPUT_OBJECT3DUPDATE_CALLBACK = FMOD_RESULT     function(FMOD_OUTPUT
 alias FMOD_OUTPUT_OPENPORT_CALLBACK = FMOD_RESULT         function(FMOD_OUTPUT_STATE *output, FMOD_PORT_TYPE portType, FMOD_PORT_INDEX portIndex, int *portId, int *portRate, int *portChannels, FMOD_SOUND_FORMAT *portFormat);
 alias FMOD_OUTPUT_CLOSEPORT_CALLBACK = FMOD_RESULT        function(FMOD_OUTPUT_STATE *output, int portId);
 
-alias FMOD_OUTPUT_READFROMMIXER = FMOD_RESULT           function(FMOD_OUTPUT_STATE *output_state, void *buffer, uint length);  /* This one is called by plugin through FMOD_OUTPUT_STATE, not set by user as a callback. */
-alias FMOD_OUTPUT_COPYPORT = FMOD_RESULT                function(FMOD_OUTPUT_STATE *output, int portId, void *buffer, uint length);
-alias FMOD_OUTPUT_ALLOC = void*                         function(uint size, uint align_, const(char) *file, int line);
-alias FMOD_OUTPUT_FREE = void                           function(void *ptr, const(char) *file, int line);
-alias FMOD_OUTPUT_LOG = void                            function(FMOD_DEBUG_FLAGS level, const(char) *file, int line, const(char) *function_, const(char) *string, ...);
+alias FMOD_OUTPUT_READFROMMIXER_FUNC = FMOD_RESULT           function(FMOD_OUTPUT_STATE *output_state, void *buffer, uint length);  /* This one is called by plugin through FMOD_OUTPUT_STATE, not set by user as a callback. */
+alias FMOD_OUTPUT_COPYPORT_FUNC = FMOD_RESULT                function(FMOD_OUTPUT_STATE *output, int portId, void *buffer, uint length);
+alias FMOD_OUTPUT_REQUESTRESET_FUNC = FMOD_RESULT            function(FMOD_OUTPUT_STATE *output_state);
+alias FMOD_OUTPUT_ALLOC_FUNC = void*                         function(uint size, uint align_, const(char) *file, int line);
+alias FMOD_OUTPUT_FREE_FUNC = void                           function(void *ptr, const(char) *file, int line);
+alias FMOD_OUTPUT_LOG_FUNC = void                            function(FMOD_DEBUG_FLAGS level, const(char) *file, int line, const(char) *function_, const(char) *string, ...);
  
 
 struct FMOD_OUTPUT_DESCRIPTION
@@ -93,12 +94,13 @@ struct FMOD_OUTPUT_DESCRIPTION
 
 struct FMOD_OUTPUT_STATE
 {
-	void                      *plugindata;      /* [in] Plugin writer created data the output author wants to attach to this object. */
-	FMOD_OUTPUT_READFROMMIXER   readfrommixer;  /* [r] Function to execute the mixer producing a buffer of audio. Used to control when the mix occurs manually as an alternative to FMOD_OUTPUT_DESCRIPTION::polling == TRUE. */
-	FMOD_OUTPUT_ALLOC           alloc;          /* [r] Function to allocate memory using the FMOD memory system. */
-	FMOD_OUTPUT_FREE            free;           /* [r] Function to free memory allocated with FMOD_OUTPUT_ALLOC. */
-	FMOD_OUTPUT_LOG             log;            /* [r] Function to write to the FMOD logging system. */
-	FMOD_OUTPUT_COPYPORT        copyport;       /* [r] Function to copy the output from the mixer for the given auxiliary port */
+	void                            *plugindata;     /* [w] Pointer used to store any plugin specific state so it's available in all callbacks. */
+	FMOD_OUTPUT_READFROMMIXER_FUNC   readfrommixer;  /* [r] Function to execute the mixer producing a buffer of audio. Used to control when the mix occurs manually as an alternative to FMOD_OUTPUT_DESCRIPTION::polling == TRUE. */
+	FMOD_OUTPUT_ALLOC_FUNC           alloc;          /* [r] Function to allocate memory using the FMOD memory system. */
+	FMOD_OUTPUT_FREE_FUNC            free;           /* [r] Function to free memory allocated with FMOD_OUTPUT_ALLOC. */
+	FMOD_OUTPUT_LOG_FUNC             log;            /* [r] Function to write to the FMOD logging system. */
+	FMOD_OUTPUT_COPYPORT_FUNC        copyport;       /* [r] Function to copy the output from the mixer for the given auxiliary port. */
+	FMOD_OUTPUT_REQUESTRESET_FUNC    requestreset;   /* [r] Function to request the output plugin be shutdown then restarted during the next System::update. */
 }
 
 struct FMOD_OUTPUT_OBJECT3DINFO

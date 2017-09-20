@@ -38,7 +38,7 @@ import derelict.fmod.dsp;
 
 align(1):
 
-static immutable FMOD_VERSION    = 0x00010908;
+static immutable FMOD_VERSION    = 0x00011000;
 
 alias int                        FMOD_BOOL;
 struct FMOD_SYSTEM         {};
@@ -235,6 +235,7 @@ enum
 	FMOD_OUTPUTTYPE_ATMOS,           /* Win                  - Dolby Atmos (WASAPI). */
 	FMOD_OUTPUTTYPE_WEBAUDIO,        /* Web Browser          - JavaScript webaudio output.          (Default on JavaScript) */
 	FMOD_OUTPUTTYPE_NNAUDIO,         /* NX                   - NX nn::audio.                        (Default on NX)*/
+	FMOD_OUTPUTTYPE_WINSONIC,        /* Win10 / XboxOne      - Windows Sonic. */
 	
 	FMOD_OUTPUTTYPE_MAX,             /* Maximum number of output types supported. */
 	FMOD_OUTPUTTYPE_FORCEINT = 65536 /* Makes sure this enum is signed 32bit. */
@@ -274,16 +275,17 @@ static immutable FMOD_MEMORY_SECONDARY          = 0x00400000;       /* Secondary
 static immutable FMOD_MEMORY_ALL                = 0xFFFFFFFF;
 
 alias FMOD_SPEAKERMODE = int;
-enum
+enum 
 {
-	FMOD_SPEAKERMODE_DEFAULT,          /* Default speaker mode based on operating system/output mode.  Windows = control panel setting, Xbox = 5.1, PS3 = 7.1 etc. */
-	FMOD_SPEAKERMODE_RAW,              /* There is no specific speakermode.  Sound channels are mapped in order of input to output.  Use System::setSoftwareFormat to specify speaker count. See remarks for more information. */
-	FMOD_SPEAKERMODE_MONO,             /* The speakers are monaural. */
-	FMOD_SPEAKERMODE_STEREO,           /* The speakers are stereo. */
-	FMOD_SPEAKERMODE_QUAD,             /* 4 speaker setup.    This includes front left, front right, surround left, surround right.  */
-	FMOD_SPEAKERMODE_SURROUND,         /* 5 speaker setup.    This includes front left, front right, center, surround left, surround right. */
-	FMOD_SPEAKERMODE_5POINT1,          /* 5.1 speaker setup.  This includes front left, front right, center, surround left, surround right and an LFE speaker. */
-	FMOD_SPEAKERMODE_7POINT1,          /* 7.1 speaker setup.  This includes front left, front right, center, surround left, surround right, back left, back right and an LFE speaker. */
+	FMOD_SPEAKERMODE_DEFAULT,          /* Default speaker mode for the chosen output mode which will resolve after System::init. */
+	FMOD_SPEAKERMODE_RAW,              /* Assume there is no special mapping from a given channel to a speaker, channels map 1:1 in order. Use System::setSoftwareFormat to specify the speaker count. */
+	FMOD_SPEAKERMODE_MONO,             /*  1 speaker setup (monaural). */
+	FMOD_SPEAKERMODE_STEREO,           /*  2 speaker setup (stereo) front left, front right. */
+	FMOD_SPEAKERMODE_QUAD,             /*  4 speaker setup (4.0)    front left, front right, surround left, surround right. */
+	FMOD_SPEAKERMODE_SURROUND,         /*  5 speaker setup (5.0)    front left, front right, center, surround left, surround right. */
+	FMOD_SPEAKERMODE_5POINT1,          /*  6 speaker setup (5.1)    front left, front right, center, low frequency, surround left, surround right. */
+	FMOD_SPEAKERMODE_7POINT1,          /*  8 speaker setup (7.1)    front left, front right, center, low frequency, surround left, surround right, back left, back right. */
+	FMOD_SPEAKERMODE_7POINT1POINT4,    /* 12 speaker setup (7.1.4)  front left, front right, center, low frequency, surround left, surround right, back left, back right, top front left, top front right, top back left, top back right. */
 	
 	FMOD_SPEAKERMODE_MAX,              /* Maximum number of speaker modes supported. */
 	FMOD_SPEAKERMODE_FORCEINT = 65536  /* Makes sure this enum is signed 32bit. */
@@ -304,6 +306,10 @@ enum
 	FMOD_SPEAKER_SURROUND_RIGHT,
 	FMOD_SPEAKER_BACK_LEFT,
 	FMOD_SPEAKER_BACK_RIGHT,
+	FMOD_SPEAKER_TOP_FRONT_LEFT,    /* The top front left speaker */
+	FMOD_SPEAKER_TOP_FRONT_RIGHT,   /* The top front right speaker */
+	FMOD_SPEAKER_TOP_BACK_LEFT,     /* The top back left speaker */
+	FMOD_SPEAKER_TOP_BACK_RIGHT,    /* The top back right speaker */
 	
 	FMOD_SPEAKER_MAX,               /* Maximum number of speaker types supported. */
 	FMOD_SPEAKER_FORCEINT = 65536   /* Makes sure this enum is signed 32bit. */
@@ -646,7 +652,6 @@ static immutable FMOD_TIMEUNIT_PCMFRACTION       = 0x00000010;  /* Fractions of 
 static immutable FMOD_TIMEUNIT_MODORDER          = 0x00000100;  /* MOD/S3M/XM/IT.  Order in a sequenced module format.  Use Sound::getFormat to determine the PCM format being decoded to. */
 static immutable FMOD_TIMEUNIT_MODROW            = 0x00000200;  /* MOD/S3M/XM/IT.  Current row in a sequenced module format.  Sound::getLength will return the number of rows in the currently playing or seeked to pattern. */
 static immutable FMOD_TIMEUNIT_MODPATTERN        = 0x00000400;  /* MOD/S3M/XM/IT.  Current pattern in a sequenced module format.  Sound::getLength will return the number of patterns in the song and Channel::getPosition will return the currently playing pattern. */
-static immutable FMOD_TIMEUNIT_BUFFERED          = 0x10000000;  /* Time value as seen by buffered stream.  This is always ahead of audible time, and is only used for processing. */
 
 static immutable FMOD_PORT_INDEX_NONE            = 0xFFFFFFFFFFFFFFFF;
 
