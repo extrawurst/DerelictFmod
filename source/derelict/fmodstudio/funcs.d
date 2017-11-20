@@ -39,7 +39,7 @@ private
 	import derelict.fmod.dsp;
 }
 
-extern(C) @nogc nothrow
+extern(Windows) @nogc nothrow
 {
 	/*
 	Global
