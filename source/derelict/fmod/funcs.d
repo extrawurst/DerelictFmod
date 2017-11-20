@@ -41,7 +41,7 @@ private
 	import derelict.fmod.common;
 }
 
-extern(C) @nogc nothrow
+extern(Windows) @nogc nothrow
 {
 	/*
 	FMOD global system functions (optional).
